@@ -1,0 +1,16 @@
+# Eclipse
+/bin
+/target
+.classpath
+.project
+.settings
+
+# vscode
+.vscode
+.factorypath
+
+# IntelliJ
+*.iml
+
+/.apt_generated/
+/.apt_generated_tests/
