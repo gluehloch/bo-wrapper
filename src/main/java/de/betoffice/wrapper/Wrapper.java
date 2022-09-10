@@ -1,5 +1,6 @@
 package de.betoffice.wrapper;
 
+import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GroupType;
 import de.winkler.betoffice.storage.Team;
 import de.winkler.betoffice.storage.enums.SeasonType;
@@ -13,11 +14,14 @@ import de.winkler.betoffice.storage.Season;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Component
 public class Wrapper {
+
+    private static final ZoneId ZONE_EUROPE_BERLIN = ZoneId.of("Europe/Berlin");
 
     @Autowired
     private SeasonManagerService seasonManagerService;
@@ -59,20 +63,26 @@ public class Wrapper {
         return seasonRef;
     }
 
-    public RoundRef round(SeasonRef seasonRef, RoundRef roundRef, LocalDateTime ldt) {
+    public RoundRef round(SeasonRef seasonRef, GroupTypeRef groupTypeRef, LocalDateTime ldt) {
         Season season = seasonManagerService.findSeasonByName(seasonRef.name(), seasonRef.year())
                 .orElseThrow(() -> new IllegalArgumentException("season not found"));
 
-        GroupType groupType = masterDataManagerService.findGroupType(roundRef.groupType().groupType())
-                .orElseThrow(() -> new IllegalArgumentException("groupType not found");
-            seasonManagerService.addRound(s, ldt, roundRef.groupType());
+        GroupType groupType = masterDataManagerService.findGroupType(groupTypeRef.groupType())
+                .orElseThrow(() -> new IllegalArgumentException("groupType not found"));
 
+        GameList gameList = seasonManagerService.addRound(season, toZonedDateTime(ldt), groupType);
 
-        return null;
+        RoundIndex roundIndex = RoundIndex.of(gameList.getIndex() + 1);
+        RoundRef roundRef = RoundRef.of(seasonRef, roundIndex, groupTypeRef);
+
+        return roundRef;
+    }
+
+    public ZonedDateTime toZonedDateTime(LocalDateTime ldt) {
+        return ldt.atZone(ZONE_EUROPE_BERLIN);
     }
 
     public LocalDateTime toDate(String dateTimeAsString) {
-        ZoneId zone = ZoneId.of("Europe/Berlin");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return LocalDateTime.parse(dateTimeAsString, formatter);
     }
