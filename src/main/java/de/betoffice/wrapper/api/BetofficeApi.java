@@ -13,7 +13,9 @@ public interface BetofficeApi {
 
     SeasonRef season(String name, String year, SeasonType type, TeamType teamType);
 
-    SeasonRef group(GroupTypeRef groupTypeRef, SeasonRef seasonRef);
+    SeasonRef group(SeasonRef seasonRef, GroupTypeRef groupTypeRef);
+    
+    SeasonRef addTeam(SeasonRef seasonRef, GroupTypeRef groupTypeRef, TeamRef teamRef);
 
     RoundRef round(SeasonRef seasonRef, GroupTypeRef groupTypeRef, LocalDateTime ldt);
     

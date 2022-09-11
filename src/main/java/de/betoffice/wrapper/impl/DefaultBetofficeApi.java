@@ -57,7 +57,7 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
     @Override
-    public SeasonRef group(GroupTypeRef groupTypeRef, SeasonRef seasonRef) {
+    public SeasonRef group(SeasonRef seasonRef, GroupTypeRef groupTypeRef) {
         Optional<GroupType> groupType = masterDataManagerService.findGroupType(groupTypeRef.groupType());
         Optional<Season> season = seasonManagerService.findSeasonByName(seasonRef.name(), seasonRef.year());
 
@@ -67,6 +67,19 @@ public class DefaultBetofficeApi implements BetofficeApi {
 
         return seasonRef;
     }
+
+	@Override
+	public SeasonRef addTeam(SeasonRef seasonRef, GroupTypeRef groupTypeRef, TeamRef teamRef) {
+        Optional<GroupType> groupType = masterDataManagerService.findGroupType(groupTypeRef.groupType());
+        Optional<Season> season = seasonManagerService.findSeasonByName(seasonRef.name(), seasonRef.year());
+        Optional<Team> team = masterDataManagerService.findTeam(teamRef.shortName());
+
+        if (groupType.isPresent() && season.isPresent() && team.isPresent()) {
+        	seasonManagerService.addTeam(season.get(), groupType.get(), team.get());
+        }
+
+		return seasonRef;
+	}
 
     @Override
     public RoundRef round(SeasonRef seasonRef, GroupTypeRef groupTypeRef, LocalDateTime ldt) {
