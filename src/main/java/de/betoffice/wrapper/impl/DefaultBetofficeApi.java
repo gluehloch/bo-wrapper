@@ -39,10 +39,10 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
     @Override
-    public TeamRef team(String teamShortName, String teamLongName) {
-        Team team = Team.TeamBuilder.team(teamShortName).longName(teamLongName).build();
+    public TeamRef team(String teamName, String teamLongName) {
+        Team team = Team.TeamBuilder.team(teamName).longName(teamLongName).build();
         masterDataManagerService.createTeam(team);
-        return TeamRef.of(team.getShortName());
+        return TeamRef.of(team.getName());
     }
 
     @Override
