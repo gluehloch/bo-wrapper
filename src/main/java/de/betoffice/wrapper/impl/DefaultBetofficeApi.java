@@ -72,7 +72,7 @@ public class DefaultBetofficeApi implements BetofficeApi {
 	public SeasonRef addTeam(SeasonRef seasonRef, GroupTypeRef groupTypeRef, TeamRef teamRef) {
         Optional<GroupType> groupType = masterDataManagerService.findGroupType(groupTypeRef.groupType());
         Optional<Season> season = seasonManagerService.findSeasonByName(seasonRef.name(), seasonRef.year());
-        Optional<Team> team = masterDataManagerService.findTeam(teamRef.shortName());
+        Optional<Team> team = masterDataManagerService.findTeam(teamRef.name());
 
         if (groupType.isPresent() && season.isPresent() && team.isPresent()) {
         	seasonManagerService.addTeam(season.get(), groupType.get(), team.get());
