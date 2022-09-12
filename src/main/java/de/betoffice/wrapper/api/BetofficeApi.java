@@ -48,7 +48,7 @@ public interface BetofficeApi {
     
     RoundRef round(SeasonRef seasonRef, GroupTypeRef groupTypeRef, ZonedDateTime ldt);
     
-    GameRef game(SeasonRef season, RoundIndex roundIndex, TeamRef homeTeam, TeamRef guestTeam);
+    GameRef game(SeasonRef season, GroupTypeRef groupTypeRef, RoundIndex roundIndex, ZonedDateTime zdt, TeamRef homeTeam, TeamRef guestTeam);
 
     ZonedDateTime toZonedDateTime(LocalDateTime ldt);
 

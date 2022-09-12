@@ -1,9 +1,7 @@
 package de.betoffice.wrapper.impl;
 
 import de.betoffice.wrapper.api.*;
-import de.winkler.betoffice.storage.GameList;
-import de.winkler.betoffice.storage.GroupType;
-import de.winkler.betoffice.storage.Team;
+import de.winkler.betoffice.storage.*;
 import de.winkler.betoffice.storage.enums.SeasonType;
 import de.winkler.betoffice.storage.enums.TeamType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import de.winkler.betoffice.service.MasterDataManagerService;
 import de.winkler.betoffice.service.SeasonManagerService;
-import de.winkler.betoffice.storage.Season;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -58,25 +55,26 @@ public class DefaultBetofficeApi implements BetofficeApi {
 
     @Override
     public SeasonRef group(SeasonRef seasonRef, GroupTypeRef groupTypeRef) {
-        Optional<GroupType> groupType = masterDataManagerService.findGroupType(groupTypeRef.groupType());
-        Optional<Season> season = seasonManagerService.findSeasonByName(seasonRef.name(), seasonRef.year());
+        GroupType groupType = masterDataManagerService.findGroupType(groupTypeRef.groupType())
+                .orElseThrow(() -> new IllegalArgumentException("groupType not found"));
+        Season season = seasonManagerService.findSeasonByName(seasonRef.name(), seasonRef.year())
+                .orElseThrow(() -> new IllegalArgumentException("season not found"));
 
-        if (groupType.isPresent() && season.isPresent()) {
-            seasonManagerService.addGroupType(season.get(), groupType.get());
-        }
+        seasonManagerService.addGroupType(season, groupType);
 
         return seasonRef;
     }
 
 	@Override
 	public SeasonRef addTeam(SeasonRef seasonRef, GroupTypeRef groupTypeRef, TeamRef teamRef) {
-        Optional<GroupType> groupType = masterDataManagerService.findGroupType(groupTypeRef.groupType());
-        Optional<Season> season = seasonManagerService.findSeasonByName(seasonRef.name(), seasonRef.year());
-        Optional<Team> team = masterDataManagerService.findTeam(teamRef.name());
+        GroupType groupType = masterDataManagerService.findGroupType(groupTypeRef.groupType())
+                .orElseThrow(() -> new IllegalArgumentException("groupType not found"));
+        Season season = seasonManagerService.findSeasonByName(seasonRef.name(), seasonRef.year())
+                .orElseThrow(() -> new IllegalArgumentException("season not found"));
+        Team team = masterDataManagerService.findTeam(teamRef.name())
+                .orElseThrow(() -> new IllegalArgumentException("team not found"));
 
-        if (groupType.isPresent() && season.isPresent() && team.isPresent()) {
-        	seasonManagerService.addTeam(season.get(), groupType.get(), team.get());
-        }
+        seasonManagerService.addTeam(season, groupType, team);
 
 		return seasonRef;
 	}
@@ -88,11 +86,10 @@ public class DefaultBetofficeApi implements BetofficeApi {
 
 	@Override
 	public RoundRef round(SeasonRef seasonRef, GroupTypeRef groupTypeRef, ZonedDateTime ldt) {
-        Season season = seasonManagerService.findSeasonByName(seasonRef.name(), seasonRef.year())
-                .orElseThrow(() -> new IllegalArgumentException("season not found"));
-
         GroupType groupType = masterDataManagerService.findGroupType(groupTypeRef.groupType())
                 .orElseThrow(() -> new IllegalArgumentException("groupType not found"));
+        Season season = seasonManagerService.findSeasonByName(seasonRef.name(), seasonRef.year())
+                .orElseThrow(() -> new IllegalArgumentException("season not found"));
 
         GameList gameList = seasonManagerService.addRound(season, ldt, groupType);
 
@@ -101,6 +98,25 @@ public class DefaultBetofficeApi implements BetofficeApi {
 
         return roundRef;		
 	}
+
+    @Override
+    public GameRef game(SeasonRef seasonRef, GroupTypeRef groupTypeRef, RoundIndex roundIndex, ZonedDateTime zdt, TeamRef homeTeamRef, TeamRef guestTeamRef) {
+        GroupType groupType = masterDataManagerService.findGroupType(groupTypeRef.groupType())
+                .orElseThrow(() -> new IllegalArgumentException("groupType not found"));
+        Season season = seasonManagerService.findSeasonByName(seasonRef.name(), seasonRef.year())
+                .orElseThrow(() -> new IllegalArgumentException("season not found"));
+        Group group = seasonManagerService.findGroup(season, groupType);
+        Team homeTeam = masterDataManagerService.findTeam(homeTeamRef.name())
+                .orElseThrow(() -> new IllegalArgumentException("homeTeam not found"));
+        Team guestTeam = masterDataManagerService.findTeam(guestTeamRef.name())
+                .orElseThrow(() -> new IllegalArgumentException("guestTeam not found"));
+
+        GameList round = seasonManagerService.findRound(season, roundIndex.betofficeIndex())
+                .orElseThrow(() -> new IllegalArgumentException("round not found"));
+        seasonManagerService.addMatch(round, zdt, group, homeTeam, guestTeam);
+
+        return GameRef.of(seasonRef, GroupRef.of(seasonRef, groupTypeRef), roundIndex, homeTeamRef, guestTeamRef);
+    }
 
     @Override
     public ZonedDateTime toZonedDateTime(LocalDateTime ldt) {
