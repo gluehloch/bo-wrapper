@@ -1,20 +1,31 @@
 package de.betoffice.wrapper.impl;
 
-import de.betoffice.wrapper.api.*;
-import de.winkler.betoffice.storage.*;
-import de.winkler.betoffice.storage.enums.SeasonType;
-import de.winkler.betoffice.storage.enums.TeamType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import de.winkler.betoffice.service.MasterDataManagerService;
-import de.winkler.betoffice.service.SeasonManagerService;
-
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import de.betoffice.wrapper.api.BetofficeApi;
+import de.betoffice.wrapper.api.GameRef;
+import de.betoffice.wrapper.api.GroupRef;
+import de.betoffice.wrapper.api.GroupTypeRef;
+import de.betoffice.wrapper.api.RoundIndex;
+import de.betoffice.wrapper.api.RoundRef;
+import de.betoffice.wrapper.api.SeasonRef;
+import de.betoffice.wrapper.api.TeamRef;
+
+import de.winkler.betoffice.service.MasterDataManagerService;
+import de.winkler.betoffice.service.SeasonManagerService;
+import de.winkler.betoffice.storage.GameList;
+import de.winkler.betoffice.storage.Group;
+import de.winkler.betoffice.storage.GroupType;
+import de.winkler.betoffice.storage.Season;
+import de.winkler.betoffice.storage.Team;
+import de.winkler.betoffice.storage.enums.SeasonType;
+import de.winkler.betoffice.storage.enums.TeamType;
 
 @Component
 public class DefaultBetofficeApi implements BetofficeApi {
@@ -79,6 +90,12 @@ public class DefaultBetofficeApi implements BetofficeApi {
 		return seasonRef;
 	}
 
+	/**
+	 * Better use {@link #round(SeasonRef, GroupTypeRef, ZonedDateTime)} with a ZonedDateTime.
+	 * This method assumes timezone Europe/Berlin.
+	 *
+	 * @see #round(SeasonRef, GroupTypeRef, ZonedDateTime)
+	 */
     @Override
     public RoundRef round(SeasonRef seasonRef, GroupTypeRef groupTypeRef, LocalDateTime ldt) {
     	return round(seasonRef, groupTypeRef, toZonedDateTime(ldt));

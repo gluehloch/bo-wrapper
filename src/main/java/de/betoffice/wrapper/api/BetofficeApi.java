@@ -50,6 +50,10 @@ public interface BetofficeApi {
     
     GameRef game(SeasonRef season, GroupTypeRef groupTypeRef, RoundIndex roundIndex, ZonedDateTime zdt, TeamRef homeTeam, TeamRef guestTeam);
 
+    GameRef updateGame(GameRef gameRef, GameResult halfTimeResult, GameResult result, GameResult overtimeResult, GameResult penaltyResult);
+    
+    GameRef updateGame(GameRef gameRef, ZonedDateTime zdt);
+    
     ZonedDateTime toZonedDateTime(LocalDateTime ldt);
 
     LocalDateTime toDate(String dateTimeAsString);
