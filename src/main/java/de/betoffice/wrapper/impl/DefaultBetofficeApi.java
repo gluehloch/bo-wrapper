@@ -4,18 +4,11 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
+import de.betoffice.wrapper.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import de.betoffice.wrapper.api.BetofficeApi;
-import de.betoffice.wrapper.api.GameRef;
-import de.betoffice.wrapper.api.GroupRef;
-import de.betoffice.wrapper.api.GroupTypeRef;
-import de.betoffice.wrapper.api.RoundIndex;
-import de.betoffice.wrapper.api.RoundRef;
-import de.betoffice.wrapper.api.SeasonRef;
-import de.betoffice.wrapper.api.TeamRef;
 
 import de.winkler.betoffice.service.MasterDataManagerService;
 import de.winkler.betoffice.service.SeasonManagerService;
@@ -117,7 +110,9 @@ public class DefaultBetofficeApi implements BetofficeApi {
 	}
 
     @Override
-    public GameRef game(SeasonRef seasonRef, GroupTypeRef groupTypeRef, RoundIndex roundIndex, ZonedDateTime zdt, TeamRef homeTeamRef, TeamRef guestTeamRef) {
+    public GameRef game(SeasonRef seasonRef, GroupTypeRef groupTypeRef,
+                        RoundIndex roundIndex, ZonedDateTime zdt,
+                        TeamRef homeTeamRef, TeamRef guestTeamRef) {
         GroupType groupType = masterDataManagerService.findGroupType(groupTypeRef.groupType())
                 .orElseThrow(() -> new IllegalArgumentException("groupType not found"));
         Season season = seasonManagerService.findSeasonByName(seasonRef.name(), seasonRef.year())
@@ -133,6 +128,33 @@ public class DefaultBetofficeApi implements BetofficeApi {
         seasonManagerService.addMatch(round, zdt, group, homeTeam, guestTeam);
 
         return GameRef.of(seasonRef, GroupRef.of(seasonRef, groupTypeRef), roundIndex, homeTeamRef, guestTeamRef);
+    }
+
+    @Override
+    public GameRef updateGame(GameRef gameRef, ZonedDateTime zdt,
+                              GameResult halfTimeResult, GameResult result,
+                              GameResult overtimeResult, GameResult penaltyResult) {
+
+        Season season = seasonManagerService.findSeasonByName(gameRef.getSeason().name(), gameRef.getSeason().year())
+                .orElseThrow(() -> new IllegalArgumentException("season not found"));
+        GameList round = seasonManagerService.findRound(season, gameRef.getRound().betofficeIndex())
+                .orElseThrow(() -> new IllegalArgumentException("round not found"));
+
+        seasonManagerService.findMatch
+
+        return null;
+    }
+
+    @Override
+    public GameRef updateGame(GameRef gameRef, GameResult halfTimeResult,
+                              GameResult result, GameResult overtimeResult,
+                              GameResult penaltyResult) {
+        return null;
+    }
+
+    @Override
+    public GameRef updateGame(GameRef gameRef, ZonedDateTime zdt) {
+        return null;
     }
 
     @Override
