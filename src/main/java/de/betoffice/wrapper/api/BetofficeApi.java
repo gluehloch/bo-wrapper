@@ -52,15 +52,15 @@ public interface BetofficeApi {
                  RoundIndex roundIndex, ZonedDateTime zdt,
                  TeamRef homeTeam, TeamRef guestTeam);
 
-    GameRef updateGame(GameRef gameRef, ZonedDateTime zdt,
-                       GameResult halfTimeResult, GameResult result,
-                       GameResult overtimeResult, GameResult penaltyResult);
+    GameRef game(GameRef gameRef, ZonedDateTime zdt,
+                 GameResult halfTimeResult, GameResult result,
+                 GameResult overtimeResult, GameResult penaltyResult);
 
-    GameRef updateGame(GameRef gameRef, GameResult halfTimeResult,
-                       GameResult result, GameResult overtimeResult,
-                       GameResult penaltyResult);
+    GameRef game(GameRef gameRef, GameResult halfTimeResult,
+                 GameResult result, GameResult overtimeResult,
+                 GameResult penaltyResult);
 
-    GameRef updateGame(GameRef gameRef, ZonedDateTime zdt);
+    GameRef game(GameRef gameRef, ZonedDateTime zdt);
     
     ZonedDateTime toZonedDateTime(LocalDateTime ldt);
 

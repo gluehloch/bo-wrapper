@@ -20,6 +20,11 @@ import de.winkler.betoffice.storage.Team;
 import de.winkler.betoffice.storage.enums.SeasonType;
 import de.winkler.betoffice.storage.enums.TeamType;
 
+/**
+ * TODO Wie sieht das mit Fehlermeldungen aus? Alles in die Excption oder eigenen Result-Typ anbieten?
+ *
+ * @author Andre Winkler
+ */
 @Component
 public class DefaultBetofficeApi implements BetofficeApi {
 
@@ -78,6 +83,8 @@ public class DefaultBetofficeApi implements BetofficeApi {
         Team team = masterDataManagerService.findTeam(teamRef.name())
                 .orElseThrow(() -> new IllegalArgumentException("team not found"));
 
+        // TODO Team bereits der Meisterschaft hinzugefügt?
+
         seasonManagerService.addTeam(season, groupType, team);
 
 		return seasonRef;
@@ -100,6 +107,8 @@ public class DefaultBetofficeApi implements BetofficeApi {
                 .orElseThrow(() -> new IllegalArgumentException("groupType not found"));
         Season season = seasonManagerService.findSeasonByName(seasonRef.name(), seasonRef.year())
                 .orElseThrow(() -> new IllegalArgumentException("season not found"));
+
+        // Spieltag mit gleichem Datum bereits vorhanden? Ist das ein Problem oder eine valide Kombination?
 
         GameList gameList = seasonManagerService.addRound(season, ldt, groupType);
 
@@ -131,29 +140,28 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
     @Override
-    public GameRef updateGame(GameRef gameRef, ZonedDateTime zdt,
+    public GameRef game(GameRef gameRef, ZonedDateTime zdt,
                               GameResult halfTimeResult, GameResult result,
                               GameResult overtimeResult, GameResult penaltyResult) {
-
         Season season = seasonManagerService.findSeasonByName(gameRef.getSeason().name(), gameRef.getSeason().year())
                 .orElseThrow(() -> new IllegalArgumentException("season not found"));
         GameList round = seasonManagerService.findRound(season, gameRef.getRound().betofficeIndex())
                 .orElseThrow(() -> new IllegalArgumentException("round not found"));
 
-        seasonManagerService.findMatch
+        //seasonManagerService.findMatch
 
         return null;
     }
 
     @Override
-    public GameRef updateGame(GameRef gameRef, GameResult halfTimeResult,
+    public GameRef game(GameRef gameRef, GameResult halfTimeResult,
                               GameResult result, GameResult overtimeResult,
                               GameResult penaltyResult) {
         return null;
     }
 
     @Override
-    public GameRef updateGame(GameRef gameRef, ZonedDateTime zdt) {
+    public GameRef game(GameRef gameRef, ZonedDateTime zdt) {
         return null;
     }
 
