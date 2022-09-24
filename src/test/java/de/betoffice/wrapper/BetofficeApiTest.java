@@ -9,6 +9,7 @@ import java.time.ZonedDateTime;
 
 import javax.sql.DataSource;
 
+import de.betoffice.wrapper.api.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,10 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
-import de.betoffice.wrapper.api.BetofficeApi;
-import de.betoffice.wrapper.api.GroupTypeRef;
-import de.betoffice.wrapper.api.SeasonRef;
-import de.betoffice.wrapper.api.TeamRef;
 import de.winkler.betoffice.service.DatabaseMaintenanceService;
 import de.winkler.betoffice.service.MasterDataManagerService;
 import de.winkler.betoffice.service.SeasonManagerService;
@@ -84,7 +81,7 @@ public class BetofficeApiTest {
 	}
 
 	private SeasonRef createSeason() {
-		bundesliga_1 = betofficeApi.groupType("1. Bundesliga");
+		bundesliga_1 = betofficeApi.groupType("1. Bundesliga").result();
 
 		rwe = betofficeApi.team("RWE", "Rot-Weiss-Essen");
 		schalke = betofficeApi.team("S04", "Schalke 04");
@@ -100,11 +97,14 @@ public class BetofficeApiTest {
         betofficeApi.addTeam(buli_2010, bundesliga_1, burghausen);
         betofficeApi.addTeam(buli_2010, bundesliga_1, rwe);
         
-        buli_2010 = betofficeApi.addTeam(buli_2010, bundesliga_1,  rwe);        
+        buli_2010 = betofficeApi.addTeam(buli_2010, bundesliga_1,  rwe);
 
-    	betofficeApi.round(buli_2010, bundesliga_1, DATE_01_09_2010);
-    	betofficeApi.round(buli_2010, bundesliga_1, DATE_08_09_2010);
-    	betofficeApi.round(buli_2010, bundesliga_1, DATE_15_09_2010);
+		RoundRef roundRef = betofficeApi.round(buli_2010, bundesliga_1, DATE_01_09_2010);
+		RoundRef roundRef1 = betofficeApi.round(buli_2010, bundesliga_1, DATE_08_09_2010);
+		RoundRef roundRef2 = betofficeApi.round(buli_2010, bundesliga_1, DATE_15_09_2010);
+
+		betofficeApi.game(buli_2010, bundesliga_1, roundRef.index(), DATE_01_09_2010, rwe, schalke);
+		betofficeApi.game(buli_2010, bundesliga_1, roundRef.index(), DATE_01_09_2010, burghausen, hsv);
 		
 		return buli_2010;
 	}

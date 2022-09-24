@@ -34,7 +34,7 @@ import java.time.ZonedDateTime;
  */
 public interface BetofficeApi {
 
-    GroupTypeRef groupType(String groupTypeName);
+    Result<GroupTypeRef> groupType(String groupTypeName);
 
     TeamRef team(String teamShortName, String teamLongName);
 
@@ -48,8 +48,20 @@ public interface BetofficeApi {
     
     RoundRef round(SeasonRef seasonRef, GroupTypeRef groupTypeRef, ZonedDateTime ldt);
     
-    GameRef game(SeasonRef season, RoundIndex roundIndex, TeamRef homeTeam, TeamRef guestTeam);
+    GameRef game(SeasonRef season, GroupTypeRef groupTypeRef,
+                 RoundIndex roundIndex, ZonedDateTime zdt,
+                 TeamRef homeTeam, TeamRef guestTeam);
 
+    GameRef game(GameRef gameRef, ZonedDateTime zdt,
+                 GameResult halfTimeResult, GameResult result,
+                 GameResult overtimeResult, GameResult penaltyResult);
+
+    GameRef game(GameRef gameRef, GameResult halfTimeResult,
+                 GameResult result, GameResult overtimeResult,
+                 GameResult penaltyResult);
+
+    GameRef game(GameRef gameRef, ZonedDateTime zdt);
+    
     ZonedDateTime toZonedDateTime(LocalDateTime ldt);
 
     LocalDateTime toDate(String dateTimeAsString);

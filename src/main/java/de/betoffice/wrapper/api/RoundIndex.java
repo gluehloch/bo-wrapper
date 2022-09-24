@@ -42,4 +42,14 @@ public class RoundIndex {
     public int index() {
         return index;
     }
+
+    /**
+     * Spieltage werden von 1..N gezählt. Betoffice intern sind die Spieltag von 0..N-1 nummeriert.
+     *
+     * @return index() - 1
+     */
+    public int betofficeIndex() {
+        return index() - 1;
+    }
+
 }
