@@ -103,6 +103,11 @@ public class DefaultBetofficeApi implements BetofficeApi {
 	}
 
     @Override
+    public GameRef game(SeasonRef season, RoundIndex roundIndex, TeamRef homeTeam, TeamRef guestTeam) {
+        return null;
+    }
+
+    @Override
     public ZonedDateTime toZonedDateTime(LocalDateTime ldt) {
         return ldt.atZone(ZONE_EUROPE_BERLIN);
     }
