@@ -4,19 +4,15 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 
-import de.betoffice.wrapper.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import de.betoffice.wrapper.api.GameResult;
+import de.betoffice.wrapper.api.*;
 import de.winkler.betoffice.service.MasterDataManagerService;
 import de.winkler.betoffice.service.SeasonManagerService;
-import de.winkler.betoffice.storage.GameList;
-import de.winkler.betoffice.storage.Group;
-import de.winkler.betoffice.storage.GroupType;
-import de.winkler.betoffice.storage.Season;
-import de.winkler.betoffice.storage.Team;
+import de.winkler.betoffice.storage.*;
 import de.winkler.betoffice.storage.enums.SeasonType;
 import de.winkler.betoffice.storage.enums.TeamType;
 
@@ -37,11 +33,11 @@ public class DefaultBetofficeApi implements BetofficeApi {
     private MasterDataManagerService masterDataManagerService;
     
     @Override
-    public GroupTypeRef groupType(String groupTypeName) {
+    public Result<GroupTypeRef> groupType(String groupTypeName) {
         GroupType groupType = new GroupType();
         groupType.setName(groupTypeName);
         masterDataManagerService.createGroupType(groupType);
-        return GroupTypeRef.of(groupType.getName());
+        return DefaultResult.success(GroupTypeRef.of(groupType.getName()));
     }
 
     @Override

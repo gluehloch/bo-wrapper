@@ -34,7 +34,7 @@ import java.time.ZonedDateTime;
  */
 public interface BetofficeApi {
 
-    GroupTypeRef groupType(String groupTypeName);
+    Result<GroupTypeRef> groupType(String groupTypeName);
 
     TeamRef team(String teamShortName, String teamLongName);
 
