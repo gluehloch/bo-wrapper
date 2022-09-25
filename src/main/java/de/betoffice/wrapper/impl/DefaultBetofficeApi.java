@@ -1,4 +1,29 @@
+/*
+ * ============================================================================
+ * Project betoffice-wrapper Copyright (c) 2000-2022 by Andre Winkler. All
+ * rights reserved.
+ * ============================================================================
+ * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
+ * MODIFICATION
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+
 package de.betoffice.wrapper.impl;
+
+import static de.betoffice.wrapper.impl.TryGetCatcher.tryGetCatch;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -17,7 +42,7 @@ import de.winkler.betoffice.storage.enums.SeasonType;
 import de.winkler.betoffice.storage.enums.TeamType;
 
 /**
- * TODO Wie sieht das mit Fehlermeldungen aus? Alles in die Excption oder eigenen Result-Typ anbieten?
+ * Default implementation of the Betoffice API.
  *
  * @author Andre Winkler
  */
@@ -34,21 +59,33 @@ public class DefaultBetofficeApi implements BetofficeApi {
     
     @Override
     public Result<GroupTypeRef> groupType(String groupTypeName) {
+        return tryGetCatch(() -> buildGroupType(groupTypeName));
+    }
+
+    private GroupTypeRef buildGroupType(String groupTypeName) {
         GroupType groupType = new GroupType();
         groupType.setName(groupTypeName);
         masterDataManagerService.createGroupType(groupType);
-        return DefaultResult.success(GroupTypeRef.of(groupType.getName()));
+        return GroupTypeRef.of(groupTypeName);
     }
 
     @Override
-    public TeamRef team(String teamName, String teamLongName) {
+    public Result<TeamRef> team(String teamName, String teamLongName) {
+        return tryGetCatch(() -> buildTeam(teamName, teamLongName));
+    }
+
+    private TeamRef buildTeam(String teamName, String teamLongName) {
         Team team = Team.TeamBuilder.team(teamName).longName(teamLongName).build();
         masterDataManagerService.createTeam(team);
         return TeamRef.of(team.getName());
     }
 
     @Override
-    public SeasonRef season(String name, String year, SeasonType type, TeamType teamType) {
+    public Result<SeasonRef> season(String name, String year, SeasonType seasonType, TeamType teamType) {
+        return tryGetCatch(() -> buildSeason(name, year, seasonType, teamType));
+    }
+
+    private SeasonRef buildSeason(String name, String year, SeasonType type, TeamType teamType) {
         Season season = new Season();
         season.setName(name);
         season.setYear(year);
@@ -59,7 +96,11 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
     @Override
-    public SeasonRef group(SeasonRef seasonRef, GroupTypeRef groupTypeRef) {
+    public Result<SeasonRef> group(SeasonRef seasonRef, GroupTypeRef groupTypeRef) {
+        return tryGetCatch(() -> buildGroup(seasonRef, groupTypeRef));
+    }
+
+    private SeasonRef buildGroup(SeasonRef seasonRef, GroupTypeRef groupTypeRef) {
         GroupType groupType = masterDataManagerService.findGroupType(groupTypeRef.groupType())
                 .orElseThrow(() -> new IllegalArgumentException("groupType not found"));
         Season season = seasonManagerService.findSeasonByName(seasonRef.name(), seasonRef.year())
@@ -71,15 +112,17 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
 	@Override
-	public SeasonRef addTeam(SeasonRef seasonRef, GroupTypeRef groupTypeRef, TeamRef teamRef) {
+    public Result<SeasonRef> addTeam(SeasonRef seasonRef, GroupTypeRef groupTypeRef, TeamRef teamRef) {
+        return tryGetCatch(() -> buildAddTeam(seasonRef, groupTypeRef, teamRef));
+    }
+
+	private SeasonRef buildAddTeam(SeasonRef seasonRef, GroupTypeRef groupTypeRef, TeamRef teamRef) {
         GroupType groupType = masterDataManagerService.findGroupType(groupTypeRef.groupType())
                 .orElseThrow(() -> new IllegalArgumentException("groupType not found"));
         Season season = seasonManagerService.findSeasonByName(seasonRef.name(), seasonRef.year())
                 .orElseThrow(() -> new IllegalArgumentException("season not found"));
         Team team = masterDataManagerService.findTeam(teamRef.name())
                 .orElseThrow(() -> new IllegalArgumentException("team not found"));
-
-        // TODO Team bereits der Meisterschaft hinzugefügt?
 
         seasonManagerService.addTeam(season, groupType, team);
 
@@ -93,12 +136,16 @@ public class DefaultBetofficeApi implements BetofficeApi {
 	 * @see #round(SeasonRef, GroupTypeRef, ZonedDateTime)
 	 */
     @Override
-    public RoundRef round(SeasonRef seasonRef, GroupTypeRef groupTypeRef, LocalDateTime ldt) {
-    	return round(seasonRef, groupTypeRef, toZonedDateTime(ldt));
+    public Result<RoundRef> round(SeasonRef seasonRef, GroupTypeRef groupTypeRef, LocalDateTime ldt) {
+        return tryGetCatch(() -> buildRound(seasonRef, groupTypeRef, toZonedDateTime(ldt)));
     }
 
 	@Override
-	public RoundRef round(SeasonRef seasonRef, GroupTypeRef groupTypeRef, ZonedDateTime ldt) {
+	public Result<RoundRef> round(SeasonRef seasonRef, GroupTypeRef groupTypeRef, ZonedDateTime ldt) {
+        return tryGetCatch(() -> buildRound(seasonRef, groupTypeRef, ldt));
+    }
+
+    private RoundRef buildRound(SeasonRef seasonRef, GroupTypeRef groupTypeRef, ZonedDateTime ldt) {
         GroupType groupType = masterDataManagerService.findGroupType(groupTypeRef.groupType())
                 .orElseThrow(() -> new IllegalArgumentException("groupType not found"));
         Season season = seasonManagerService.findSeasonByName(seasonRef.name(), seasonRef.year())
@@ -115,9 +162,15 @@ public class DefaultBetofficeApi implements BetofficeApi {
 	}
 
     @Override
-    public GameRef game(SeasonRef seasonRef, GroupTypeRef groupTypeRef,
-                        RoundIndex roundIndex, ZonedDateTime zdt,
-                        TeamRef homeTeamRef, TeamRef guestTeamRef) {
+    public Result<GameRef> game(SeasonRef seasonRef, GroupTypeRef groupTypeRef,
+                                RoundIndex roundIndex, ZonedDateTime zdt,
+                                TeamRef homeTeamRef, TeamRef guestTeamRef) {
+        return tryGetCatch(() -> buildGame(seasonRef, groupTypeRef, roundIndex, zdt, homeTeamRef, guestTeamRef));
+    }
+
+    private GameRef buildGame(SeasonRef seasonRef, GroupTypeRef groupTypeRef,
+                              RoundIndex roundIndex, ZonedDateTime zdt,
+                              TeamRef homeTeamRef, TeamRef guestTeamRef) {
         GroupType groupType = masterDataManagerService.findGroupType(groupTypeRef.groupType())
                 .orElseThrow(() -> new IllegalArgumentException("groupType not found"));
         Season season = seasonManagerService.findSeasonByName(seasonRef.name(), seasonRef.year())
@@ -136,7 +189,13 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
     @Override
-    public GameRef game(GameRef gameRef, ZonedDateTime zdt,
+    public Result<GameRef> game(GameRef gameRef, ZonedDateTime zdt,
+                                GameResult halfTimeResult, GameResult result,
+                                GameResult overtimeResult, GameResult penaltyResult) {
+        return tryGetCatch(() -> buildGame(gameRef, zdt, halfTimeResult, result, overtimeResult, penaltyResult));
+    }
+
+    private GameRef buildGame(GameRef gameRef, ZonedDateTime zdt,
                               GameResult halfTimeResult, GameResult result,
                               GameResult overtimeResult, GameResult penaltyResult) {
         Season season = seasonManagerService.findSeasonByName(gameRef.getSeason().name(), gameRef.getSeason().year())
@@ -144,20 +203,34 @@ public class DefaultBetofficeApi implements BetofficeApi {
         GameList round = seasonManagerService.findRound(season, gameRef.getRound().betofficeIndex())
                 .orElseThrow(() -> new IllegalArgumentException("round not found"));
 
+        // TODO
+
         //seasonManagerService.findMatch
 
         return null;
     }
 
     @Override
-    public GameRef game(GameRef gameRef, GameResult halfTimeResult,
+    public Result<GameRef> game(GameRef gameRef, GameResult halfTimeResult,
+                                GameResult result, GameResult overtimeResult,
+                                GameResult penaltyResult) {
+        return tryGetCatch(() -> buildGame(gameRef, halfTimeResult, result, overtimeResult, penaltyResult));
+    }
+
+    private GameRef buildGame(GameRef gameRef, GameResult halfTimeResult,
                               GameResult result, GameResult overtimeResult,
                               GameResult penaltyResult) {
+        // TODO
         return null;
     }
 
     @Override
-    public GameRef game(GameRef gameRef, ZonedDateTime zdt) {
+    public Result<GameRef> game(GameRef gameRef, ZonedDateTime zdt) {
+        return tryGetCatch(() -> buildGame(gameRef, zdt));
+    }
+
+    private GameRef buildGame(GameRef gameRef, ZonedDateTime zdt) {
+        // TODO
         return null;
     }
 

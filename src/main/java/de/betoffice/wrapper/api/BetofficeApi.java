@@ -36,31 +36,31 @@ public interface BetofficeApi {
 
     Result<GroupTypeRef> groupType(String groupTypeName);
 
-    TeamRef team(String teamShortName, String teamLongName);
+    Result<TeamRef> team(String teamShortName, String teamLongName);
 
-    SeasonRef season(String name, String year, SeasonType type, TeamType teamType);
+    Result<SeasonRef> season(String name, String year, SeasonType type, TeamType teamType);
 
-    SeasonRef group(SeasonRef seasonRef, GroupTypeRef groupTypeRef);
+    Result<SeasonRef> group(SeasonRef seasonRef, GroupTypeRef groupTypeRef);
     
-    SeasonRef addTeam(SeasonRef seasonRef, GroupTypeRef groupTypeRef, TeamRef teamRef);
+    Result<SeasonRef> addTeam(SeasonRef seasonRef, GroupTypeRef groupTypeRef, TeamRef teamRef);
 
-    RoundRef round(SeasonRef seasonRef, GroupTypeRef groupTypeRef, LocalDateTime ldt);
-    
-    RoundRef round(SeasonRef seasonRef, GroupTypeRef groupTypeRef, ZonedDateTime ldt);
-    
-    GameRef game(SeasonRef season, GroupTypeRef groupTypeRef,
-                 RoundIndex roundIndex, ZonedDateTime zdt,
-                 TeamRef homeTeam, TeamRef guestTeam);
+    Result<RoundRef> round(SeasonRef seasonRef, GroupTypeRef groupTypeRef, LocalDateTime ldt);
 
-    GameRef game(GameRef gameRef, ZonedDateTime zdt,
-                 GameResult halfTimeResult, GameResult result,
-                 GameResult overtimeResult, GameResult penaltyResult);
+    Result<RoundRef> round(SeasonRef seasonRef, GroupTypeRef groupTypeRef, ZonedDateTime ldt);
 
-    GameRef game(GameRef gameRef, GameResult halfTimeResult,
-                 GameResult result, GameResult overtimeResult,
-                 GameResult penaltyResult);
+    Result<GameRef> game(SeasonRef season, GroupTypeRef groupTypeRef,
+                         RoundIndex roundIndex, ZonedDateTime zdt,
+                         TeamRef homeTeam, TeamRef guestTeam);
 
-    GameRef game(GameRef gameRef, ZonedDateTime zdt);
+    Result<GameRef> game(GameRef gameRef, ZonedDateTime zdt,
+                         GameResult halfTimeResult, GameResult result,
+                         GameResult overtimeResult, GameResult penaltyResult);
+
+    Result<GameRef> game(GameRef gameRef, GameResult halfTimeResult,
+                         GameResult result, GameResult overtimeResult,
+                         GameResult penaltyResult);
+
+    Result<GameRef> game(GameRef gameRef, ZonedDateTime zdt);
     
     ZonedDateTime toZonedDateTime(LocalDateTime ldt);
 

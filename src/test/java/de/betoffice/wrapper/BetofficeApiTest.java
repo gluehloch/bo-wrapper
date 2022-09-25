@@ -83,12 +83,12 @@ public class BetofficeApiTest {
 	private SeasonRef createSeason() {
 		bundesliga_1 = betofficeApi.groupType("1. Bundesliga").result();
 
-		rwe = betofficeApi.team("RWE", "Rot-Weiss-Essen");
-		schalke = betofficeApi.team("S04", "Schalke 04");
-		burghausen = betofficeApi.team("Wacker", "Wacker Burghausen");
-		hsv = betofficeApi.team("HSV", "Hamburger SV");
+		rwe = betofficeApi.team("RWE", "Rot-Weiss-Essen").result();
+		schalke = betofficeApi.team("S04", "Schalke 04").result();
+		burghausen = betofficeApi.team("Wacker", "Wacker Burghausen").result();
+		hsv = betofficeApi.team("HSV", "Hamburger SV").result();
 		
-		buli_2010 = betofficeApi.season("Bundesliga 2010/2011", "2010/2011", SeasonType.LEAGUE, TeamType.DFB);
+		buli_2010 = betofficeApi.season("Bundesliga 2010/2011", "2010/2011", SeasonType.LEAGUE, TeamType.DFB).result();
 
     	betofficeApi.group(buli_2010, bundesliga_1);
 
@@ -97,11 +97,11 @@ public class BetofficeApiTest {
         betofficeApi.addTeam(buli_2010, bundesliga_1, burghausen);
         betofficeApi.addTeam(buli_2010, bundesliga_1, rwe);
         
-        buli_2010 = betofficeApi.addTeam(buli_2010, bundesliga_1,  rwe);
+        buli_2010 = betofficeApi.addTeam(buli_2010, bundesliga_1,  rwe).result();
 
-		RoundRef roundRef = betofficeApi.round(buli_2010, bundesliga_1, DATE_01_09_2010);
-		RoundRef roundRef1 = betofficeApi.round(buli_2010, bundesliga_1, DATE_08_09_2010);
-		RoundRef roundRef2 = betofficeApi.round(buli_2010, bundesliga_1, DATE_15_09_2010);
+		RoundRef roundRef = betofficeApi.round(buli_2010, bundesliga_1, DATE_01_09_2010).result();
+		RoundRef roundRef1 = betofficeApi.round(buli_2010, bundesliga_1, DATE_08_09_2010).result();
+		RoundRef roundRef2 = betofficeApi.round(buli_2010, bundesliga_1, DATE_15_09_2010).result();
 
 		betofficeApi.game(buli_2010, bundesliga_1, roundRef.index(), DATE_01_09_2010, rwe, schalke);
 		betofficeApi.game(buli_2010, bundesliga_1, roundRef.index(), DATE_01_09_2010, burghausen, hsv);
