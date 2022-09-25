@@ -56,6 +56,8 @@ public interface BetofficeApi {
                          GameResult halfTimeResult, GameResult result,
                          GameResult overtimeResult, GameResult penaltyResult);
 
+    Result<GameRef> game(GameRef gameRef, GameResult halfTimeResult, GameResult result);
+
     Result<GameRef> game(GameRef gameRef, GameResult halfTimeResult,
                          GameResult result, GameResult overtimeResult,
                          GameResult penaltyResult);

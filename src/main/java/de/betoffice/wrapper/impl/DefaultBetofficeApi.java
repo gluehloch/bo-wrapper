@@ -210,6 +210,12 @@ public class DefaultBetofficeApi implements BetofficeApi {
         return null;
     }
 
+	@Override
+	public Result<GameRef> game(GameRef gameRef, GameResult halfTimeResult, GameResult result) {
+
+		return null;
+	}
+
     @Override
     public Result<GameRef> game(GameRef gameRef, GameResult halfTimeResult,
                                 GameResult result, GameResult overtimeResult,

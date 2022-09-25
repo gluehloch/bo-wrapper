@@ -1,3 +1,26 @@
+/*
+ * ============================================================================
+ * Project betoffice-wrapper Copyright (c) 2000-2022 by Andre Winkler. All
+ * rights reserved.
+ * ============================================================================
+ * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
+ * MODIFICATION
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+
 package de.betoffice.wrapper;
 
 import java.sql.SQLException;
@@ -9,7 +32,6 @@ import java.time.ZonedDateTime;
 
 import javax.sql.DataSource;
 
-import de.betoffice.wrapper.api.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,10 +39,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
-import de.winkler.betoffice.service.DatabaseMaintenanceService;
-import de.winkler.betoffice.service.MasterDataManagerService;
-import de.winkler.betoffice.service.SeasonManagerService;
-import de.winkler.betoffice.service.TippService;
+import de.betoffice.wrapper.api.BetofficeApi;
+import de.betoffice.wrapper.api.GameRef;
+import de.betoffice.wrapper.api.GroupTypeRef;
+import de.betoffice.wrapper.api.RoundRef;
+import de.betoffice.wrapper.api.SeasonRef;
+import de.betoffice.wrapper.api.TeamRef;
+import de.winkler.betoffice.storage.GameResult;
 import de.winkler.betoffice.storage.enums.SeasonType;
 import de.winkler.betoffice.storage.enums.TeamType;
 
@@ -34,32 +59,11 @@ public class BetofficeApiTest {
 	private static final ZonedDateTime DATE_01_09_2010 = ZonedDateTime
 			.of(LocalDateTime.of(LocalDate.of(2010, 9, 9), LocalTime.of(0, 0)), ZoneId.of("Europe/Berlin"));
 
-	private TeamRef rwe;
-	private TeamRef schalke;
-	private TeamRef burghausen;
-	private TeamRef hsv;
-
-	private GroupTypeRef bundesliga_1;
-
-	private SeasonRef buli_2010;
-
 	@Autowired
 	private BetofficeApi betofficeApi;
 	
     @Autowired
     protected DataSource dataSource;
-
-    @Autowired
-    protected SeasonManagerService seasonManagerService;
-
-    @Autowired
-    protected TippService tippService;
-
-    @Autowired
-    protected MasterDataManagerService masterDataManagerService;
-
-    @Autowired
-    protected DatabaseMaintenanceService databaseMaintenanceService;
 
     private DatabaseSetUpAndTearDown dsuatd;
 
@@ -76,19 +80,15 @@ public class BetofficeApiTest {
     }
 
 	@Test
-	void updateMatchDay() {
-		createSeason();
-	}
+	void betofficeApi() {
+		final GroupTypeRef bundesliga_1 = betofficeApi.groupType("1. Bundesliga").result();
 
-	private SeasonRef createSeason() {
-		bundesliga_1 = betofficeApi.groupType("1. Bundesliga").result();
-
-		rwe = betofficeApi.team("RWE", "Rot-Weiss-Essen").result();
-		schalke = betofficeApi.team("S04", "Schalke 04").result();
-		burghausen = betofficeApi.team("Wacker", "Wacker Burghausen").result();
-		hsv = betofficeApi.team("HSV", "Hamburger SV").result();
+		final TeamRef rwe = betofficeApi.team("RWE", "Rot-Weiss-Essen").result();
+		final TeamRef schalke = betofficeApi.team("S04", "Schalke 04").result();
+		final TeamRef burghausen = betofficeApi.team("Wacker", "Wacker Burghausen").result();
+		final TeamRef hsv = betofficeApi.team("HSV", "Hamburger SV").result();
 		
-		buli_2010 = betofficeApi.season("Bundesliga 2010/2011", "2010/2011", SeasonType.LEAGUE, TeamType.DFB).result();
+		final SeasonRef buli_2010 = betofficeApi.season("Bundesliga 2010/2011", "2010/2011", SeasonType.LEAGUE, TeamType.DFB).result();
 
     	betofficeApi.group(buli_2010, bundesliga_1);
 
@@ -97,16 +97,16 @@ public class BetofficeApiTest {
         betofficeApi.addTeam(buli_2010, bundesliga_1, burghausen);
         betofficeApi.addTeam(buli_2010, bundesliga_1, rwe);
         
-        buli_2010 = betofficeApi.addTeam(buli_2010, bundesliga_1,  rwe).result();
+        betofficeApi.addTeam(buli_2010, bundesliga_1,  rwe).result();
 
-		RoundRef roundRef = betofficeApi.round(buli_2010, bundesliga_1, DATE_01_09_2010).result();
-		RoundRef roundRef1 = betofficeApi.round(buli_2010, bundesliga_1, DATE_08_09_2010).result();
-		RoundRef roundRef2 = betofficeApi.round(buli_2010, bundesliga_1, DATE_15_09_2010).result();
+		final RoundRef round1 = betofficeApi.round(buli_2010, bundesliga_1, DATE_01_09_2010).result();
+		final RoundRef round2 = betofficeApi.round(buli_2010, bundesliga_1, DATE_08_09_2010).result();
+		final RoundRef round3 = betofficeApi.round(buli_2010, bundesliga_1, DATE_15_09_2010).result();
 
-		betofficeApi.game(buli_2010, bundesliga_1, roundRef.index(), DATE_01_09_2010, rwe, schalke);
-		betofficeApi.game(buli_2010, bundesliga_1, roundRef.index(), DATE_01_09_2010, burghausen, hsv);
+		final GameRef game1 = betofficeApi.game(buli_2010, bundesliga_1, round1.index(), DATE_01_09_2010, rwe, schalke).result();
+		final GameRef game2 = betofficeApi.game(buli_2010, bundesliga_1, round1.index(), DATE_01_09_2010, burghausen, hsv).result();
 		
-		return buli_2010;
+		betofficeApi.game(game1, GameResult.of(0, 0), GameResult.of(0, 0));
 	}
 
 }
