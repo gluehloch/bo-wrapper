@@ -21,7 +21,9 @@
  * Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-package de.betoffice.wrapper;
+package de.betoffice.wrapper.api;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -39,18 +41,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
-import de.betoffice.wrapper.api.BetofficeApi;
-import de.betoffice.wrapper.api.GameRef;
-import de.betoffice.wrapper.api.GroupTypeRef;
-import de.betoffice.wrapper.api.RoundRef;
-import de.betoffice.wrapper.api.SeasonRef;
-import de.betoffice.wrapper.api.TeamRef;
-import de.winkler.betoffice.storage.GameResult;
 import de.winkler.betoffice.storage.enums.SeasonType;
 import de.winkler.betoffice.storage.enums.TeamType;
 
 @SpringJUnitConfig(locations = { "/betoffice-test-properties.xml", "/betoffice.xml" })
-public class BetofficeApiTest {
+class BetofficeApiTest {
 
 	private static final ZonedDateTime DATE_15_09_2010 = ZonedDateTime
 			.of(LocalDateTime.of(LocalDate.of(2010, 9, 15), LocalTime.of(0, 0)), ZoneId.of("Europe/Berlin"));
@@ -97,7 +92,7 @@ public class BetofficeApiTest {
         betofficeApi.addTeam(buli_2010, bundesliga_1, burghausen);
         betofficeApi.addTeam(buli_2010, bundesliga_1, rwe);
         
-        betofficeApi.addTeam(buli_2010, bundesliga_1,  rwe).result();
+        assertThat(betofficeApi.addTeam(buli_2010, bundesliga_1,  rwe).success()).isEqualTo(false);
 
 		final RoundRef round1 = betofficeApi.round(buli_2010, bundesliga_1, DATE_01_09_2010).result();
 		final RoundRef round2 = betofficeApi.round(buli_2010, bundesliga_1, DATE_08_09_2010).result();

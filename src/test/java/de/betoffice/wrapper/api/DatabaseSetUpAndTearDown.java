@@ -21,7 +21,7 @@
  * Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-package de.betoffice.wrapper;
+package de.betoffice.wrapper.api;
 
 import java.sql.Connection;
 import java.sql.SQLException;
