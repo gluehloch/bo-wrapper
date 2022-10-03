@@ -165,8 +165,9 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
     private GameRef buildGame(GameRef gameRef, ZonedDateTime zdt) {
-        // TODO
-        return null;
+        Game game = seasonManagerService.findMatch(gameRef.betofficeId().id());
+        game.setDateTime(zdt);
+        return gameRef;
     }
 
     @Override
