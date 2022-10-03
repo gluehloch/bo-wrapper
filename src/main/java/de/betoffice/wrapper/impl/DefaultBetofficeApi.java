@@ -160,9 +160,9 @@ public class DefaultBetofficeApi implements BetofficeApi {
 	}
 
     @Override
-    public Result<GameRef> game(SeasonRef seasonRef, GroupTypeRef groupTypeRef,
-                                RoundIndex roundIndex, ZonedDateTime zdt,
-                                TeamRef homeTeamRef, TeamRef guestTeamRef) {
+    public Result<GameRef> gameResult(SeasonRef seasonRef, GroupTypeRef groupTypeRef,
+                                      RoundIndex roundIndex, ZonedDateTime zdt,
+                                      TeamRef homeTeamRef, TeamRef guestTeamRef) {
         return tryGetCatch(() -> buildGame(seasonRef, groupTypeRef, roundIndex, zdt, homeTeamRef, guestTeamRef));
     }
 
@@ -187,15 +187,15 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
     @Override
-    public Result<GameRef> game(GameRef gameRef, ZonedDateTime zdt,
-                                GameResult halfTimeResult, GameResult result,
-                                GameResult overtimeResult, GameResult penaltyResult) {
-        return tryGetCatch(() -> buildGame(gameRef, zdt, halfTimeResult, result, overtimeResult, penaltyResult));
+    public Result<GameRef> gameResult(GameRef gameRef, ZonedDateTime zdt,
+                                      GameResult halfTimeResult, GameResult result,
+                                      GameResult overtimeResult, GameResult penaltyResult) {
+        return tryGetCatch(() -> buildGameResult(gameRef, zdt, halfTimeResult, result, overtimeResult, penaltyResult));
     }
 
-    private GameRef buildGame(GameRef gameRef, ZonedDateTime zdt,
-                              GameResult halfTimeResult, GameResult result,
-                              GameResult overtimeResult, GameResult penaltyResult) {
+    private GameRef buildGameResult(GameRef gameRef, ZonedDateTime zdt,
+                                    GameResult halfTimeResult, GameResult result,
+                                    GameResult overtimeResult, GameResult penaltyResult) {
         Season season = seasonManagerService.findSeasonByName(gameRef.getSeason().name(), gameRef.getSeason().year())
                 .orElseThrow(() -> new IllegalArgumentException("season not found"));
         GameList round = seasonManagerService.findRound(season, gameRef.getRound().betofficeIndex())
@@ -214,15 +214,15 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
 	@Override
-	public Result<GameRef> game(GameRef gameRef, GameResult halfTimeResult, GameResult result) {
+	public Result<GameRef> gameResult(GameRef gameRef, GameResult halfTimeResult, GameResult result) {
 
 		return null;
 	}
 
     @Override
-    public Result<GameRef> game(GameRef gameRef, GameResult halfTimeResult,
-                                GameResult result, GameResult overtimeResult,
-                                GameResult penaltyResult) {
+    public Result<GameRef> gameResult(GameRef gameRef, GameResult halfTimeResult,
+                                      GameResult result, GameResult overtimeResult,
+                                      GameResult penaltyResult) {
         return tryGetCatch(() -> buildGame(gameRef, halfTimeResult, result, overtimeResult, penaltyResult));
     }
 
@@ -234,7 +234,7 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
     @Override
-    public Result<GameRef> game(GameRef gameRef, ZonedDateTime zdt) {
+    public Result<GameRef> gameResult(GameRef gameRef, ZonedDateTime zdt) {
         return tryGetCatch(() -> buildGame(gameRef, zdt));
     }
 

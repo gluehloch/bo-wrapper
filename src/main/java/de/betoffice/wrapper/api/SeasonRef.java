@@ -49,4 +49,17 @@ public class SeasonRef {
         return year;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SeasonRef seasonRef = (SeasonRef) o;
+        return Objects.equals(name, seasonRef.name) && Objects.equals(year, seasonRef.year);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, year);
+    }
+
 }

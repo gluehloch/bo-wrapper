@@ -49,4 +49,18 @@ public class GroupRef {
         return groupTypeRef;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GroupRef groupRef = (GroupRef) o;
+        return Objects.equals(seasonRef, groupRef.seasonRef)
+                && Objects.equals(groupTypeRef, groupRef.groupTypeRef);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(seasonRef, groupTypeRef);
+    }
+
 }

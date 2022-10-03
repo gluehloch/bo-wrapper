@@ -48,21 +48,21 @@ public interface BetofficeApi {
 
     Result<RoundRef> round(SeasonRef seasonRef, GroupTypeRef groupTypeRef, ZonedDateTime ldt);
 
-    Result<GameRef> game(SeasonRef season, GroupTypeRef groupTypeRef,
-                         RoundIndex roundIndex, ZonedDateTime zdt,
-                         TeamRef homeTeam, TeamRef guestTeam);
+    Result<GameRef> gameResult(SeasonRef season, GroupTypeRef groupTypeRef,
+                               RoundIndex roundIndex, ZonedDateTime zdt,
+                               TeamRef homeTeam, TeamRef guestTeam);
 
-    Result<GameRef> game(GameRef gameRef, ZonedDateTime zdt,
-                         GameResult halfTimeResult, GameResult result,
-                         GameResult overtimeResult, GameResult penaltyResult);
+    Result<GameRef> gameResult(GameRef gameRef, ZonedDateTime zdt,
+                               GameResult halfTimeResult, GameResult result,
+                               GameResult overtimeResult, GameResult penaltyResult);
 
-    Result<GameRef> game(GameRef gameRef, GameResult halfTimeResult, GameResult result);
+    Result<GameRef> gameResult(GameRef gameRef, GameResult halfTimeResult, GameResult result);
 
-    Result<GameRef> game(GameRef gameRef, GameResult halfTimeResult,
-                         GameResult result, GameResult overtimeResult,
-                         GameResult penaltyResult);
+    Result<GameRef> gameResult(GameRef gameRef, GameResult halfTimeResult,
+                               GameResult result, GameResult overtimeResult,
+                               GameResult penaltyResult);
 
-    Result<GameRef> game(GameRef gameRef, ZonedDateTime zdt);
+    Result<GameRef> gameResult(GameRef gameRef, ZonedDateTime zdt);
     
     ZonedDateTime toZonedDateTime(LocalDateTime ldt);
 

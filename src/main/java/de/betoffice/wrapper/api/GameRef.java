@@ -75,4 +75,21 @@ public class GameRef {
 		return roundIndex;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		GameRef gameRef = (GameRef) o;
+		return Objects.equals(seasonRef, gameRef.seasonRef)
+				&& Objects.equals(roundIndex, gameRef.roundIndex)
+				&& Objects.equals(groupRef, gameRef.groupRef)
+				&& Objects.equals(homeTeam, gameRef.homeTeam)
+				&& Objects.equals(guestTeam, gameRef.guestTeam);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(seasonRef, roundIndex, groupRef, homeTeam, guestTeam);
+	}
+
 }

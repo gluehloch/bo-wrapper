@@ -23,6 +23,8 @@
 
 package de.betoffice.wrapper.api;
 
+import java.util.Objects;
+
 public class GameResult {
 
 	private final int homeGoals;
@@ -44,5 +46,18 @@ public class GameResult {
 	public int getGuestGoals() {
 		return guestGoals;
 	}
-	
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		GameResult that = (GameResult) o;
+		return homeGoals == that.homeGoals && guestGoals == that.guestGoals;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(homeGoals, guestGoals);
+	}
+
 }

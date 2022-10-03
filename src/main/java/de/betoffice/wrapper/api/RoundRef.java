@@ -23,6 +23,8 @@
 
 package de.betoffice.wrapper.api;
 
+import java.util.Objects;
+
 public class RoundRef {
 
     private final SeasonRef seasonRef;
@@ -51,4 +53,18 @@ public class RoundRef {
         return groupTypeRef;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RoundRef roundRef = (RoundRef) o;
+        return Objects.equals(seasonRef, roundRef.seasonRef)
+                && Objects.equals(roundIndex, roundRef.roundIndex)
+                && Objects.equals(groupTypeRef, roundRef.groupTypeRef);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(seasonRef, roundIndex, groupTypeRef);
+    }
 }
