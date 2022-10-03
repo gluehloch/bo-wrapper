@@ -198,7 +198,7 @@ public class DefaultBetofficeApi implements BetofficeApi {
 
     @Override
     public OperationResult<GameRef> result(GameRef gameRef, Scoring scoring) {
-        return tryGetCatch(() -> buildResult(gameRef, scoring));
+        return tryGetCatch(() -> buildResult(gameRef, null, scoring));
     }
 
     @Override
@@ -219,6 +219,10 @@ public class DefaultBetofficeApi implements BetofficeApi {
         match.setResult(toGameResult(scoring.getResult()));
         match.setOverTimeGoals(toGameResult(scoring.getOvertimeResult()));
         match.setPenaltyGoals(toGameResult(scoring.getPenaltyResult()));
+        match.setPlayed(true);
+        if (zdt != null) {
+            match.setDateTime(zdt);
+        }
         seasonManagerService.updateMatch(match);
 
         return gameRef;
@@ -226,11 +230,6 @@ public class DefaultBetofficeApi implements BetofficeApi {
 
     private static de.winkler.betoffice.storage.GameResult toGameResult(GameResult result) {
         return de.winkler.betoffice.storage.GameResult.of(result.getHomeGoals(), result.getGuestGoals());
-    }
-
-    private GameRef buildResult(GameRef gameRef, Scoring scoring) {
-        // TODO
-        return null;
     }
 
     @Override
