@@ -95,8 +95,11 @@ class BetofficeApiTest {
         assertThat(betofficeApi.addTeam(buli_2010, bundesliga_1,  rwe).success()).isEqualTo(false);
 
 		final RoundRef round1 = betofficeApi.round(buli_2010, bundesliga_1, DATE_01_09_2010).result();
+		assertThat(round1.index().betofficeIndex()).isEqualTo(0);
 		final RoundRef round2 = betofficeApi.round(buli_2010, bundesliga_1, DATE_08_09_2010).result();
+		assertThat(round2.index().betofficeIndex()).isEqualTo(1);
 		final RoundRef round3 = betofficeApi.round(buli_2010, bundesliga_1, DATE_15_09_2010).result();
+		assertThat(round3.index().betofficeIndex()).isEqualTo(2);
 
 		final GameRef game1 = betofficeApi.game(buli_2010, bundesliga_1, round1.index(), DATE_01_09_2010, rwe, schalke).result();
 		final GameRef game2 = betofficeApi.game(buli_2010, bundesliga_1, round1.index(), DATE_01_09_2010, burghausen, hsv).result();

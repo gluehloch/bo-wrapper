@@ -151,8 +151,6 @@ public class DefaultBetofficeApi implements BetofficeApi {
         Season season = seasonManagerService.findSeasonByName(seasonRef.name(), seasonRef.year())
                 .orElseThrow(() -> new IllegalArgumentException("season not found"));
 
-        // Spieltag mit gleichem Datum bereits vorhanden? Ist das ein Problem oder eine valide Kombination?
-
         GameList gameList = seasonManagerService.addRound(season, ldt, groupType);
 
         RoundIndex roundIndex = RoundIndex.of(gameList.getIndex() + 1);
@@ -203,6 +201,11 @@ public class DefaultBetofficeApi implements BetofficeApi {
         GameList round = seasonManagerService.findRound(season, gameRef.getRound().betofficeIndex())
                 .orElseThrow(() -> new IllegalArgumentException("round not found"));
 
+        // TODO
+        /*
+        seasonManagerService.findM
+        seasonManagerService.addMatch(round, zdt, )
+        */
         // TODO
 
         //seasonManagerService.findMatch
