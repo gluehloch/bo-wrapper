@@ -58,7 +58,7 @@ public class DefaultBetofficeApi implements BetofficeApi {
     private MasterDataManagerService masterDataManagerService;
     
     @Override
-    public Result<GroupTypeRef> groupType(String groupTypeName) {
+    public OperationResult<GroupTypeRef> groupType(String groupTypeName) {
         return tryGetCatch(() -> buildGroupType(groupTypeName));
     }
 
@@ -70,7 +70,7 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
     @Override
-    public Result<TeamRef> team(String teamName, String teamLongName) {
+    public OperationResult<TeamRef> team(String teamName, String teamLongName) {
         return tryGetCatch(() -> buildTeam(teamName, teamLongName));
     }
 
@@ -81,7 +81,7 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
     @Override
-    public Result<SeasonRef> season(String name, String year, SeasonType seasonType, TeamType teamType) {
+    public OperationResult<SeasonRef> season(String name, String year, SeasonType seasonType, TeamType teamType) {
         return tryGetCatch(() -> buildSeason(name, year, seasonType, teamType));
     }
 
@@ -96,7 +96,7 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
     @Override
-    public Result<SeasonRef> group(SeasonRef seasonRef, GroupTypeRef groupTypeRef) {
+    public OperationResult<SeasonRef> group(SeasonRef seasonRef, GroupTypeRef groupTypeRef) {
         return tryGetCatch(() -> buildGroup(seasonRef, groupTypeRef));
     }
 
@@ -112,7 +112,7 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
 	@Override
-    public Result<SeasonRef> addTeam(SeasonRef seasonRef, GroupTypeRef groupTypeRef, TeamRef teamRef) {
+    public OperationResult<SeasonRef> addTeam(SeasonRef seasonRef, GroupTypeRef groupTypeRef, TeamRef teamRef) {
         return tryGetCatch(() -> buildAddTeam(seasonRef, groupTypeRef, teamRef));
     }
 
@@ -136,12 +136,12 @@ public class DefaultBetofficeApi implements BetofficeApi {
 	 * @see #round(SeasonRef, GroupTypeRef, ZonedDateTime)
 	 */
     @Override
-    public Result<RoundRef> round(SeasonRef seasonRef, GroupTypeRef groupTypeRef, LocalDateTime ldt) {
+    public OperationResult<RoundRef> round(SeasonRef seasonRef, GroupTypeRef groupTypeRef, LocalDateTime ldt) {
         return tryGetCatch(() -> buildRound(seasonRef, groupTypeRef, toZonedDateTime(ldt)));
     }
 
 	@Override
-	public Result<RoundRef> round(SeasonRef seasonRef, GroupTypeRef groupTypeRef, ZonedDateTime ldt) {
+	public OperationResult<RoundRef> round(SeasonRef seasonRef, GroupTypeRef groupTypeRef, ZonedDateTime ldt) {
         return tryGetCatch(() -> buildRound(seasonRef, groupTypeRef, ldt));
     }
 
@@ -160,9 +160,19 @@ public class DefaultBetofficeApi implements BetofficeApi {
 	}
 
     @Override
-    public Result<GameRef> gameResult(SeasonRef seasonRef, GroupTypeRef groupTypeRef,
-                                      RoundIndex roundIndex, ZonedDateTime zdt,
-                                      TeamRef homeTeamRef, TeamRef guestTeamRef) {
+    public OperationResult<GameRef> game(GameRef gameRef, ZonedDateTime zdt) {
+        return tryGetCatch(() -> buildGame(gameRef, zdt));
+    }
+
+    private GameRef buildGame(GameRef gameRef, ZonedDateTime zdt) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    public OperationResult<GameRef> game(SeasonRef seasonRef, GroupTypeRef groupTypeRef,
+                                         RoundIndex roundIndex, ZonedDateTime zdt,
+                                         TeamRef homeTeamRef, TeamRef guestTeamRef) {
         return tryGetCatch(() -> buildGame(seasonRef, groupTypeRef, roundIndex, zdt, homeTeamRef, guestTeamRef));
     }
 
@@ -181,64 +191,44 @@ public class DefaultBetofficeApi implements BetofficeApi {
 
         GameList round = seasonManagerService.findRound(season, roundIndex.betofficeIndex())
                 .orElseThrow(() -> new IllegalArgumentException("round not found"));
-        seasonManagerService.addMatch(round, zdt, group, homeTeam, guestTeam);
+        Game game = seasonManagerService.addMatch(round, zdt, group, homeTeam, guestTeam);
 
-        return GameRef.of(seasonRef, GroupRef.of(seasonRef, groupTypeRef), roundIndex, homeTeamRef, guestTeamRef);
+        return GameRef.of(BetofficeId.of(game.getId()), seasonRef, GroupRef.of(seasonRef, groupTypeRef), roundIndex, homeTeamRef, guestTeamRef);
     }
 
     @Override
-    public Result<GameRef> gameResult(GameRef gameRef, ZonedDateTime zdt,
-                                      GameResult halfTimeResult, GameResult result,
-                                      GameResult overtimeResult, GameResult penaltyResult) {
-        return tryGetCatch(() -> buildGameResult(gameRef, zdt, halfTimeResult, result, overtimeResult, penaltyResult));
-    }
-
-    private GameRef buildGameResult(GameRef gameRef, ZonedDateTime zdt,
-                                    GameResult halfTimeResult, GameResult result,
-                                    GameResult overtimeResult, GameResult penaltyResult) {
-        Season season = seasonManagerService.findSeasonByName(gameRef.getSeason().name(), gameRef.getSeason().year())
-                .orElseThrow(() -> new IllegalArgumentException("season not found"));
-        GameList round = seasonManagerService.findRound(season, gameRef.getRound().betofficeIndex())
-                .orElseThrow(() -> new IllegalArgumentException("round not found"));
-
-        // TODO
-        /*
-        seasonManagerService.findM
-        seasonManagerService.addMatch(round, zdt, )
-        */
-        // TODO
-
-        //seasonManagerService.findMatch
-
-        return null;
-    }
-
-	@Override
-	public Result<GameRef> gameResult(GameRef gameRef, GameResult halfTimeResult, GameResult result) {
-
-		return null;
-	}
-
-    @Override
-    public Result<GameRef> gameResult(GameRef gameRef, GameResult halfTimeResult,
-                                      GameResult result, GameResult overtimeResult,
-                                      GameResult penaltyResult) {
-        return tryGetCatch(() -> buildGame(gameRef, halfTimeResult, result, overtimeResult, penaltyResult));
-    }
-
-    private GameRef buildGame(GameRef gameRef, GameResult halfTimeResult,
-                              GameResult result, GameResult overtimeResult,
-                              GameResult penaltyResult) {
-        // TODO
-        return null;
+    public OperationResult<GameRef> result(GameRef gameRef, Scoring scoring) {
+        return tryGetCatch(() -> buildResult(gameRef, scoring));
     }
 
     @Override
-    public Result<GameRef> gameResult(GameRef gameRef, ZonedDateTime zdt) {
-        return tryGetCatch(() -> buildGame(gameRef, zdt));
+    public OperationResult<GameRef> result(GameRef gameRef, ZonedDateTime zdt, Scoring scoring) {
+        return tryGetCatch(() -> buildResult(gameRef, zdt, scoring));
+    }
+    @Override
+    public OperationResult<GameRef> result(GameRef gameRef, GameResult halfTimeResult, GameResult result) {
+        return tryGetCatch(() -> buildResult(gameRef, null, Scoring.of(halfTimeResult, result)));
     }
 
-    private GameRef buildGame(GameRef gameRef, ZonedDateTime zdt) {
+    private GameRef buildResult(GameRef gameRef, ZonedDateTime zdt, Scoring scoring) {
+        Game match = seasonManagerService.findMatch(gameRef.betofficeId().id());
+        if (match == null) {
+            throw new IllegalArgumentException(String.format("game with id='%s' not found", gameRef.betofficeId().id()));
+        }
+        match.setHalfTimeGoals(toGameResult(scoring.getHalfTimeResult()));
+        match.setResult(toGameResult(scoring.getResult()));
+        match.setOverTimeGoals(toGameResult(scoring.getOvertimeResult()));
+        match.setPenaltyGoals(toGameResult(scoring.getPenaltyResult()));
+        seasonManagerService.updateMatch(match);
+
+        return gameRef;
+    }
+
+    private static de.winkler.betoffice.storage.GameResult toGameResult(GameResult result) {
+        return de.winkler.betoffice.storage.GameResult.of(result.getHomeGoals(), result.getGuestGoals());
+    }
+
+    private GameRef buildResult(GameRef gameRef, Scoring scoring) {
         // TODO
         return null;
     }

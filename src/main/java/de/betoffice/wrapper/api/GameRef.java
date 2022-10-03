@@ -27,6 +27,8 @@ import java.util.Objects;
 
 public class GameRef {
 
+	private final BetofficeId id;
+
 	private final SeasonRef seasonRef;
 	private final RoundIndex roundIndex;
 	private final GroupRef groupRef;
@@ -34,9 +36,10 @@ public class GameRef {
 	private final TeamRef homeTeam;
 	private final TeamRef guestTeam;
 
-	private GameRef(SeasonRef seasonRef, GroupRef groupRef, RoundIndex roundIndex, TeamRef homeTeam,
-			TeamRef guestTeam) {
+	private GameRef(BetofficeId id, SeasonRef seasonRef, GroupRef groupRef, RoundIndex roundIndex,
+					TeamRef homeTeam, TeamRef guestTeam) {
 
+		this.id = id;
 		this.seasonRef = seasonRef;
 		this.groupRef = groupRef;
 		this.roundIndex = roundIndex;
@@ -44,15 +47,20 @@ public class GameRef {
 		this.guestTeam = guestTeam;
 	}
 
-	public static GameRef of(SeasonRef seasonRef, GroupRef groupRef, RoundIndex roundIndex, TeamRef homeTeam,
-			TeamRef guestTeam) {
+	public static GameRef of(BetofficeId id, SeasonRef seasonRef, GroupRef groupRef, RoundIndex roundIndex,
+							 TeamRef homeTeam, TeamRef guestTeam) {
 
+		Objects.requireNonNull(id);
 		Objects.requireNonNull(seasonRef);
 		Objects.requireNonNull(roundIndex);
 		Objects.requireNonNull(groupRef);
 		Objects.requireNonNull(homeTeam);
 		Objects.requireNonNull(guestTeam);
-		return new GameRef(seasonRef, groupRef, roundIndex, homeTeam, guestTeam);
+		return new GameRef(id, seasonRef, groupRef, roundIndex, homeTeam, guestTeam);
+	}
+
+	public BetofficeId betofficeId() {
+		return id;
 	}
 
 	public TeamRef getHomeTeam() {

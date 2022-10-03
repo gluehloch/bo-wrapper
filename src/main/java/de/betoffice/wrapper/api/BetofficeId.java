@@ -21,44 +21,38 @@
  * Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-package de.betoffice.wrapper.impl;
+package de.betoffice.wrapper.api;
 
 import java.util.Objects;
 
-import de.betoffice.wrapper.api.Result;
+public class BetofficeId {
 
-class DefaultResult<T> implements Result<T> {
+    private final Long id;
 
-    private final Throwable exception;
-    private final T result;
-
-    private DefaultResult(T result, Throwable exception) {
-        this.result = result;
-        this.exception = exception;
+    private BetofficeId(Long id) {
+        this.id = id;
     }
 
-    static <T> Result<T> success(T result) {
-        Objects.nonNull(result);
-        return new DefaultResult<T>(result, null);
+    public static BetofficeId of(Long id) {
+        Objects.requireNonNull(id);
+        return new BetofficeId(id);
     }
 
-    static <T> Result<T> failure(Throwable exception) {
-        Objects.nonNull(exception);
-        return new DefaultResult<T>(null, exception);
+    public Long id() {
+        return id;
     }
 
     @Override
-    public T result() {
-        return result;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BetofficeId that = (BetofficeId) o;
+        return id.equals(that.id);
     }
 
     @Override
-    public Throwable exeption() {
-        return exception;
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
-    @Override
-    public boolean success() {
-        return exception == null && result != null;
-    }
 }

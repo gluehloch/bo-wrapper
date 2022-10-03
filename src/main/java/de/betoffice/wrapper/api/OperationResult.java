@@ -1,6 +1,6 @@
 package de.betoffice.wrapper.api;
 
-public interface Result<T> {
+public interface OperationResult<T> {
 
     T result();
     Throwable exeption();

@@ -23,18 +23,42 @@
 
 package de.betoffice.wrapper.impl;
 
-import java.util.function.Supplier;
+import java.util.Objects;
 
 import de.betoffice.wrapper.api.OperationResult;
 
-public class TryGetCatcher {
+class DefaultOperationResult<T> implements OperationResult<T> {
 
-     static <T> OperationResult<T> tryGetCatch(Supplier<T> supplier) {
-        try {
-            return DefaultOperationResult.success(supplier.get());
-        } catch (Throwable ex) {
-            return DefaultOperationResult.failure(ex);
-        }
+    private final Throwable exception;
+    private final T result;
+
+    private DefaultOperationResult(T result, Throwable exception) {
+        this.result = result;
+        this.exception = exception;
     }
 
+    static <T> OperationResult<T> success(T result) {
+        Objects.nonNull(result);
+        return new DefaultOperationResult<T>(result, null);
+    }
+
+    static <T> OperationResult<T> failure(Throwable exception) {
+        Objects.nonNull(exception);
+        return new DefaultOperationResult<T>(null, exception);
+    }
+
+    @Override
+    public T result() {
+        return result;
+    }
+
+    @Override
+    public Throwable exeption() {
+        return exception;
+    }
+
+    @Override
+    public boolean success() {
+        return exception == null && result != null;
+    }
 }

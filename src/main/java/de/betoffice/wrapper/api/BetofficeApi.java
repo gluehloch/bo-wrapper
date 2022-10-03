@@ -34,36 +34,32 @@ import java.time.ZonedDateTime;
  */
 public interface BetofficeApi {
 
-    Result<GroupTypeRef> groupType(String groupTypeName);
+    OperationResult<GroupTypeRef> groupType(String groupTypeName);
 
-    Result<TeamRef> team(String teamShortName, String teamLongName);
+    OperationResult<TeamRef> team(String teamShortName, String teamLongName);
 
-    Result<SeasonRef> season(String name, String year, SeasonType type, TeamType teamType);
+    OperationResult<SeasonRef> season(String name, String year, SeasonType type, TeamType teamType);
 
-    Result<SeasonRef> group(SeasonRef seasonRef, GroupTypeRef groupTypeRef);
+    OperationResult<SeasonRef> group(SeasonRef seasonRef, GroupTypeRef groupTypeRef);
     
-    Result<SeasonRef> addTeam(SeasonRef seasonRef, GroupTypeRef groupTypeRef, TeamRef teamRef);
+    OperationResult<SeasonRef> addTeam(SeasonRef seasonRef, GroupTypeRef groupTypeRef, TeamRef teamRef);
 
-    Result<RoundRef> round(SeasonRef seasonRef, GroupTypeRef groupTypeRef, LocalDateTime ldt);
+    OperationResult<RoundRef> round(SeasonRef seasonRef, GroupTypeRef groupTypeRef, LocalDateTime ldt);
 
-    Result<RoundRef> round(SeasonRef seasonRef, GroupTypeRef groupTypeRef, ZonedDateTime ldt);
+    OperationResult<RoundRef> round(SeasonRef seasonRef, GroupTypeRef groupTypeRef, ZonedDateTime ldt);
 
-    Result<GameRef> gameResult(SeasonRef season, GroupTypeRef groupTypeRef,
-                               RoundIndex roundIndex, ZonedDateTime zdt,
-                               TeamRef homeTeam, TeamRef guestTeam);
+    OperationResult<GameRef> game(SeasonRef season, GroupTypeRef groupTypeRef,
+                                  RoundIndex roundIndex, ZonedDateTime zdt,
+                                  TeamRef homeTeam, TeamRef guestTeam);
 
-    Result<GameRef> gameResult(GameRef gameRef, ZonedDateTime zdt,
-                               GameResult halfTimeResult, GameResult result,
-                               GameResult overtimeResult, GameResult penaltyResult);
+    OperationResult<GameRef> game(GameRef gameRef, ZonedDateTime zdt);
 
-    Result<GameRef> gameResult(GameRef gameRef, GameResult halfTimeResult, GameResult result);
+    OperationResult<GameRef> result(GameRef gameRef, Scoring scoring);
 
-    Result<GameRef> gameResult(GameRef gameRef, GameResult halfTimeResult,
-                               GameResult result, GameResult overtimeResult,
-                               GameResult penaltyResult);
+    OperationResult<GameRef> result(GameRef gameRef, ZonedDateTime zdt, Scoring scoring);
 
-    Result<GameRef> gameResult(GameRef gameRef, ZonedDateTime zdt);
-    
+    OperationResult<GameRef> result(GameRef gameRef, GameResult halfTimeResult, GameResult result);
+
     ZonedDateTime toZonedDateTime(LocalDateTime ldt);
 
     LocalDateTime toDate(String dateTimeAsString);
