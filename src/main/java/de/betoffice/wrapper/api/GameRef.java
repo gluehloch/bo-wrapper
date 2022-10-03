@@ -34,15 +34,6 @@ public class GameRef {
 	private final TeamRef homeTeam;
 	private final TeamRef guestTeam;
 
-	/*
-	private GameResult result = new GameResult();
-	private GameResult halfTimeGoals = new GameResult();
-	private GameResult overTimeGoals = new GameResult();
-	private GameResult penaltyGoals = new GameResult();
-	// LocalDateTime ldt
-	// ZonedDateTime ldt
-	*/
-
 	private GameRef(SeasonRef seasonRef, GroupRef groupRef, RoundIndex roundIndex, TeamRef homeTeam,
 			TeamRef guestTeam) {
 

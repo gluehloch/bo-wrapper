@@ -84,10 +84,9 @@ class BetofficeApiTest {
 		final TeamRef hsv = betofficeApi.team("HSV", "Hamburger SV").result();
 		
 		final SeasonRef buli_2010 = betofficeApi.season("Bundesliga 2010/2011", "2010/2011", SeasonType.LEAGUE, TeamType.DFB).result();
+		betofficeApi.group(buli_2010, bundesliga_1);
 
-    	betofficeApi.group(buli_2010, bundesliga_1);
-
-        betofficeApi.addTeam(buli_2010, bundesliga_1, hsv);
+		betofficeApi.addTeam(buli_2010, bundesliga_1, hsv);
         betofficeApi.addTeam(buli_2010, bundesliga_1, schalke);
         betofficeApi.addTeam(buli_2010, bundesliga_1, burghausen);
         betofficeApi.addTeam(buli_2010, bundesliga_1, rwe);
@@ -101,10 +100,19 @@ class BetofficeApiTest {
 		final RoundRef round3 = betofficeApi.round(buli_2010, bundesliga_1, DATE_15_09_2010).result();
 		assertThat(round3.index().betofficeIndex()).isEqualTo(2);
 
-		final GameRef game1 = betofficeApi.game(buli_2010, bundesliga_1, round1.index(), DATE_01_09_2010, rwe, schalke).result();
-		final GameRef game2 = betofficeApi.game(buli_2010, bundesliga_1, round1.index(), DATE_01_09_2010, burghausen, hsv).result();
+		final GameRef rweVsSchalke = betofficeApi.game(buli_2010, bundesliga_1, round1.index(), DATE_01_09_2010, rwe, schalke).result();
+		assertThat(rweVsSchalke.getHomeTeam()).isEqualTo(rwe);
+		assertThat(rweVsSchalke.getGuestTeam()).isEqualTo(schalke);
+		assertThat(rweVsSchalke.getRound().betofficeIndex()).isEqualTo(round1.index().betofficeIndex());
+		assertThat(rweVsSchalke.getGroup().groupType()).isEqualTo(bundesliga_1);
+
+		final GameRef burghausenVsHsv = betofficeApi.game(buli_2010, bundesliga_1, round1.index(), DATE_01_09_2010, burghausen, hsv).result();
+		assertThat(burghausenVsHsv.getHomeTeam()).isEqualTo(burghausen);
+		assertThat(burghausenVsHsv.getGuestTeam()).isEqualTo(hsv);
+		assertThat(burghausenVsHsv.getRound().betofficeIndex()).isEqualTo(round1.index().betofficeIndex());
+		assertThat(burghausenVsHsv.getGroup().groupType()).isEqualTo(bundesliga_1);
 		
-		betofficeApi.game(game1, GameResult.of(0, 0), GameResult.of(0, 0));
+		betofficeApi.game(rweVsSchalke, GameResult.of(0, 0), GameResult.of(0, 0));
 	}
 
 }
