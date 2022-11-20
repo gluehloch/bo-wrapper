@@ -23,25 +23,22 @@
 
 package de.betoffice.wrapper.api.cli;
 
-import java.util.Optional;
-
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class BetofficeApiMain {
+public class BetofficeApplicationContext {
 
-    public static void main(String args[]) {
-        ApiCommandLineParser parser = new ApiCommandLineParser();
-        Optional<ApiCommandLineArguments> acla = parser.parse(args, System.out);
-        
-        acla.ifPresent(arguments -> {
-            switch (arguments.getCommand()) {
-                case HELP -> System.out.println("Help");
-                case TEST_DATABASE_CONNCETION -> {
-                    BetofficeApplicationContext bac = new BetofficeApplicationContext();
-                    ApplicationContext context = bac.createApplicationContext();
-                }
-            }
-        });
+    public ApplicationContext createApplicationContext() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+                "classpath:/betoffice-persistence.xml",
+                "classpath:/betoffice-datasource.xml",
+                "file:hibernate.xml");
+
+        var maintenanceService = context.getBean("databaseMaintenanceService");
+        var masterService = context.getBean("masterDataManagerService");
+        var seasonService = context.getBean("seasonManagerService");
+
+        return context;
     }
 
 }
