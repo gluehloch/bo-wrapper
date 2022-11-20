@@ -46,9 +46,9 @@ public interface BetofficeApi {
 
     OperationResult<RoundRef> round(SeasonRef seasonRef, GroupTypeRef groupTypeRef, LocalDateTime ldt);
 
-    OperationResult<RoundRef> round(SeasonRef seasonRef, GroupTypeRef groupTypeRef, ZonedDateTime ldt);
+    OperationResult<RoundRef> addRound(SeasonRef seasonRef, GroupTypeRef groupTypeRef, ZonedDateTime ldt);
 
-    OperationResult<GameRef> game(SeasonRef season, GroupTypeRef groupTypeRef,
+    OperationResult<GameRef> addGame(SeasonRef season, GroupTypeRef groupTypeRef,
                                   RoundIndex roundIndex, ZonedDateTime zdt,
                                   TeamRef homeTeam, TeamRef guestTeam);
 

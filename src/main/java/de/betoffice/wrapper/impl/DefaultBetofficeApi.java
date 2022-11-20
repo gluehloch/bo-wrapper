@@ -130,10 +130,10 @@ public class DefaultBetofficeApi implements BetofficeApi {
 	}
 
 	/**
-	 * Better use {@link #round(SeasonRef, GroupTypeRef, ZonedDateTime)} with a ZonedDateTime.
+	 * Better use {@link #addRound(SeasonRef, GroupTypeRef, ZonedDateTime)} with a ZonedDateTime.
 	 * This method assumes timezone Europe/Berlin.
 	 *
-	 * @see #round(SeasonRef, GroupTypeRef, ZonedDateTime)
+	 * @see #addRound(SeasonRef, GroupTypeRef, ZonedDateTime)
 	 */
     @Override
     public OperationResult<RoundRef> round(SeasonRef seasonRef, GroupTypeRef groupTypeRef, LocalDateTime ldt) {
@@ -141,7 +141,7 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
 	@Override
-	public OperationResult<RoundRef> round(SeasonRef seasonRef, GroupTypeRef groupTypeRef, ZonedDateTime ldt) {
+	public OperationResult<RoundRef> addRound(SeasonRef seasonRef, GroupTypeRef groupTypeRef, ZonedDateTime ldt) {
         return tryGetCatch(() -> buildRound(seasonRef, groupTypeRef, ldt));
     }
 
@@ -171,7 +171,7 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
     @Override
-    public OperationResult<GameRef> game(SeasonRef seasonRef, GroupTypeRef groupTypeRef,
+    public OperationResult<GameRef> addGame(SeasonRef seasonRef, GroupTypeRef groupTypeRef,
                                          RoundIndex roundIndex, ZonedDateTime zdt,
                                          TeamRef homeTeamRef, TeamRef guestTeamRef) {
         return tryGetCatch(() -> buildGame(seasonRef, groupTypeRef, roundIndex, zdt, homeTeamRef, guestTeamRef));
