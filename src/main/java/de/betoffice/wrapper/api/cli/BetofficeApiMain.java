@@ -43,7 +43,7 @@ public class BetofficeApiMain {
                 case TEST_DATABASE_CONNCETION -> {
                     BetofficeApplicationContext bac = new BetofficeApplicationContext();
                     ApplicationContext context = bac.createApplicationContext();
-                    BetofficeApi betofficeApi = getBean("defaultBetofficeApi", context);
+                    BetofficeApi betofficeApi = getBean(BetofficeApi.class, context);
                     doit(betofficeApi);
                 }
             }
@@ -60,6 +60,10 @@ public class BetofficeApiMain {
     @SuppressWarnings("unchecked")
     public static final <T> T getBean(String beanId, ApplicationContext context) {
         return (T) context.getBean(beanId);
+    }
+
+    public static final <T> T getBean(Class<T> requiredType, ApplicationContext context) {
+        return context.getBean(requiredType);
     }
 
 }
