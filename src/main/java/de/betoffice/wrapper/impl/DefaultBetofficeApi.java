@@ -29,6 +29,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -57,6 +58,19 @@ public class DefaultBetofficeApi implements BetofficeApi {
     @Autowired
     private MasterDataManagerService masterDataManagerService;
     
+    @Override
+    public OperationResult<List<GroupTypeRef>> groupTypes() {        
+        return tryGetCatch(() -> findAllGroupTypes());
+    }
+    
+    private List<GroupTypeRef> findAllGroupTypes() {
+        return masterDataManagerService.findAllGroupTypes().stream().map(DefaultBetofficeApi::of).toList();
+    }
+
+    private static GroupTypeRef of(GroupType groupType) {
+        return GroupTypeRef.of(groupType.getName());
+    }
+
     @Override
     public OperationResult<GroupTypeRef> groupType(String groupTypeName) {
         return tryGetCatch(() -> buildGroupType(groupTypeName));

@@ -23,16 +23,19 @@
 
 package de.betoffice.wrapper.api;
 
-import de.winkler.betoffice.storage.enums.SeasonType;
-import de.winkler.betoffice.storage.enums.TeamType;
-
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.util.List;
+
+import de.winkler.betoffice.storage.enums.SeasonType;
+import de.winkler.betoffice.storage.enums.TeamType;
 
 /**
  * The BETOFFICE API.
  */
 public interface BetofficeApi {
+    
+    OperationResult<List<GroupTypeRef>> groupTypes();
 
     OperationResult<GroupTypeRef> groupType(String groupTypeName);
 

@@ -23,9 +23,13 @@
 
 package de.betoffice.wrapper.api.cli;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.context.ApplicationContext;
+
+import de.betoffice.wrapper.api.BetofficeApi;
+import de.betoffice.wrapper.api.GroupTypeRef;
 
 public class BetofficeApiMain {
 
@@ -39,9 +43,23 @@ public class BetofficeApiMain {
                 case TEST_DATABASE_CONNCETION -> {
                     BetofficeApplicationContext bac = new BetofficeApplicationContext();
                     ApplicationContext context = bac.createApplicationContext();
+                    BetofficeApi betofficeApi = getBean("defaultBetofficeApi", context);
+                    doit(betofficeApi);
                 }
             }
         });
+    }
+    
+    private static void doit(BetofficeApi betofficeApi) {
+        List<GroupTypeRef> result = betofficeApi.groupTypes().result();
+        for (GroupTypeRef gtr : result) {
+            System.out.println(gtr.groupType());
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public static final <T> T getBean(String beanId, ApplicationContext context) {
+        return (T) context.getBean(beanId);
     }
 
 }
