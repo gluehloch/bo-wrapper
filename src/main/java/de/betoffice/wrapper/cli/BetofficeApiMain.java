@@ -21,7 +21,7 @@
  * Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-package de.betoffice.wrapper.api.cli;
+package de.betoffice.wrapper.cli;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,7 +40,7 @@ public class BetofficeApiMain {
         acla.ifPresent(arguments -> {
             switch (arguments.getCommand()) {
                 case HELP -> System.out.println("Help");
-                case TEST_DATABASE_CONNCETION -> {
+                case TEST_DATABASE_CONNECTION -> {
                     BetofficeApplicationContext bac = new BetofficeApplicationContext();
                     ApplicationContext context = bac.createApplicationContext();
                     BetofficeApi betofficeApi = getBean(BetofficeApi.class, context);

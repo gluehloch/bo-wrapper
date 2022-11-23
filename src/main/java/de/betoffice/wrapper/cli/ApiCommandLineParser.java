@@ -21,7 +21,7 @@
  * Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-package de.betoffice.wrapper.api.cli;
+package de.betoffice.wrapper.cli;
 
 import java.io.PrintStream;
 import java.io.PrintWriter;
@@ -36,7 +36,7 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-import de.betoffice.wrapper.api.cli.ApiCommandLineArguments.Command;
+import de.betoffice.wrapper.cli.ApiCommandLineArguments.Command;
 
 public class ApiCommandLineParser {
 
@@ -61,7 +61,7 @@ public class ApiCommandLineParser {
         if (commandLine.hasOption("help")) {
             cla.setCommand(Command.HELP);
         } else if (commandLine.hasOption("test")) {
-            cla.setCommand(Command.TEST_DATABASE_CONNCETION);
+            cla.setCommand(Command.TEST_DATABASE_CONNECTION);
         }
         
         return Optional.of(cla);
