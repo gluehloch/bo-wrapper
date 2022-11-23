@@ -25,14 +25,15 @@ package de.betoffice.wrapper.impl;
 
 import java.util.Objects;
 
+import de.betoffice.wrapper.api.OperationException;
 import de.betoffice.wrapper.api.OperationResult;
 
 class DefaultOperationResult<T> implements OperationResult<T> {
 
-    private final Throwable exception;
+    private final OperationException exception;
     private final T result;
 
-    private DefaultOperationResult(T result, Throwable exception) {
+    private DefaultOperationResult(T result, OperationException exception) {
         this.result = result;
         this.exception = exception;
     }
@@ -42,7 +43,7 @@ class DefaultOperationResult<T> implements OperationResult<T> {
         return new DefaultOperationResult<T>(result, null);
     }
 
-    static <T> OperationResult<T> failure(Throwable exception) {
+    static <T> OperationResult<T> failure(OperationException exception) {
         Objects.nonNull(exception);
         return new DefaultOperationResult<T>(null, exception);
     }
@@ -53,7 +54,7 @@ class DefaultOperationResult<T> implements OperationResult<T> {
     }
 
     @Override
-    public Throwable exeption() {
+    public OperationException exeption() {
         return exception;
     }
 
@@ -61,4 +62,13 @@ class DefaultOperationResult<T> implements OperationResult<T> {
     public boolean success() {
         return exception == null && result != null;
     }
+
+    @Override
+    public T orThrow() {
+        if (!success()) {
+            throw exception;
+        }
+        return result();
+    }
+
 }

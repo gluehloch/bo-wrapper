@@ -34,9 +34,9 @@ public class BetofficeApplicationContext {
                 "classpath:/betoffice-datasource.xml",
                 "file:hibernate.xml");
 
-        var maintenanceService = context.getBean("databaseMaintenanceService");
-        var masterService = context.getBean("masterDataManagerService");
-        var seasonService = context.getBean("seasonManagerService");
+//        var maintenanceService = context.getBean("databaseMaintenanceService");
+//        var masterService = context.getBean("masterDataManagerService");
+//        var seasonService = context.getBean("seasonManagerService");
 
         return context;
     }

@@ -75,10 +75,10 @@ class BetofficeApiTest {
     }
 
 	@Test
-	void betofficeApi() {
+	void betofficeApi() throws Throwable {
 		final GroupTypeRef bundesliga_1 = betofficeApi.groupType("1. Bundesliga").result();
 
-		final TeamRef rwe = betofficeApi.team("RWE", "Rot-Weiss-Essen").result();
+		final TeamRef rwe = betofficeApi.team("RWE", "Rot-Weiss-Essen").orThrow();
 		final TeamRef schalke = betofficeApi.team("S04", "Schalke 04").result();
 		final TeamRef burghausen = betofficeApi.team("Wacker", "Wacker Burghausen").result();
 		final TeamRef hsv = betofficeApi.team("HSV", "Hamburger SV").result();
@@ -95,8 +95,10 @@ class BetofficeApiTest {
 
 		final RoundRef round1 = betofficeApi.addRound(buli_2010, bundesliga_1, DATE_2010_09_01).result();
 		assertThat(round1.index().betofficeIndex()).isZero();
+
 		final RoundRef round2 = betofficeApi.addRound(buli_2010, bundesliga_1, DATE_2010_09_08).result();
 		assertThat(round2.index().betofficeIndex()).isEqualTo(1);
+
 		final RoundRef round3 = betofficeApi.addRound(buli_2010, bundesliga_1, DATE_2010_09_15).result();
 		assertThat(round3.index().betofficeIndex()).isEqualTo(2);
 
