@@ -21,18 +21,22 @@
  * Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-package de.betoffice.wrapper.api.cli;
+package de.betoffice.wrapper.cli;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+public class ApiCommandLineArguments {
 
-public class BetofficeApplicationContext {
+    public enum Command {
+        HELP, TEST_DATABASE_CONNECTION
+    }
 
-    public ApplicationContext createApplicationContext() {
-        return new ClassPathXmlApplicationContext(
-                "classpath:/betoffice-persistence.xml",
-                "classpath:/betoffice-datasource.xml",
-                "file:hibernate.xml");
+    private Command command;
+
+    public Command getCommand() {
+        return command;
+    }
+
+    public void setCommand(Command command) {
+        this.command = command;
     }
 
 }

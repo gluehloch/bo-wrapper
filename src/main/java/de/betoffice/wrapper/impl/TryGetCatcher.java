@@ -25,6 +25,7 @@ package de.betoffice.wrapper.impl;
 
 import java.util.function.Supplier;
 
+import de.betoffice.wrapper.api.OperationException;
 import de.betoffice.wrapper.api.OperationResult;
 
 public class TryGetCatcher {
@@ -33,7 +34,7 @@ public class TryGetCatcher {
         try {
             return DefaultOperationResult.success(supplier.get());
         } catch (Throwable ex) {
-            return DefaultOperationResult.failure(ex);
+            return DefaultOperationResult.failure(new OperationException(ex));
         }
     }
 

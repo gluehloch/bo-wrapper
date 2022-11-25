@@ -75,15 +75,15 @@ class BetofficeApiTest {
     }
 
 	@Test
-	void betofficeApi() {
-		final GroupTypeRef bundesliga_1 = betofficeApi.groupType("1. Bundesliga").result();
+	void betofficeApi() throws Throwable {
+		final GroupTypeRef bundesliga_1 = betofficeApi.groupType("1. Bundesliga").orThrow();
 
-		final TeamRef rwe = betofficeApi.team("RWE", "Rot-Weiss-Essen").result();
-		final TeamRef schalke = betofficeApi.team("S04", "Schalke 04").result();
-		final TeamRef burghausen = betofficeApi.team("Wacker", "Wacker Burghausen").result();
-		final TeamRef hsv = betofficeApi.team("HSV", "Hamburger SV").result();
+		final TeamRef rwe = betofficeApi.team("RWE", "Rot-Weiss-Essen").orThrow();
+		final TeamRef schalke = betofficeApi.team("S04", "Schalke 04").orThrow();
+		final TeamRef burghausen = betofficeApi.team("Wacker", "Wacker Burghausen").orThrow();
+		final TeamRef hsv = betofficeApi.team("HSV", "Hamburger SV").orThrow();
 		
-		final SeasonRef buli_2010 = betofficeApi.season("Bundesliga 2010/2011", "2010/2011", SeasonType.LEAGUE, TeamType.DFB).result();
+		final SeasonRef buli_2010 = betofficeApi.season("Bundesliga 2010/2011", "2010/2011", SeasonType.LEAGUE, TeamType.DFB).orThrow();
 		betofficeApi.group(buli_2010, bundesliga_1);
 
 		betofficeApi.addTeam(buli_2010, bundesliga_1, hsv);
@@ -93,20 +93,22 @@ class BetofficeApiTest {
         
         assertThat(betofficeApi.addTeam(buli_2010, bundesliga_1,  rwe).success()).isFalse();
 
-		final RoundRef round1 = betofficeApi.addRound(buli_2010, bundesliga_1, DATE_2010_09_01).result();
+		final RoundRef round1 = betofficeApi.addRound(buli_2010, bundesliga_1, DATE_2010_09_01).orThrow();
 		assertThat(round1.index().betofficeIndex()).isZero();
-		final RoundRef round2 = betofficeApi.addRound(buli_2010, bundesliga_1, DATE_2010_09_08).result();
+
+		final RoundRef round2 = betofficeApi.addRound(buli_2010, bundesliga_1, DATE_2010_09_08).orThrow();
 		assertThat(round2.index().betofficeIndex()).isEqualTo(1);
-		final RoundRef round3 = betofficeApi.addRound(buli_2010, bundesliga_1, DATE_2010_09_15).result();
+
+		final RoundRef round3 = betofficeApi.addRound(buli_2010, bundesliga_1, DATE_2010_09_15).orThrow();
 		assertThat(round3.index().betofficeIndex()).isEqualTo(2);
 
-		final GameRef rweVsSchalke = betofficeApi.addGame(buli_2010, bundesliga_1, round1.index(), DATE_2010_09_01, rwe, schalke).result();
+		final GameRef rweVsSchalke = betofficeApi.addGame(buli_2010, bundesliga_1, round1.index(), DATE_2010_09_01, rwe, schalke).orThrow();
 		assertThat(rweVsSchalke.getHomeTeam()).isEqualTo(rwe);
 		assertThat(rweVsSchalke.getGuestTeam()).isEqualTo(schalke);
 		assertThat(rweVsSchalke.getRound().betofficeIndex()).isEqualTo(round1.index().betofficeIndex());
 		assertThat(rweVsSchalke.getGroup().groupType()).isEqualTo(bundesliga_1);
 
-		final GameRef burghausenVsHsv = betofficeApi.addGame(buli_2010, bundesliga_1, round1.index(), DATE_2010_09_01, burghausen, hsv).result();
+		final GameRef burghausenVsHsv = betofficeApi.addGame(buli_2010, bundesliga_1, round1.index(), DATE_2010_09_01, burghausen, hsv).orThrow();
 		assertThat(burghausenVsHsv.getHomeTeam()).isEqualTo(burghausen);
 		assertThat(burghausenVsHsv.getGuestTeam()).isEqualTo(hsv);
 		assertThat(burghausenVsHsv.getRound().betofficeIndex()).isEqualTo(round1.index().betofficeIndex());
