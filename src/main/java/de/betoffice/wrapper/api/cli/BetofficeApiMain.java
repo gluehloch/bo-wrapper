@@ -36,7 +36,7 @@ public class BetofficeApiMain {
     public static void main(String args[]) {
         ApiCommandLineParser parser = new ApiCommandLineParser();
         Optional<ApiCommandLineArguments> acla = parser.parse(args, System.out);
-        
+
         acla.ifPresent(arguments -> {
             switch (arguments.getCommand()) {
                 case HELP -> System.out.println("Help");
@@ -49,7 +49,7 @@ public class BetofficeApiMain {
             }
         });
     }
-    
+
     private static void doit(BetofficeApi betofficeApi) {
         List<GroupTypeRef> result = betofficeApi.groupTypes().result();
         for (GroupTypeRef gtr : result) {
@@ -57,9 +57,8 @@ public class BetofficeApiMain {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public static final <T> T getBean(String beanId, ApplicationContext context) {
-        return (T) context.getBean(beanId);
+    public static final <T> T getBean(String beanId, Class<T> requiredType, ApplicationContext context) {
+        return (T) context.getBean(beanId, requiredType);
     }
 
     public static final <T> T getBean(Class<T> requiredType, ApplicationContext context) {
