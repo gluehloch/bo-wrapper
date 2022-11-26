@@ -34,34 +34,34 @@ import de.winkler.betoffice.storage.enums.TeamType;
  * The BETOFFICE API.
  */
 public interface BetofficeApi {
-    
+
     OperationResult<List<GroupTypeRef>> groupTypes();
 
-    OperationResult<GroupTypeRef> groupType(String groupTypeName);
+    OperationResult<GroupTypeRef> postGroupType(String groupTypeName);
 
-    OperationResult<TeamRef> team(String teamShortName, String teamLongName);
+    OperationResult<TeamRef> postTeam(String teamShortName, String teamLongName);
 
-    OperationResult<SeasonRef> season(String name, String year, SeasonType type, TeamType teamType);
+    OperationResult<SeasonRef> postSeason(String name, String year, SeasonType type, TeamType teamType);
 
-    OperationResult<SeasonRef> group(SeasonRef seasonRef, GroupTypeRef groupTypeRef);
-    
-    OperationResult<SeasonRef> addTeam(SeasonRef seasonRef, GroupTypeRef groupTypeRef, TeamRef teamRef);
+    OperationResult<SeasonRef> postGroup(SeasonRef seasonRef, GroupTypeRef groupTypeRef);
 
-    OperationResult<RoundRef> round(SeasonRef seasonRef, GroupTypeRef groupTypeRef, LocalDateTime ldt);
+    OperationResult<SeasonRef> postTeam(SeasonRef seasonRef, GroupTypeRef groupTypeRef, TeamRef teamRef);
 
-    OperationResult<RoundRef> addRound(SeasonRef seasonRef, GroupTypeRef groupTypeRef, ZonedDateTime ldt);
+    OperationResult<RoundRef> postRound(SeasonRef seasonRef, GroupTypeRef groupTypeRef, LocalDateTime ldt);
 
-    OperationResult<GameRef> addGame(SeasonRef season, GroupTypeRef groupTypeRef,
-                                  RoundIndex roundIndex, ZonedDateTime zdt,
-                                  TeamRef homeTeam, TeamRef guestTeam);
+    OperationResult<RoundRef> postRound(SeasonRef seasonRef, GroupTypeRef groupTypeRef, ZonedDateTime ldt);
 
-    OperationResult<GameRef> game(GameRef gameRef, ZonedDateTime zdt);
+    OperationResult<GameRef> postGame(SeasonRef season, GroupTypeRef groupTypeRef,
+            RoundIndex roundIndex, ZonedDateTime zdt,
+            TeamRef homeTeam, TeamRef guestTeam);
 
-    OperationResult<GameRef> result(GameRef gameRef, Scoring scoring);
+    OperationResult<GameRef> putGame(GameRef gameRef, ZonedDateTime zdt);
 
-    OperationResult<GameRef> result(GameRef gameRef, ZonedDateTime zdt, Scoring scoring);
+    OperationResult<GameRef> putGameResult(GameRef gameRef, Scoring scoring);
 
-    OperationResult<GameRef> result(GameRef gameRef, GameResult halfTimeResult, GameResult result);
+    OperationResult<GameRef> putGameReesult(GameRef gameRef, ZonedDateTime zdt, Scoring scoring);
+
+    OperationResult<GameRef> putGameResult(GameRef gameRef, GameResult halfTimeResult, GameResult result);
 
     ZonedDateTime toZonedDateTime(LocalDateTime ldt);
 

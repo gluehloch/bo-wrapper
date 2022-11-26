@@ -76,45 +76,45 @@ class BetofficeApiTest {
 
 	@Test
 	void betofficeApi() throws Throwable {
-		final GroupTypeRef bundesliga_1 = betofficeApi.groupType("1. Bundesliga").orThrow();
+		final GroupTypeRef bundesliga_1 = betofficeApi.postGroupType("1. Bundesliga").orThrow();
 
-		final TeamRef rwe = betofficeApi.team("RWE", "Rot-Weiss-Essen").orThrow();
-		final TeamRef schalke = betofficeApi.team("S04", "Schalke 04").orThrow();
-		final TeamRef burghausen = betofficeApi.team("Wacker", "Wacker Burghausen").orThrow();
-		final TeamRef hsv = betofficeApi.team("HSV", "Hamburger SV").orThrow();
+		final TeamRef rwe = betofficeApi.postTeam("RWE", "Rot-Weiss-Essen").orThrow();
+		final TeamRef schalke = betofficeApi.postTeam("S04", "Schalke 04").orThrow();
+		final TeamRef burghausen = betofficeApi.postTeam("Wacker", "Wacker Burghausen").orThrow();
+		final TeamRef hsv = betofficeApi.postTeam("HSV", "Hamburger SV").orThrow();
 		
-		final SeasonRef buli_2010 = betofficeApi.season("Bundesliga 2010/2011", "2010/2011", SeasonType.LEAGUE, TeamType.DFB).orThrow();
-		betofficeApi.group(buli_2010, bundesliga_1);
+		final SeasonRef buli_2010 = betofficeApi.postSeason("Bundesliga 2010/2011", "2010/2011", SeasonType.LEAGUE, TeamType.DFB).orThrow();
+		betofficeApi.postGroup(buli_2010, bundesliga_1);
 
-		betofficeApi.addTeam(buli_2010, bundesliga_1, hsv);
-        betofficeApi.addTeam(buli_2010, bundesliga_1, schalke);
-        betofficeApi.addTeam(buli_2010, bundesliga_1, burghausen);
-        betofficeApi.addTeam(buli_2010, bundesliga_1, rwe);
+		betofficeApi.postTeam(buli_2010, bundesliga_1, hsv);
+        betofficeApi.postTeam(buli_2010, bundesliga_1, schalke);
+        betofficeApi.postTeam(buli_2010, bundesliga_1, burghausen);
+        betofficeApi.postTeam(buli_2010, bundesliga_1, rwe);
         
-        assertThat(betofficeApi.addTeam(buli_2010, bundesliga_1,  rwe).success()).isFalse();
+        assertThat(betofficeApi.postTeam(buli_2010, bundesliga_1,  rwe).success()).isFalse();
 
-		final RoundRef round1 = betofficeApi.addRound(buli_2010, bundesliga_1, DATE_2010_09_01).orThrow();
+		final RoundRef round1 = betofficeApi.postRound(buli_2010, bundesliga_1, DATE_2010_09_01).orThrow();
 		assertThat(round1.index().betofficeIndex()).isZero();
 
-		final RoundRef round2 = betofficeApi.addRound(buli_2010, bundesliga_1, DATE_2010_09_08).orThrow();
+		final RoundRef round2 = betofficeApi.postRound(buli_2010, bundesliga_1, DATE_2010_09_08).orThrow();
 		assertThat(round2.index().betofficeIndex()).isEqualTo(1);
 
-		final RoundRef round3 = betofficeApi.addRound(buli_2010, bundesliga_1, DATE_2010_09_15).orThrow();
+		final RoundRef round3 = betofficeApi.postRound(buli_2010, bundesliga_1, DATE_2010_09_15).orThrow();
 		assertThat(round3.index().betofficeIndex()).isEqualTo(2);
 
-		final GameRef rweVsSchalke = betofficeApi.addGame(buli_2010, bundesliga_1, round1.index(), DATE_2010_09_01, rwe, schalke).orThrow();
+		final GameRef rweVsSchalke = betofficeApi.postGame(buli_2010, bundesliga_1, round1.index(), DATE_2010_09_01, rwe, schalke).orThrow();
 		assertThat(rweVsSchalke.getHomeTeam()).isEqualTo(rwe);
 		assertThat(rweVsSchalke.getGuestTeam()).isEqualTo(schalke);
 		assertThat(rweVsSchalke.getRound().betofficeIndex()).isEqualTo(round1.index().betofficeIndex());
 		assertThat(rweVsSchalke.getGroup().groupType()).isEqualTo(bundesliga_1);
 
-		final GameRef burghausenVsHsv = betofficeApi.addGame(buli_2010, bundesliga_1, round1.index(), DATE_2010_09_01, burghausen, hsv).orThrow();
+		final GameRef burghausenVsHsv = betofficeApi.postGame(buli_2010, bundesliga_1, round1.index(), DATE_2010_09_01, burghausen, hsv).orThrow();
 		assertThat(burghausenVsHsv.getHomeTeam()).isEqualTo(burghausen);
 		assertThat(burghausenVsHsv.getGuestTeam()).isEqualTo(hsv);
 		assertThat(burghausenVsHsv.getRound().betofficeIndex()).isEqualTo(round1.index().betofficeIndex());
 		assertThat(burghausenVsHsv.getGroup().groupType()).isEqualTo(bundesliga_1);
 
-		assertThat(betofficeApi.result(
+		assertThat(betofficeApi.putGameResult(
 				rweVsSchalke,
 				GameResult.of(0, 0),
 				GameResult.of(0, 0)).success()).isTrue();

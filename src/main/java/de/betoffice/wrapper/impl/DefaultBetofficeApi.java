@@ -72,7 +72,7 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
     @Override
-    public OperationResult<GroupTypeRef> groupType(String groupTypeName) {
+    public OperationResult<GroupTypeRef> postGroupType(String groupTypeName) {
         return tryGetCatch(() -> buildGroupType(groupTypeName));
     }
 
@@ -84,7 +84,7 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
     @Override
-    public OperationResult<TeamRef> team(String teamName, String teamLongName) {
+    public OperationResult<TeamRef> postTeam(String teamName, String teamLongName) {
         return tryGetCatch(() -> buildTeam(teamName, teamLongName));
     }
 
@@ -95,7 +95,7 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
     @Override
-    public OperationResult<SeasonRef> season(String name, String year, SeasonType seasonType, TeamType teamType) {
+    public OperationResult<SeasonRef> postSeason(String name, String year, SeasonType seasonType, TeamType teamType) {
         return tryGetCatch(() -> buildSeason(name, year, seasonType, teamType));
     }
 
@@ -110,7 +110,7 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
     @Override
-    public OperationResult<SeasonRef> group(SeasonRef seasonRef, GroupTypeRef groupTypeRef) {
+    public OperationResult<SeasonRef> postGroup(SeasonRef seasonRef, GroupTypeRef groupTypeRef) {
         return tryGetCatch(() -> buildGroup(seasonRef, groupTypeRef));
     }
 
@@ -126,7 +126,7 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
 	@Override
-    public OperationResult<SeasonRef> addTeam(SeasonRef seasonRef, GroupTypeRef groupTypeRef, TeamRef teamRef) {
+    public OperationResult<SeasonRef> postTeam(SeasonRef seasonRef, GroupTypeRef groupTypeRef, TeamRef teamRef) {
         return tryGetCatch(() -> buildAddTeam(seasonRef, groupTypeRef, teamRef));
     }
 
@@ -144,18 +144,18 @@ public class DefaultBetofficeApi implements BetofficeApi {
 	}
 
 	/**
-	 * Better use {@link #addRound(SeasonRef, GroupTypeRef, ZonedDateTime)} with a ZonedDateTime.
+	 * Better use {@link #postRound(SeasonRef, GroupTypeRef, ZonedDateTime)} with a ZonedDateTime.
 	 * This method assumes timezone Europe/Berlin.
 	 *
-	 * @see #addRound(SeasonRef, GroupTypeRef, ZonedDateTime)
+	 * @see #postRound(SeasonRef, GroupTypeRef, ZonedDateTime)
 	 */
     @Override
-    public OperationResult<RoundRef> round(SeasonRef seasonRef, GroupTypeRef groupTypeRef, LocalDateTime ldt) {
+    public OperationResult<RoundRef> postRound(SeasonRef seasonRef, GroupTypeRef groupTypeRef, LocalDateTime ldt) {
         return tryGetCatch(() -> buildRound(seasonRef, groupTypeRef, toZonedDateTime(ldt)));
     }
 
 	@Override
-	public OperationResult<RoundRef> addRound(SeasonRef seasonRef, GroupTypeRef groupTypeRef, ZonedDateTime ldt) {
+	public OperationResult<RoundRef> postRound(SeasonRef seasonRef, GroupTypeRef groupTypeRef, ZonedDateTime ldt) {
         return tryGetCatch(() -> buildRound(seasonRef, groupTypeRef, ldt));
     }
 
@@ -174,7 +174,7 @@ public class DefaultBetofficeApi implements BetofficeApi {
 	}
 
     @Override
-    public OperationResult<GameRef> game(GameRef gameRef, ZonedDateTime zdt) {
+    public OperationResult<GameRef> putGame(GameRef gameRef, ZonedDateTime zdt) {
         return tryGetCatch(() -> buildGame(gameRef, zdt));
     }
 
@@ -185,7 +185,7 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
     @Override
-    public OperationResult<GameRef> addGame(SeasonRef seasonRef, GroupTypeRef groupTypeRef,
+    public OperationResult<GameRef> postGame(SeasonRef seasonRef, GroupTypeRef groupTypeRef,
                                          RoundIndex roundIndex, ZonedDateTime zdt,
                                          TeamRef homeTeamRef, TeamRef guestTeamRef) {
         return tryGetCatch(() -> buildGame(seasonRef, groupTypeRef, roundIndex, zdt, homeTeamRef, guestTeamRef));
@@ -212,16 +212,16 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
     @Override
-    public OperationResult<GameRef> result(GameRef gameRef, Scoring scoring) {
+    public OperationResult<GameRef> putGameResult(GameRef gameRef, Scoring scoring) {
         return tryGetCatch(() -> buildResult(gameRef, null, scoring));
     }
 
     @Override
-    public OperationResult<GameRef> result(GameRef gameRef, ZonedDateTime zdt, Scoring scoring) {
+    public OperationResult<GameRef> putGameReesult(GameRef gameRef, ZonedDateTime zdt, Scoring scoring) {
         return tryGetCatch(() -> buildResult(gameRef, zdt, scoring));
     }
     @Override
-    public OperationResult<GameRef> result(GameRef gameRef, GameResult halfTimeResult, GameResult result) {
+    public OperationResult<GameRef> putGameResult(GameRef gameRef, GameResult halfTimeResult, GameResult result) {
         return tryGetCatch(() -> buildResult(gameRef, null, Scoring.of(halfTimeResult, result)));
     }
 
