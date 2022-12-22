@@ -101,16 +101,15 @@ public class DefaultBetofficeApi implements BetofficeApi {
 
     private SeasonRef buildSeason(String name, String year, SeasonType type, TeamType teamType) {
         Season season = new Season();
-        season.setName(name);
-        season.setYear(year);
+        season.setReference(SeasonReference.of(year, name));
         season.setTeamType(teamType);
         season.setMode(type);
         Season season1 = seasonManagerService.createSeason(season);
-        return SeasonRef.of(season1.getName(), season1.getYear());
+        return SeasonRef.of(season1.getReference().getName(), season1.getReference().getYear());
     }
 
     @Override
-    public OperationResult<SeasonRef> postGroup(SeasonRef seasonRef, GroupTypeRef groupTypeRef) {
+    public OperationResult<SeasonRef> addGroup(SeasonRef seasonRef, GroupTypeRef groupTypeRef) {
         return tryGetCatch(() -> buildGroup(seasonRef, groupTypeRef));
     }
 
@@ -126,7 +125,7 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
 	@Override
-    public OperationResult<SeasonRef> postTeam(SeasonRef seasonRef, GroupTypeRef groupTypeRef, TeamRef teamRef) {
+    public OperationResult<SeasonRef> addTeam(SeasonRef seasonRef, GroupTypeRef groupTypeRef, TeamRef teamRef) {
         return tryGetCatch(() -> buildAddTeam(seasonRef, groupTypeRef, teamRef));
     }
 
@@ -144,18 +143,18 @@ public class DefaultBetofficeApi implements BetofficeApi {
 	}
 
 	/**
-	 * Better use {@link #postRound(SeasonRef, GroupTypeRef, ZonedDateTime)} with a ZonedDateTime.
+	 * Better use {@link #addRound(SeasonRef, GroupTypeRef, ZonedDateTime)} with a ZonedDateTime.
 	 * This method assumes timezone Europe/Berlin.
 	 *
-	 * @see #postRound(SeasonRef, GroupTypeRef, ZonedDateTime)
+	 * @see #addRound(SeasonRef, GroupTypeRef, ZonedDateTime)
 	 */
     @Override
-    public OperationResult<RoundRef> postRound(SeasonRef seasonRef, GroupTypeRef groupTypeRef, LocalDateTime ldt) {
+    public OperationResult<RoundRef> addRound(SeasonRef seasonRef, GroupTypeRef groupTypeRef, LocalDateTime ldt) {
         return tryGetCatch(() -> buildRound(seasonRef, groupTypeRef, toZonedDateTime(ldt)));
     }
 
 	@Override
-	public OperationResult<RoundRef> postRound(SeasonRef seasonRef, GroupTypeRef groupTypeRef, ZonedDateTime ldt) {
+	public OperationResult<RoundRef> addRound(SeasonRef seasonRef, GroupTypeRef groupTypeRef, ZonedDateTime ldt) {
         return tryGetCatch(() -> buildRound(seasonRef, groupTypeRef, ldt));
     }
 
@@ -212,16 +211,16 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
     @Override
-    public OperationResult<GameRef> putGameResult(GameRef gameRef, Scoring scoring) {
+    public OperationResult<GameRef> putGame(GameRef gameRef, Scoring scoring) {
         return tryGetCatch(() -> buildResult(gameRef, null, scoring));
     }
 
     @Override
-    public OperationResult<GameRef> putGameReesult(GameRef gameRef, ZonedDateTime zdt, Scoring scoring) {
+    public OperationResult<GameRef> putGame(GameRef gameRef, ZonedDateTime zdt, Scoring scoring) {
         return tryGetCatch(() -> buildResult(gameRef, zdt, scoring));
     }
     @Override
-    public OperationResult<GameRef> putGameResult(GameRef gameRef, GameResult halfTimeResult, GameResult result) {
+    public OperationResult<GameRef> putGame(GameRef gameRef, GameResult halfTimeResult, GameResult result) {
         return tryGetCatch(() -> buildResult(gameRef, null, Scoring.of(halfTimeResult, result)));
     }
 

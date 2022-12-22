@@ -25,6 +25,7 @@ package de.betoffice.wrapper.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -40,7 +41,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
+import de.betoffice.database.data.DeleteDatabase;
 import de.winkler.betoffice.storage.enums.SeasonType;
 import de.winkler.betoffice.storage.enums.TeamType;
 
@@ -60,18 +61,20 @@ class BetofficeApiTest {
     @Autowired
     protected DataSource dataSource;
 
-    private DatabaseSetUpAndTearDown dsuatd;
-
     @BeforeEach
     public void setUp() throws Exception {
-        dsuatd = new DatabaseSetUpAndTearDown(dataSource);
-        dsuatd.tearDown();
-        dsuatd.setUp(DataLoader.EMPTY);
+        cleanUpDatabase();
     }
 
     @AfterEach
     public void tearDown() throws SQLException {
-        dsuatd.tearDown();
+        cleanUpDatabase();
+    }
+    
+    private void cleanUpDatabase() throws SQLException {
+        try (Connection conn = dataSource.getConnection()) {
+            DeleteDatabase.deleteDatabase(conn);
+        }        
     }
 
 	@Test
@@ -82,24 +85,24 @@ class BetofficeApiTest {
 		final TeamRef schalke = betofficeApi.postTeam("S04", "Schalke 04").orThrow();
 		final TeamRef burghausen = betofficeApi.postTeam("Wacker", "Wacker Burghausen").orThrow();
 		final TeamRef hsv = betofficeApi.postTeam("HSV", "Hamburger SV").orThrow();
-		
+			
 		final SeasonRef buli_2010 = betofficeApi.postSeason("Bundesliga 2010/2011", "2010/2011", SeasonType.LEAGUE, TeamType.DFB).orThrow();
-		betofficeApi.postGroup(buli_2010, bundesliga_1);
+		betofficeApi.addGroup(buli_2010, bundesliga_1);
 
-		betofficeApi.postTeam(buli_2010, bundesliga_1, hsv);
-        betofficeApi.postTeam(buli_2010, bundesliga_1, schalke);
-        betofficeApi.postTeam(buli_2010, bundesliga_1, burghausen);
-        betofficeApi.postTeam(buli_2010, bundesliga_1, rwe);
+		betofficeApi.addTeam(buli_2010, bundesliga_1, hsv);
+        betofficeApi.addTeam(buli_2010, bundesliga_1, schalke);
+        betofficeApi.addTeam(buli_2010, bundesliga_1, burghausen);
+        betofficeApi.addTeam(buli_2010, bundesliga_1, rwe);
         
-        assertThat(betofficeApi.postTeam(buli_2010, bundesliga_1,  rwe).success()).isFalse();
+        assertThat(betofficeApi.addTeam(buli_2010, bundesliga_1,  rwe).success()).isFalse();
 
-		final RoundRef round1 = betofficeApi.postRound(buli_2010, bundesliga_1, DATE_2010_09_01).orThrow();
+		final RoundRef round1 = betofficeApi.addRound(buli_2010, bundesliga_1, DATE_2010_09_01).orThrow();
 		assertThat(round1.index().betofficeIndex()).isZero();
 
-		final RoundRef round2 = betofficeApi.postRound(buli_2010, bundesliga_1, DATE_2010_09_08).orThrow();
+		final RoundRef round2 = betofficeApi.addRound(buli_2010, bundesliga_1, DATE_2010_09_08).orThrow();
 		assertThat(round2.index().betofficeIndex()).isEqualTo(1);
 
-		final RoundRef round3 = betofficeApi.postRound(buli_2010, bundesliga_1, DATE_2010_09_15).orThrow();
+		final RoundRef round3 = betofficeApi.addRound(buli_2010, bundesliga_1, DATE_2010_09_15).orThrow();
 		assertThat(round3.index().betofficeIndex()).isEqualTo(2);
 
 		final GameRef rweVsSchalke = betofficeApi.postGame(buli_2010, bundesliga_1, round1.index(), DATE_2010_09_01, rwe, schalke).orThrow();
@@ -114,10 +117,7 @@ class BetofficeApiTest {
 		assertThat(burghausenVsHsv.getRound().betofficeIndex()).isEqualTo(round1.index().betofficeIndex());
 		assertThat(burghausenVsHsv.getGroup().groupType()).isEqualTo(bundesliga_1);
 
-		assertThat(betofficeApi.putGameResult(
-				rweVsSchalke,
-				GameResult.of(0, 0),
-				GameResult.of(0, 0)).success()).isTrue();
+		assertThat(betofficeApi.putGame(rweVsSchalke, GameResult.of(0, 0), GameResult.of(0, 0)).success()).isTrue();
 	}
 
 }
