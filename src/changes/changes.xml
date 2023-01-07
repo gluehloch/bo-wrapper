@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+	<properties>
+		<title>Change Notes</title>
+		<author email="andre.winkler@web.de">Andre Winkler</author>
+	</properties>
+	<body>
+		<!-- Under construction. -->
+
+		<!-- RELEASED -->
+		<release version="betoffice-wrapper-0.2.0" date="2023-01-07" description="Betoffice API">
+			<action dev="andrewinkler" type="add" date="2022-06-18">
+				API.
+			</action>
+		</release>		
+	</body>
+	<footer>
+		<legal>
+			Copyright (c) @year@ The 'betoffice-wrapper' Project
+		</legal>
+	</footer>
+</document>
