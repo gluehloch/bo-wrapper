@@ -7,7 +7,7 @@
         <relativePath>../../pom/betoffice-pom/pom.xml</relativePath>
         -->
 		<artifactId>betoffice-maven-parent</artifactId>
-		<version>1.13.1</version>
+		<version>1.13.2</version>
 	</parent>
 	<groupId>de.betoffice.wrapper</groupId>
 	<artifactId>betoffice-wrapper</artifactId>
