@@ -55,4 +55,9 @@ public class TeamRef {
         return Objects.hash(name);
     }
 
+    @Override
+    public String toString() {
+        return String.format("TeamRef=[%s]", this.name);
+    }
+
 }

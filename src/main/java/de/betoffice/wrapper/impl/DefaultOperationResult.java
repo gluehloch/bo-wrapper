@@ -25,25 +25,25 @@ package de.betoffice.wrapper.impl;
 
 import java.util.Objects;
 
-import de.betoffice.wrapper.api.OperationException;
-import de.betoffice.wrapper.api.OperationResult;
+import de.betoffice.wrapper.api.ApiException;
+import de.betoffice.wrapper.api.ApiResult;
 
-class DefaultOperationResult<T> implements OperationResult<T> {
+class DefaultOperationResult<T> implements ApiResult<T> {
 
-    private final OperationException exception;
+    private final ApiException exception;
     private final T result;
 
-    private DefaultOperationResult(T result, OperationException exception) {
+    private DefaultOperationResult(T result, ApiException exception) {
         this.result = result;
         this.exception = exception;
     }
 
-    static <T> OperationResult<T> success(T result) {
+    static <T> ApiResult<T> success(T result) {
         Objects.nonNull(result);
         return new DefaultOperationResult<T>(result, null);
     }
 
-    static <T> OperationResult<T> failure(OperationException exception) {
+    static <T> ApiResult<T> failure(ApiException exception) {
         Objects.nonNull(exception);
         return new DefaultOperationResult<T>(null, exception);
     }
@@ -54,7 +54,7 @@ class DefaultOperationResult<T> implements OperationResult<T> {
     }
 
     @Override
-    public OperationException exeption() {
+    public ApiException exeption() {
         return exception;
     }
 

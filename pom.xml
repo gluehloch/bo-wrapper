@@ -11,7 +11,7 @@
 	<groupId>de.betoffice.wrapper</groupId>
 	<artifactId>betoffice-wrapper</artifactId>
 	<name>betoffice-wrapper</name>
-	<version>0.2.0</version>
+	<version>0.3.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<description>Wrapper for betoffice-storage to create quick seasons and all data.</description>
 

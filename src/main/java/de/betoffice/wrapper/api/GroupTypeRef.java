@@ -55,4 +55,9 @@ public class GroupTypeRef {
         return Objects.hash(groupTypeName);
     }
 
+    @Override
+    public String toString() {
+        return String.format("GroupTypeRef=[%s]", this.groupTypeName);
+    }
+
 }

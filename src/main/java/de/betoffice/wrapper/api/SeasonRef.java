@@ -62,4 +62,9 @@ public class SeasonRef {
         return Objects.hash(name, year);
     }
 
+    @Override
+    public String toString() {
+        return String.format("SeasonRef=[%s, %s]", this.name, this.year);
+    }
+
 }

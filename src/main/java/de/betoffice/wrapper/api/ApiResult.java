@@ -1,9 +1,9 @@
 package de.betoffice.wrapper.api;
 
-public interface OperationResult<T> {
+public interface ApiResult<T> {
 
     T result();
-    T orThrow() throws OperationException;
+    T orThrow() throws ApiException;
     Throwable exeption();
     boolean success();
 

@@ -66,4 +66,10 @@ public class RoundIndex {
     public int hashCode() {
         return Objects.hash(index);
     }
+    
+    @Override
+    public String toString() {
+        return String.format("RoundRefRef=[%d]", this.index);
+    }
+
 }

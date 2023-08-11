@@ -67,4 +67,10 @@ public class RoundRef {
     public int hashCode() {
         return Objects.hash(seasonRef, roundIndex, groupTypeRef);
     }
+    
+    @Override
+    public String toString() {
+        return String.format("RoundRef=[%s, %s, %s]", this.seasonRef, this.groupTypeRef, this.roundIndex);
+    }
+
 }

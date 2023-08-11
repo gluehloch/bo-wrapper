@@ -25,16 +25,16 @@ package de.betoffice.wrapper.impl;
 
 import java.util.function.Supplier;
 
-import de.betoffice.wrapper.api.OperationException;
-import de.betoffice.wrapper.api.OperationResult;
+import de.betoffice.wrapper.api.ApiException;
+import de.betoffice.wrapper.api.ApiResult;
 
 public class TryGetCatcher {
 
-     static <T> OperationResult<T> tryGetCatch(Supplier<T> supplier) {
+     static <T> ApiResult<T> tryGetCatch(Supplier<T> supplier) {
         try {
             return DefaultOperationResult.success(supplier.get());
         } catch (Throwable ex) {
-            return DefaultOperationResult.failure(new OperationException(ex));
+            return DefaultOperationResult.failure(ApiException.of(ex));
         }
     }
 
