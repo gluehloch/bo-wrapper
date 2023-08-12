@@ -37,11 +37,11 @@ public interface BetofficeApi {
 
     ApiResult<List<GroupTypeRef>> groupTypes();
 
-    ApiResult<GroupTypeRef> postGroupType(String groupTypeName);
+    ApiResult<GroupTypeRef> createGroupType(String groupTypeName);
 
-    ApiResult<TeamRef> postTeam(String teamShortName, String teamLongName, TeamType teamType);
+    ApiResult<TeamRef> createTeam(String teamShortName, String teamLongName, TeamType teamType);
 
-    ApiResult<SeasonRef> postSeason(String name, String year, SeasonType type, TeamType teamType);
+    ApiResult<SeasonRef> createSeason(String name, String year, SeasonType type, TeamType teamType);
 
     ApiResult<SeasonRef> addGroup(SeasonRef seasonRef, GroupTypeRef groupTypeRef);
 
@@ -51,17 +51,21 @@ public interface BetofficeApi {
 
     ApiResult<RoundRef> addRound(SeasonRef seasonRef, GroupTypeRef groupTypeRef, ZonedDateTime ldt);
 
-    ApiResult<GameRef> postGame(SeasonRef season, GroupTypeRef groupTypeRef,
-            RoundIndex roundIndex, ZonedDateTime zdt,
-            TeamRef homeTeam, TeamRef guestTeam);
+    ApiResult<GameRef> createGame(
+    		SeasonRef season,
+    		GroupTypeRef groupTypeRef,
+            RoundIndex roundIndex,
+            ZonedDateTime zdt,
+            TeamRef homeTeam,
+            TeamRef guestTeam);
 
-    ApiResult<GameRef> putGame(GameRef gameRef, ZonedDateTime zdt);
+    ApiResult<GameRef> updateGame(GameRef gameRef, ZonedDateTime zdt);
 
-    ApiResult<GameRef> putGame(GameRef gameRef, Scoring scoring);
+    ApiResult<GameRef> updateGame(GameRef gameRef, Scoring scoring);
 
-    ApiResult<GameRef> putGame(GameRef gameRef, ZonedDateTime zdt, Scoring scoring);
+    ApiResult<GameRef> updateGame(GameRef gameRef, ZonedDateTime zdt, Scoring scoring);
 
-    ApiResult<GameRef> putGame(GameRef gameRef, GameResult halfTimeResult, GameResult result);
+    ApiResult<GameRef> updateGame(GameRef gameRef, GameResult halfTimeResult, GameResult result);
 
     ZonedDateTime toZonedDateTime(LocalDateTime ldt);
 

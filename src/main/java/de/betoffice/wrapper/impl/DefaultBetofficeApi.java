@@ -76,7 +76,7 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
     @Override
-    public ApiResult<GroupTypeRef> postGroupType(String groupTypeName) {
+    public ApiResult<GroupTypeRef> createGroupType(String groupTypeName) {
         return tryGetCatch(() -> buildGroupType(groupTypeName));
     }
 
@@ -88,7 +88,7 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
     @Override
-    public ApiResult<TeamRef> postTeam(String teamName, String teamLongName, TeamType teamType) {
+    public ApiResult<TeamRef> createTeam(String teamName, String teamLongName, TeamType teamType) {
         return tryGetCatch(() -> buildTeam(teamName, teamLongName, teamType));
     }
 
@@ -99,7 +99,7 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
     @Override
-    public ApiResult<SeasonRef> postSeason(String name, String year, SeasonType seasonType, TeamType teamType) {
+    public ApiResult<SeasonRef> createSeason(String name, String year, SeasonType seasonType, TeamType teamType) {
         return tryGetCatch(() -> buildSeason(name, year, seasonType, teamType));
     }
 
@@ -178,7 +178,7 @@ public class DefaultBetofficeApi implements BetofficeApi {
 	}
 
     @Override
-    public ApiResult<GameRef> putGame(GameRef gameRef, ZonedDateTime zdt) {
+    public ApiResult<GameRef> updateGame(GameRef gameRef, ZonedDateTime zdt) {
         return tryGetCatch(() -> buildGame(gameRef, zdt));
     }
 
@@ -189,7 +189,7 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
     @Override
-    public ApiResult<GameRef> postGame(SeasonRef seasonRef, GroupTypeRef groupTypeRef,
+    public ApiResult<GameRef> createGame(SeasonRef seasonRef, GroupTypeRef groupTypeRef,
                                          RoundIndex roundIndex, ZonedDateTime zdt,
                                          TeamRef homeTeamRef, TeamRef guestTeamRef) {
         return tryGetCatch(() -> buildGame(seasonRef, groupTypeRef, roundIndex, zdt, homeTeamRef, guestTeamRef));
@@ -217,17 +217,17 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
     @Override
-    public ApiResult<GameRef> putGame(GameRef gameRef, Scoring scoring) {
+    public ApiResult<GameRef> updateGame(GameRef gameRef, Scoring scoring) {
         return tryGetCatch(() -> buildResult(gameRef, null, scoring));
     }
 
     @Override
-    public ApiResult<GameRef> putGame(GameRef gameRef, ZonedDateTime zdt, Scoring scoring) {
+    public ApiResult<GameRef> updateGame(GameRef gameRef, ZonedDateTime zdt, Scoring scoring) {
         return tryGetCatch(() -> buildResult(gameRef, zdt, scoring));
     }
 
     @Override
-    public ApiResult<GameRef> putGame(GameRef gameRef, GameResult halfTimeResult, GameResult result) {
+    public ApiResult<GameRef> updateGame(GameRef gameRef, GameResult halfTimeResult, GameResult result) {
         return tryGetCatch(() -> buildResult(gameRef, null, Scoring.of(halfTimeResult, result)));
     }
 
