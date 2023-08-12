@@ -81,10 +81,10 @@ class BetofficeApiTest {
 	void betofficeApi() throws Throwable {
 		final GroupTypeRef bundesliga_1 = betofficeApi.postGroupType("1. Bundesliga").orThrow();
 
-		final TeamRef rwe = betofficeApi.postTeam("RWE", "Rot-Weiss-Essen").orThrow();
-		final TeamRef schalke = betofficeApi.postTeam("S04", "Schalke 04").orThrow();
-		final TeamRef burghausen = betofficeApi.postTeam("Wacker", "Wacker Burghausen").orThrow();
-		final TeamRef hsv = betofficeApi.postTeam("HSV", "Hamburger SV").orThrow();
+		final TeamRef rwe = betofficeApi.postTeam("RWE", "Rot-Weiss-Essen", TeamType.DFB).orThrow();
+		final TeamRef schalke = betofficeApi.postTeam("S04", "Schalke 04", TeamType.DFB).orThrow();
+		final TeamRef burghausen = betofficeApi.postTeam("Wacker", "Wacker Burghausen", TeamType.DFB).orThrow();
+		final TeamRef hsv = betofficeApi.postTeam("HSV", "Hamburger SV", TeamType.DFB).orThrow();
 			
 		final SeasonRef buli_2010 = betofficeApi.postSeason("Bundesliga 2010/2011", "2010/2011", SeasonType.LEAGUE, TeamType.DFB).orThrow();
 		betofficeApi.addGroup(buli_2010, bundesliga_1);
