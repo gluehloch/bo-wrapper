@@ -39,7 +39,7 @@ public interface BetofficeApi {
 
     ApiResult<GroupTypeRef> postGroupType(String groupTypeName);
 
-    ApiResult<TeamRef> postTeam(String teamShortName, String teamLongName);
+    ApiResult<TeamRef> postTeam(String teamShortName, String teamLongName, TeamType teamType);
 
     ApiResult<SeasonRef> postSeason(String name, String year, SeasonType type, TeamType teamType);
 

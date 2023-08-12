@@ -88,11 +88,11 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
     @Override
-    public ApiResult<TeamRef> postTeam(String teamName, String teamLongName) {
-        return tryGetCatch(() -> buildTeam(teamName, teamLongName));
+    public ApiResult<TeamRef> postTeam(String teamName, String teamLongName, TeamType teamType) {
+        return tryGetCatch(() -> buildTeam(teamName, teamLongName, teamType));
     }
 
-    private TeamRef buildTeam(String teamName, String teamLongName) {
+    private TeamRef buildTeam(String teamName, String teamLongName, TeamType teamType) {
         Team team = Team.TeamBuilder.team(teamName).longName(teamLongName).build();
         masterDataManagerService.createTeam(team);
         return TeamRef.of(team.getName());
@@ -283,7 +283,7 @@ public class DefaultBetofficeApi implements BetofficeApi {
             case GUEST:
                 new IllegalArgumentException("guest team not found: " + teamRef);
         }
-        throw new IllegalArgumentException("homeOrGuest type is unknown!");
+        return new IllegalArgumentException("homeOrGuest type is unknown!");
     }
 
     private static RuntimeException roundNotFound(RoundRef roundRef) {

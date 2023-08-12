@@ -1,5 +1,6 @@
 package de.betoffice.wrapper.api;
 
+@SuppressWarnings("serial")
 public class ApiException extends RuntimeException {
 
     private final Throwable cause;
