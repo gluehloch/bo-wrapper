@@ -52,12 +52,13 @@ public interface BetofficeApi {
     ApiResult<RoundRef> addRound(SeasonRef seasonRef, GroupTypeRef groupTypeRef, ZonedDateTime ldt);
 
     ApiResult<GameRef> createGame(
-    		SeasonRef season,
-    		GroupTypeRef groupTypeRef,
-            RoundIndex roundIndex,
+    		SeasonRef     season,
+    		GroupTypeRef  groupTypeRef,
+            RoundIndex    roundIndex,
             ZonedDateTime zdt,
-            TeamRef homeTeam,
-            TeamRef guestTeam);
+            TeamRef       homeTeam,
+            TeamRef       guestTeam
+     );
 
     ApiResult<GameRef> updateGame(GameRef gameRef, ZonedDateTime zdt);
 
