@@ -29,10 +29,10 @@ import de.betoffice.wrapper.cli.BetofficeApiMain;
 
 class BetofficeApiMainTest {
 
-	@Test
-	void stringArray() {
-		var strings = new String[] {"--help"};
-		BetofficeApiMain.main(strings);
-	}
+    @Test
+    void stringArray() {
+        var strings = new String[] { "--help" };
+        BetofficeApiMain.main(strings);
+    }
 
 }
