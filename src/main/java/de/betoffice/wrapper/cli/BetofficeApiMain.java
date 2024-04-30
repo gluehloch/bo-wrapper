@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-wrapper Copyright (c) 2000-2022 by Andre Winkler. All
+ * Project betoffice-wrapper Copyright (c) 2000-2024 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -26,14 +26,32 @@ package de.betoffice.wrapper.cli;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 
 import de.betoffice.wrapper.api.BetofficeApi;
 import de.betoffice.wrapper.api.GroupTypeRef;
 
-public class BetofficeApiMain {
+@SpringBootApplication
+@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
+@ComponentScan(basePackages = {"de.betoffice", "de.winkler.betoffice" })
+public class BetofficeApiMain implements CommandLineRunner {
 
+    @Autowired
+    private BetofficeApi betofficeApi;
+ 
     public static void main(String args[]) {
+        SpringApplication.run(BetofficeApiMain.class, args);
+    }
+
+    @Override
+    public void run(String... args) {
         ApiCommandLineParser parser = new ApiCommandLineParser();
         Optional<ApiCommandLineArguments> acla = parser.parse(args, System.out);
 
@@ -41,9 +59,6 @@ public class BetofficeApiMain {
             switch (arguments.getCommand()) {
                 case HELP -> System.out.println("Help");
                 case TEST_DATABASE_CONNECTION -> {
-                    BetofficeApplicationContext bac = new BetofficeApplicationContext();
-                    ApplicationContext context = bac.createApplicationContext();
-                    BetofficeApi betofficeApi = getBean(BetofficeApi.class, context);
                     doit(betofficeApi);
                 }
             }
