@@ -53,7 +53,7 @@ public class DefaultBetofficeApi implements BetofficeApi {
     private enum TeamHomeOrGuest {
         HOME, GUEST
     }
-    
+
     private static final ZoneId ZONE_EUROPE_BERLIN = ZoneId.of("Europe/Berlin");
 
     @Autowired
@@ -61,12 +61,12 @@ public class DefaultBetofficeApi implements BetofficeApi {
 
     @Autowired
     private MasterDataManagerService masterDataManagerService;
-    
+
     @Override
-    public ApiResult<List<GroupTypeRef>> groupTypes() {        
+    public ApiResult<List<GroupTypeRef>> groupTypes() {
         return tryGetCatch(() -> findAllGroupTypes());
     }
-    
+
     private List<GroupTypeRef> findAllGroupTypes() {
         return masterDataManagerService.findAllGroupTypes().stream().map(DefaultBetofficeApi::of).toList();
     }
@@ -128,12 +128,12 @@ public class DefaultBetofficeApi implements BetofficeApi {
         return seasonRef;
     }
 
-	@Override
+    @Override
     public ApiResult<SeasonRef> addTeam(SeasonRef seasonRef, GroupTypeRef groupTypeRef, TeamRef teamRef) {
         return tryGetCatch(() -> buildAddTeam(seasonRef, groupTypeRef, teamRef));
     }
 
-	private SeasonRef buildAddTeam(SeasonRef seasonRef, GroupTypeRef groupTypeRef, TeamRef teamRef) {
+    private SeasonRef buildAddTeam(SeasonRef seasonRef, GroupTypeRef groupTypeRef, TeamRef teamRef) {
         GroupType groupType = masterDataManagerService.findGroupType(groupTypeRef.groupType())
                 .orElseThrow(() -> groupTypeRefNotFound(groupTypeRef));
 
@@ -144,22 +144,23 @@ public class DefaultBetofficeApi implements BetofficeApi {
 
         seasonManagerService.addTeam(season, groupType, team);
 
-		return seasonRef;
-	}
+        return seasonRef;
+    }
 
-	/**
-	 * Better use {@link #addRound(SeasonRef, GroupTypeRef, ZonedDateTime)} with a ZonedDateTime.
-	 * This method assumes timezone Europe/Berlin.
-	 *
-	 * @see #addRound(SeasonRef, GroupTypeRef, ZonedDateTime)
-	 */
+    /**
+     * Better use {@link #addRound(SeasonRef, GroupTypeRef, ZonedDateTime)} with a
+     * ZonedDateTime.
+     * This method assumes timezone Europe/Berlin.
+     *
+     * @see #addRound(SeasonRef, GroupTypeRef, ZonedDateTime)
+     */
     @Override
     public ApiResult<RoundRef> addRound(SeasonRef seasonRef, GroupTypeRef groupTypeRef, LocalDateTime ldt) {
         return tryGetCatch(() -> buildRound(seasonRef, groupTypeRef, toZonedDateTime(ldt)));
     }
 
-	@Override
-	public ApiResult<RoundRef> addRound(SeasonRef seasonRef, GroupTypeRef groupTypeRef, ZonedDateTime ldt) {
+    @Override
+    public ApiResult<RoundRef> addRound(SeasonRef seasonRef, GroupTypeRef groupTypeRef, ZonedDateTime ldt) {
         return tryGetCatch(() -> buildRound(seasonRef, groupTypeRef, ldt));
     }
 
@@ -174,8 +175,8 @@ public class DefaultBetofficeApi implements BetofficeApi {
         RoundIndex roundIndex = RoundIndex.of(gameList.getIndex() + 1);
         RoundRef roundRef = RoundRef.of(seasonRef, roundIndex, groupTypeRef);
 
-        return roundRef;		
-	}
+        return roundRef;
+    }
 
     @Override
     public ApiResult<GameRef> updateGame(GameRef gameRef, ZonedDateTime zdt) {
@@ -190,14 +191,14 @@ public class DefaultBetofficeApi implements BetofficeApi {
 
     @Override
     public ApiResult<GameRef> createGame(SeasonRef seasonRef, GroupTypeRef groupTypeRef,
-                                         RoundIndex roundIndex, ZonedDateTime zdt,
-                                         TeamRef homeTeamRef, TeamRef guestTeamRef) {
+            RoundIndex roundIndex, ZonedDateTime zdt,
+            TeamRef homeTeamRef, TeamRef guestTeamRef) {
         return tryGetCatch(() -> buildGame(seasonRef, groupTypeRef, roundIndex, zdt, homeTeamRef, guestTeamRef));
     }
 
     private GameRef buildGame(SeasonRef seasonRef, GroupTypeRef groupTypeRef,
-                              RoundIndex roundIndex, ZonedDateTime zdt,
-                              TeamRef homeTeamRef, TeamRef guestTeamRef) {
+            RoundIndex roundIndex, ZonedDateTime zdt,
+            TeamRef homeTeamRef, TeamRef guestTeamRef) {
         GroupType groupType = masterDataManagerService.findGroupType(groupTypeRef.groupType())
                 .orElseThrow(() -> groupTypeRefNotFound(groupTypeRef));
         Season season = seasonManagerService.findSeasonByName(seasonRef.name(), seasonRef.year())
@@ -207,13 +208,14 @@ public class DefaultBetofficeApi implements BetofficeApi {
                 .orElseThrow(() -> teamNotFound(homeTeamRef, TeamHomeOrGuest.HOME));
         Team guestTeam = masterDataManagerService.findTeam(guestTeamRef.name())
                 .orElseThrow(() -> teamNotFound(guestTeamRef, TeamHomeOrGuest.GUEST));
-                
+
         RoundRef roundRef = RoundRef.of(seasonRef, roundIndex, groupTypeRef);
         GameList round = seasonManagerService.findRound(season, roundIndex.betofficeIndex())
                 .orElseThrow(() -> roundNotFound(roundRef));
         Game game = seasonManagerService.addMatch(round, zdt, group, homeTeam, guestTeam);
 
-        return GameRef.of(BetofficeId.of(game.getId()), seasonRef, GroupRef.of(seasonRef, groupTypeRef), roundIndex, homeTeamRef, guestTeamRef);
+        return GameRef.of(BetofficeId.of(game.getId()), seasonRef, GroupRef.of(seasonRef, groupTypeRef), roundIndex,
+                homeTeamRef, guestTeamRef);
     }
 
     @Override
@@ -234,7 +236,8 @@ public class DefaultBetofficeApi implements BetofficeApi {
     private GameRef buildResult(GameRef gameRef, ZonedDateTime zdt, Scoring scoring) {
         Game match = seasonManagerService.findMatch(gameRef.betofficeId().id());
         if (match == null) {
-            throw new IllegalArgumentException(String.format("game with id='%s' not found", gameRef.betofficeId().id()));
+            throw new IllegalArgumentException(
+                    String.format("game with id='%s' not found", gameRef.betofficeId().id()));
         }
         match.setHalfTimeGoals(toGameResult(scoring.getHalfTimeResult()));
         match.setResult(toGameResult(scoring.getResult()));
@@ -265,23 +268,23 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
     private static RuntimeException groupTypeRefNotFound(GroupTypeRef groupTypeRef) {
-        return new IllegalArgumentException("groupType not found: " + groupTypeRef);
+        return new IllegalArgumentException("groupType not found: %s".formatted(groupTypeRef));
     }
-    
+
     private static RuntimeException seasonNotFound(SeasonRef seasonRef) {
-        return new IllegalArgumentException("season not found: " + seasonRef);
+        return new IllegalArgumentException("season not found: %s".formatted(seasonRef));
     }
-    
+
     private static RuntimeException teamNotFound(TeamRef teamRef) {
-        return new IllegalArgumentException("team not found: " + teamRef);
+        return new IllegalArgumentException("team not found: %s".formatted(teamRef));
     }
-    
+
     private static RuntimeException teamNotFound(TeamRef teamRef, TeamHomeOrGuest homeOrGuest) {
         switch (homeOrGuest) {
             case HOME:
-                return new IllegalArgumentException("home team not found: " + teamRef);
+                return new IllegalArgumentException("home team not found: %s".formatted(teamRef));
             case GUEST:
-                new IllegalArgumentException("guest team not found: " + teamRef);
+                new IllegalArgumentException("guest team not found: %s".formatted(teamRef));
         }
         return new IllegalArgumentException("homeOrGuest type is unknown!");
     }
