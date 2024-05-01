@@ -35,6 +35,8 @@ import de.winkler.betoffice.storage.enums.TeamType;
  */
 public interface BetofficeApi {
 
+    ApiResult<Team> findTeam(TeamRef teamRef);
+
     ApiResult<List<GroupTypeRef>> groupTypes();
 
     ApiResult<GroupTypeRef> createGroupType(String groupTypeName);
