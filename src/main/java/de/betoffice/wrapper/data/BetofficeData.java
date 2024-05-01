@@ -37,7 +37,7 @@ public class BetofficeData {
     public static final String KATAR = "Katar";
     public static final String ECUADOR = "Ecuador";
     public static final String SENEGAL = "Senegal";
-    public static final String NIEDERLANDE "Niederlande";
+    public static final String NIEDERLANDE = "Niederlande";
     public static final String ENGLAND = "England";
     public static final String IRAN = "Iran";
     public static final String USA = "USA";
