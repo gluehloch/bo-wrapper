@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-wrapper Copyright (c) 2000-2022 by Andre Winkler. All
+ * Project betoffice-wrapper Copyright (c) 2000-2024 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -34,8 +34,6 @@ import de.winkler.betoffice.storage.enums.TeamType;
  * The BETOFFICE API.
  */
 public interface BetofficeApi {
-
-    ApiResult<Team> findTeam(TeamRef teamRef);
 
     ApiResult<List<GroupTypeRef>> groupTypes();
 

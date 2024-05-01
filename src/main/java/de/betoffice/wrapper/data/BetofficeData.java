@@ -1,10 +1,12 @@
 package de.betoffice.wrapper.data;
 
 import de.betoffice.wrapper.api.GroupTypeRef;
+import de.betoffice.wrapper.api.TeamRef;
 
 public class BetofficeData {
 
-    // def bundesliga = master.findGroupType('1. Bundesliga');
+    public static final String BUNDESLIGA_1 = "1. Bundesliga";
+
     public static final String GRUPPE_A = "Gruppe A";
     public static final String GRUPPE_B = "Gruppe B";
     public static final String GRUPPE_C = "Gruppe C";
@@ -34,37 +36,60 @@ public class BetofficeData {
     public static final GroupTypeRef REF_GRUPPE_FINALE = GroupTypeRef.of(GRUPPE_FINALE);
     public static final GroupTypeRef REF_GRUPPE_PLATZ_DREI = GroupTypeRef.of(GRUPPE_PLATZ_DREI);
 
-    public static final String KATAR = "Katar";
-    public static final String ECUADOR = "Ecuador";
-    public static final String SENEGAL = "Senegal";
+    // Europa
     public static final String NIEDERLANDE = "Niederlande";
     public static final String ENGLAND = "England";
-    public static final String IRAN = "Iran";
-    public static final String USA = "USA";
     public static final String WALES = "Wales";
-    public static final String ARGENTINIEN = "Argentinien";
-    public static final String SAUDI_ARABIEN = "Saudi Arabien";
-    public static final String MEXIKO = "Mexiko";
     public static final String POLEN = "Polen";
     public static final String DAENEMARK = "Dänemark";
-    public static final String TUNESIEN = "Tunesien";
     public static final String FRANKREICH = "Frankreich";
-    public static final String AUSTRALIEN = "Australien";
-    public static final String COSTA_RICA = "Costa Rica";
     public static final String DEUTSCHLAND = "Deutschland";
     public static final String SPANIEN = "Spanien";
-    public static final String JAPAN = "Japan";
     public static final String BELGIEN = "Belgien";
-    public static final String KANADA = "Kanada";
-    public static final String MAROKKO = "Marokko";
     public static final String KROATIEN = "Kroatien";
-    public static final String BRASILIEN = "Brasilien";
     public static final String SERBIEN = "Serbien";
     public static final String SCHWEIZ = "Schweiz";
-    public static final String KAMERUN = "Kamerun";
     public static final String PORTUGAL = "Portugal";
-    public static final String GHANA = "Ghana";
-    public static final String URUGUAY = "Uruguay";
+    public static final String SCHOTTLAND = "Schottland";
+    public static final String UNGARN = "Ungarn";
+    public static final String ALBANIEN = "Albanien";
+    public static final String ITALIEN = "Italien";
+
+    public static final TeamRef REF_DEUTSCHLAND = TeamRef.of(DEUTSCHLAND);
+    public static final TeamRef REF_SCHOTTLAND = TeamRef.of(SCHOTTLAND);
+    public static final TeamRef REF_SCHWEIZ = TeamRef.of(SCHWEIZ);
+    public static final TeamRef REF_UNGARN = TeamRef.of(UNGARN);
+
+    public static final TeamRef REF_ALBANIEN = TeamRef.of(ALBANIEN);
+    public static final TeamRef REF_ITALIEN = TeamRef.of(ITALIEN);
+    public static final TeamRef REF_KROATIEN = TeamRef.of(KROATIEN);
+    public static final TeamRef REF_SPANIEN = TeamRef.of(SPANIEN);
+
+    public static final TeamRef REF_NIEDERLANDE = TeamRef.of(NIEDERLANDE);
+
+    // Asien
+    public static final String KATAR = "Katar";
+    public static final String IRAN = "Iran";
+    public static final String SAUDI_ARABIEN = "Saudi Arabien";
+    public static final String AUSTRALIEN = "Australien";
+    public static final String JAPAN = "Japan";
     public static final String REPUBLIK_KOREA = "Rep.Korea";
+
+    // Amerika
+    public static final String ECUADOR = "Ecuador";
+    public static final String USA = "USA";
+    public static final String ARGENTINIEN = "Argentinien";
+    public static final String MEXIKO = "Mexiko";
+    public static final String COSTA_RICA = "Costa Rica";
+    public static final String KANADA = "Kanada";
+    public static final String BRASILIEN = "Brasilien";
+    public static final String URUGUAY = "Uruguay";
+
+    // Afrika
+    public static final String SENEGAL = "Senegal";
+    public static final String TUNESIEN = "Tunesien";
+    public static final String MAROKKO = "Marokko";
+    public static final String KAMERUN = "Kamerun";
+    public static final String GHANA = "Ghana";
 
 }
