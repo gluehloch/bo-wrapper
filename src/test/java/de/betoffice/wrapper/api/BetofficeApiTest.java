@@ -53,6 +53,7 @@ import de.winkler.betoffice.storage.enums.TeamType;
 
 @ActiveProfiles(profiles = "test")
 @ExtendWith(SpringExtension.class)
+
 @ContextConfiguration(classes = { PersistenceJPAConfiguration.class, TestPropertiesConfiguration.class })
 @ComponentScan({"de.winkler.betoffice", "de.betoffice"})
 class BetofficeApiTest {
