@@ -54,18 +54,53 @@ public class BetofficeData {
     public static final String UNGARN = "Ungarn";
     public static final String ALBANIEN = "Albanien";
     public static final String ITALIEN = "Italien";
+    public static final String OESTERREICH = "Österreich";
+    public static final String SLOWENIEN = "Slowenien";
+    public static final String TSCHECHIEN = "Tschechien";
+    public static final String TUERKEI = "Türkei";
+    public static final String RUMAENIEN = "Rumänien";
+    public static final String SLOWAKEI = "Slowakei";
+    public static final String UKRAINE = "Ukraine";
 
+    // TODO Mannschaft ist neu anzulegen
+    public static final String GEORGIEN = "Georgien";
+
+    // Gruppe A
     public static final TeamRef REF_DEUTSCHLAND = TeamRef.of(DEUTSCHLAND);
     public static final TeamRef REF_SCHOTTLAND = TeamRef.of(SCHOTTLAND);
     public static final TeamRef REF_SCHWEIZ = TeamRef.of(SCHWEIZ);
     public static final TeamRef REF_UNGARN = TeamRef.of(UNGARN);
 
+    // Gruppe B
     public static final TeamRef REF_ALBANIEN = TeamRef.of(ALBANIEN);
     public static final TeamRef REF_ITALIEN = TeamRef.of(ITALIEN);
     public static final TeamRef REF_KROATIEN = TeamRef.of(KROATIEN);
     public static final TeamRef REF_SPANIEN = TeamRef.of(SPANIEN);
 
+    // Gruppe C
+    public static final TeamRef REF_DAENEMARK = TeamRef.of(DAENEMARK);
+    public static final TeamRef REF_ENGLAND = TeamRef.of(ENGLAND);
+    public static final TeamRef REF_SERBIEN = TeamRef.of(SERBIEN);
+    public static final TeamRef REF_SLOWENIEN = TeamRef.of(SLOWENIEN);
+
+    // Gruppe D
+    public static final TeamRef REF_FRANKREICH = TeamRef.of(FRANKREICH);
     public static final TeamRef REF_NIEDERLANDE = TeamRef.of(NIEDERLANDE);
+    public static final TeamRef REF_OESTERREICH = TeamRef.of(OESTERREICH);
+    public static final TeamRef REF_POLEN = TeamRef.of(POLEN);
+
+    // Gruppe E
+    public static final TeamRef REF_BELGIEN = TeamRef.of(BELGIEN);
+    public static final TeamRef REF_RUMAENIEN = TeamRef.of(RUMAENIEN);
+    public static final TeamRef REF_SLOWAKEI = TeamRef.of(SLOWAKEI);
+    public static final TeamRef REF_UKRAINE = TeamRef.of(UKRAINE);
+
+    // Gruppe F
+    public static final TeamRef REF_GEORGIEN = TeamRef.of(GEORGIEN);
+    public static final TeamRef REF_PORTUGAL = TeamRef.of(PORTUGAL);
+    public static final TeamRef REF_TSCHECHIEN = TeamRef.of(TSCHECHIEN);
+    public static final TeamRef REF_TUERKEI = TeamRef.of(TUERKEI);
+
 
     // Asien
     public static final String KATAR = "Katar";
