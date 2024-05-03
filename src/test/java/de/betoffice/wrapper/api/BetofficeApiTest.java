@@ -40,6 +40,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
+import org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -53,9 +58,14 @@ import de.winkler.betoffice.storage.enums.TeamType;
 
 @ActiveProfiles(profiles = "test")
 @ExtendWith(SpringExtension.class)
-
 @ContextConfiguration(classes = { PersistenceJPAConfiguration.class, TestPropertiesConfiguration.class })
-@ComponentScan({"de.winkler.betoffice", "de.betoffice"})
+@ComponentScan({ "de.winkler.betoffice", "de.betoffice" })
+/*
+@EnableAutoConfiguration(exclude = { LiquibaseAutoConfiguration.class,
+        DataSourceAutoConfiguration.class, 
+        DataSourceTransactionManagerAutoConfiguration.class, 
+        HibernateJpaAutoConfiguration.class })
+*/
 class BetofficeApiTest {
 
     private static final ZonedDateTime DATE_2010_09_15 = ZonedDateTime
