@@ -56,10 +56,13 @@ public class BetofficeApiMain implements CommandLineRunner {
         Optional<ApiCommandLineArguments> acla = parser.parse(args, System.out);
 
         acla.ifPresent(arguments -> {
-            switch (arguments.getCommand()) {
-                case HELP -> System.out.println("Help");
-                case TEST_DATABASE_CONNECTION -> {
-                    doit(betofficeApi);
+            if (arguments.getCommand() != null) {
+                switch (arguments.getCommand()) {
+                    case HELP -> System.out.println("Help");
+                    case TEST_DATABASE_CONNECTION -> {
+                        doit(betofficeApi);
+                    }
+                    default -> System.out.println("Help");
                 }
             }
         });

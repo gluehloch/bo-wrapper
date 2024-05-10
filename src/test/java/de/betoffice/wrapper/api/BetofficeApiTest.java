@@ -38,34 +38,32 @@ import javax.sql.DataSource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration;
-import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import de.betoffice.database.data.DeleteDatabase;
-import de.winkler.betoffice.conf.PersistenceJPAConfiguration;
-import de.winkler.betoffice.conf.TestPropertiesConfiguration;
+import de.betoffice.wrapper.cli.BetofficeApiMain;
 import de.winkler.betoffice.storage.enums.SeasonType;
 import de.winkler.betoffice.storage.enums.TeamType;
 
+@SpringBootTest(classes = BetofficeApiMain.class)
+
+/*
 @ActiveProfiles(profiles = "test")
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { PersistenceJPAConfiguration.class, TestPropertiesConfiguration.class })
-@ComponentScan({ "de.winkler.betoffice", "de.betoffice" })
-/*
-@EnableAutoConfiguration(exclude = { LiquibaseAutoConfiguration.class,
-        DataSourceAutoConfiguration.class, 
-        DataSourceTransactionManagerAutoConfiguration.class, 
-        HibernateJpaAutoConfiguration.class })
 */
+@ComponentScan({ "de.winkler.betoffice", "de.betoffice" })
+@EnableAutoConfiguration(exclude = {
+        LiquibaseAutoConfiguration.class,
+     // DataSourceAutoConfiguration.class, 
+     // DataSourceTransactionManagerAutoConfiguration.class, 
+     // HibernateJpaAutoConfiguration.class,
+     // JpaRepositoriesAutoConfiguration.class
+})
 class BetofficeApiTest {
 
     private static final ZonedDateTime DATE_2010_09_15 = ZonedDateTime
