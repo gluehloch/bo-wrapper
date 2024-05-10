@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-wrapper Copyright (c) 2000-2022 by Andre Winkler. All
+ * Project betoffice-wrapper Copyright (c) 2000-2024 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -56,7 +56,7 @@ import de.winkler.betoffice.storage.enums.TeamType;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { PersistenceJPAConfiguration.class, TestPropertiesConfiguration.class })
 */
-@ComponentScan({ "de.winkler.betoffice", "de.betoffice" })
+//@ComponentScan({ "de.winkler.betoffice", "de.betoffice" })
 @EnableAutoConfiguration(exclude = {
         LiquibaseAutoConfiguration.class,
      // DataSourceAutoConfiguration.class, 
