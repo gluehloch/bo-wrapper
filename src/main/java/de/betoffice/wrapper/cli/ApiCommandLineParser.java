@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-wrapper Copyright (c) 2000-2022 by Andre Winkler. All
+ * Project betoffice-wrapper Copyright (c) 2000-2024 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -43,7 +43,7 @@ public class ApiCommandLineParser {
     public Optional<ApiCommandLineArguments> parse(String[] args, PrintStream ps) {
         final Options options = parseCommandLine(args);
         final CommandLineParser parser = new DefaultParser();
-        
+
         final CommandLine commandLine;
         try {
             commandLine = parser.parse(options, args);
@@ -56,14 +56,14 @@ public class ApiCommandLineParser {
         } catch (ParseException ex) {
             throw new RuntimeException(ex);
         }
-        
+
         final ApiCommandLineArguments cla = new ApiCommandLineArguments();
         if (commandLine.hasOption("help")) {
             cla.setCommand(Command.HELP);
         } else if (commandLine.hasOption("test")) {
             cla.setCommand(Command.TEST_DATABASE_CONNECTION);
         }
-        
+
         return Optional.of(cla);
     }
 
@@ -74,16 +74,16 @@ public class ApiCommandLineParser {
                 .longOpt("help")
                 .desc("print this help")
                 .build();
-        
+
         Option testConnection = Option.builder("test")
                 .longOpt("test")
                 .desc("Test database connection.")
                 .build();
-        
+
         options.addOption(helpOption);
         options.addOption(testConnection);
 
         return options;
     }
-    
+
 }
