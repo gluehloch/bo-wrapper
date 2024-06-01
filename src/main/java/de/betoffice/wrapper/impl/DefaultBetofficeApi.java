@@ -93,7 +93,7 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
     private TeamRef buildTeam(String teamName, String teamLongName, TeamType teamType) {
-        Team team = Team.TeamBuilder.team(teamName).longName(teamLongName).build();
+        Team team = Team.TeamBuilder.team(teamName).longName(teamLongName).type(teamType).build();
         masterDataManagerService.createTeam(team);
         return TeamRef.of(team.getName());
     }

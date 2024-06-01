@@ -46,6 +46,9 @@ public class BetofficeApiMain implements CommandLineRunner {
     @Autowired
     private BetofficeApi betofficeApi;
  
+    @Autowired
+    private EM2024Setup em2024setup;
+    
     public static void main(String args[]) {
         SpringApplication.run(BetofficeApiMain.class, args);
     }
@@ -61,6 +64,10 @@ public class BetofficeApiMain implements CommandLineRunner {
                     case HELP -> System.out.println("Help");
                     case TEST_DATABASE_CONNECTION -> {
                         doit(betofficeApi);
+                    }
+                    case EM_2024 -> {
+                        // em2024setup.createGeorgien();
+                        em2024setup.setupEM2024Vorrunde();
                     }
                     default -> System.out.println("Help");
                 }

@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-wrapper Copyright (c) 2000-2022 by Andre Winkler. All
+ * Project betoffice-wrapper Copyright (c) 2000-2024 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -26,7 +26,7 @@ package de.betoffice.wrapper.cli;
 public class ApiCommandLineArguments {
 
     public enum Command {
-        HELP, TEST_DATABASE_CONNECTION
+        HELP, TEST_DATABASE_CONNECTION, EM_2024
     }
 
     private Command command;

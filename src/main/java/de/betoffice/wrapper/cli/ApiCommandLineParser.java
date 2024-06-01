@@ -62,6 +62,8 @@ public class ApiCommandLineParser {
             cla.setCommand(Command.HELP);
         } else if (commandLine.hasOption("test")) {
             cla.setCommand(Command.TEST_DATABASE_CONNECTION);
+        } else if (commandLine.hasOption("em2024")) {
+            cla.setCommand(Command.EM_2024);
         }
 
         return Optional.of(cla);
@@ -80,8 +82,14 @@ public class ApiCommandLineParser {
                 .desc("Test database connection.")
                 .build();
 
+        Option em2024setup = Option.builder("em2024")
+                .longOpt("em2024")
+                .desc("EM 2024 database setup")
+                .build();
+
         options.addOption(helpOption);
         options.addOption(testConnection);
+        options.addOption(em2024setup);
 
         return options;
     }

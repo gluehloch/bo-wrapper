@@ -14,8 +14,21 @@ public class EM2024Setup {
 
     private final BetofficeApi api;
 
-    public EM2024Setup(BetofficeApi betofficeApi) {
+    public EM2024Setup(BetofficeApi betofficeApi) { 
         this.api = betofficeApi;
+    }
+
+    @Transactional
+    public void createGeorgien() {
+        /*
+         * Team georgien = new Team();
+         * georgien.setName("Georgien");
+         * georgien.setLongName("Georgien");
+         * georgien.setShortName("GE");
+         * georgien.setXshortName("GE");
+         * georgien.setTeamType(TeamType.FIFA);
+             */
+        api.createTeam("GE", "Georgien", TeamType.FIFA);
     }
 
     @Transactional
