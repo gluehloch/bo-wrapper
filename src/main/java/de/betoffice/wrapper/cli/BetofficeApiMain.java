@@ -66,7 +66,7 @@ public class BetofficeApiMain implements CommandLineRunner {
                         doit(betofficeApi);
                     }
                     case EM_2024 -> {
-                        // em2024setup.createGeorgien();
+                        em2024setup.createGeorgien();
                         em2024setup.setupEM2024Vorrunde();
                     }
                     default -> System.out.println("Help");
