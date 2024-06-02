@@ -111,7 +111,7 @@ class BetofficeApiTest {
         final TeamRef hsv =        betofficeApi.createTeam("HSV",    "Hamburger SV",      TeamType.DFB).orThrow();
 
         final SeasonRef buli_2010 = betofficeApi
-                .createSeason("Bundesliga 2010/2011", "2010/2011", SeasonType.LEAGUE, TeamType.DFB).orThrow();
+                .createSeason("Bundesliga 2010/2011", "2010/2011", SeasonType.LEAGUE, TeamType.DFB, "bl", "2010").orThrow();
         betofficeApi.addGroup(buli_2010, bundesliga_1);
 
         betofficeApi.addTeam(buli_2010, bundesliga_1, hsv);

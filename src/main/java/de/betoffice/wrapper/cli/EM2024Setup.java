@@ -1,39 +1,38 @@
 package de.betoffice.wrapper.cli;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import de.betoffice.openligadb.OpenligadbUpdateService;
 import de.betoffice.wrapper.api.BetofficeApi;
+import de.betoffice.wrapper.api.RoundRef;
 import de.betoffice.wrapper.api.SeasonRef;
 import de.betoffice.wrapper.data.BetofficeData;
 import de.winkler.betoffice.storage.enums.SeasonType;
 import de.winkler.betoffice.storage.enums.TeamType;
 
 @Service
+@Transactional
 public class EM2024Setup {
 
     private final BetofficeApi api;
+    private final OpenligadbUpdateService openDbService;
 
-    public EM2024Setup(BetofficeApi betofficeApi) { 
+    public EM2024Setup(BetofficeApi betofficeApi, OpenligadbUpdateService opendDbService) { 
         this.api = betofficeApi;
+        this.openDbService = opendDbService;
     }
 
-    @Transactional
     public void createGeorgien() {
-        /*
-         * Team georgien = new Team();
-         * georgien.setName("Georgien");
-         * georgien.setLongName("Georgien");
-         * georgien.setShortName("GE");
-         * georgien.setXshortName("GE");
-         * georgien.setTeamType(TeamType.FIFA);
-             */
-        api.createTeam("GE", "Georgien", TeamType.FIFA);
+        api.createTeam("Georgien", "Georgien", TeamType.FIFA);
     }
 
-    @Transactional
     public void setupEM2024Vorrunde() {
-        SeasonRef seasonRef = api.createSeason("EM Deutschland", "2024", SeasonType.EC, TeamType.FIFA).orThrow();
+        SeasonRef seasonRef = api.createSeason("EM Deutschland", "2024", SeasonType.EC, TeamType.FIFA, "em", "2024").orThrow();
         api.addGroup(seasonRef, BetofficeData.REF_GRUPPE_A).orThrow();
         api.addGroup(seasonRef, BetofficeData.REF_GRUPPE_B).orThrow();
         api.addGroup(seasonRef, BetofficeData.REF_GRUPPE_C).orThrow();
@@ -76,6 +75,17 @@ public class EM2024Setup {
         api.addTeam(seasonRef, BetofficeData.REF_GRUPPE_F, BetofficeData.REF_PORTUGAL).orThrow();
         api.addTeam(seasonRef, BetofficeData.REF_GRUPPE_F, BetofficeData.REF_TSCHECHIEN).orThrow();
         api.addTeam(seasonRef, BetofficeData.REF_GRUPPE_F, BetofficeData.REF_TUERKEI).orThrow();
+
+        // Runde 1 / Gruppenspieltag 1 / TODO vs 'Gruppe A'
+        RoundRef runde1 = api.addRound(seasonRef, BetofficeData.REF_GRUPPE_A, LocalDateTime.of(2024, 6, 14, 21, 0)).orThrow();
+        RoundRef runde2 = api.addRound(seasonRef, BetofficeData.REF_GRUPPE_A, LocalDateTime.of(2024, 6, 19, 15, 0)).orThrow();
+        RoundRef runde3 = api.addRound(seasonRef, BetofficeData.REF_GRUPPE_A, LocalDateTime.of(2024, 6, 23, 21, 0)).orThrow();
+        
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_A, runde1.index(),
+                ZonedDateTime.of(2024, 6, 14, 21, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_DEUTSCHLAND, BetofficeData.REF_SCHOTTLAND);
+
+        openDbService.createOrUpdateRound(36, 0);
     }
 
 }

@@ -41,7 +41,7 @@ public interface BetofficeApi {
 
     ApiResult<TeamRef> createTeam(String teamShortName, String teamLongName, TeamType teamType);
 
-    ApiResult<SeasonRef> createSeason(String name, String year, SeasonType type, TeamType teamType);
+    ApiResult<SeasonRef> createSeason(String name, String year, SeasonType type, TeamType teamType, String opldbShortCut, String opldpSeason);
 
     ApiResult<SeasonRef> addGroup(SeasonRef seasonRef, GroupTypeRef groupTypeRef);
 

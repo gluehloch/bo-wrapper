@@ -99,15 +99,18 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
     @Override
-    public ApiResult<SeasonRef> createSeason(String name, String year, SeasonType seasonType, TeamType teamType) {
-        return tryGetCatch(() -> buildSeason(name, year, seasonType, teamType));
+    public ApiResult<SeasonRef> createSeason(String name, String year, SeasonType seasonType, TeamType teamType,
+            String opldbShortCut, String opldpSeason) {
+        return tryGetCatch(() -> buildSeason(name, year, seasonType, teamType, opldbShortCut, opldpSeason));
     }
 
-    private SeasonRef buildSeason(String name, String year, SeasonType type, TeamType teamType) {
+    private SeasonRef buildSeason(String name, String year, SeasonType type, TeamType teamType, String opldbShortCut, String opldpSeason) {
         Season season = new Season();
         season.setReference(SeasonReference.of(year, name));
         season.setTeamType(teamType);
         season.setMode(type);
+        season.getChampionshipConfiguration().setOpenligaLeagueShortcut(opldbShortCut);
+        season.getChampionshipConfiguration().setOpenligaLeagueSeason(opldpSeason);
         Season season1 = seasonManagerService.createSeason(season);
         return SeasonRef.of(season1.getReference().getName(), season1.getReference().getYear());
     }
