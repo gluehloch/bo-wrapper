@@ -12,8 +12,14 @@ import de.betoffice.wrapper.api.BetofficeApi;
 import de.betoffice.wrapper.api.RoundRef;
 import de.betoffice.wrapper.api.SeasonRef;
 import de.betoffice.wrapper.data.BetofficeData;
+import de.winkler.betoffice.service.CommunityService;
+import de.winkler.betoffice.storage.Community;
+import de.winkler.betoffice.storage.CommunityReference;
+import de.winkler.betoffice.storage.Nickname;
+import de.winkler.betoffice.storage.SeasonReference;
 import de.winkler.betoffice.storage.enums.SeasonType;
 import de.winkler.betoffice.storage.enums.TeamType;
+import de.winkler.betoffice.validation.BetofficeServiceResult;
 
 @Service
 @Transactional
@@ -21,10 +27,12 @@ public class EM2024Setup {
 
     private final BetofficeApi api;
     private final OpenligadbUpdateService openDbService;
+    private final CommunityService communityService;
 
-    public EM2024Setup(BetofficeApi betofficeApi, OpenligadbUpdateService opendDbService) { 
+    public EM2024Setup(BetofficeApi betofficeApi, OpenligadbUpdateService opendDbService, CommunityService communityService) { 
         this.api = betofficeApi;
         this.openDbService = opendDbService;
+        this.communityService = communityService;
     }
 
     public void createGeorgien() {
@@ -85,7 +93,12 @@ public class EM2024Setup {
                 ZonedDateTime.of(2024, 6, 14, 21, 0, 0, 0, ZoneId.of("Europe/Berlin")),
                 BetofficeData.REF_DEUTSCHLAND, BetofficeData.REF_SCHOTTLAND);
 
+        // TODO
         openDbService.createOrUpdateRound(36, 0);
+        CommunityReference communityReference = CommunityReference.of("TDKB 2024");
+        SeasonReference seasonReference = SeasonReference.of("2024", "EM 2024");
+        Community community = communityService.create(communityReference, seasonReference, "EM Europe", Nickname.of("Frosch")).orElseThrow();
+        communityService.addMember(communityReference, Nickname.of("Frosch"));
     }
 
 }
