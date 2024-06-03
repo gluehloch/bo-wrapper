@@ -3,6 +3,7 @@ package de.betoffice.wrapper.cli;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +20,6 @@ import de.winkler.betoffice.storage.Nickname;
 import de.winkler.betoffice.storage.SeasonReference;
 import de.winkler.betoffice.storage.enums.SeasonType;
 import de.winkler.betoffice.storage.enums.TeamType;
-import de.winkler.betoffice.validation.BetofficeServiceResult;
 
 @Service
 @Transactional
@@ -29,7 +29,8 @@ public class EM2024Setup {
     private final OpenligadbUpdateService openDbService;
     private final CommunityService communityService;
 
-    public EM2024Setup(BetofficeApi betofficeApi, OpenligadbUpdateService opendDbService, CommunityService communityService) { 
+    public EM2024Setup(BetofficeApi betofficeApi, OpenligadbUpdateService opendDbService,
+            CommunityService communityService) {
         this.api = betofficeApi;
         this.openDbService = opendDbService;
         this.communityService = communityService;
@@ -40,7 +41,8 @@ public class EM2024Setup {
     }
 
     public void setupEM2024Vorrunde() {
-        SeasonRef seasonRef = api.createSeason("EM Deutschland", "2024", SeasonType.EC, TeamType.FIFA, "em", "2024").orThrow();
+        SeasonRef seasonRef = api.createSeason("EM Deutschland", "2024", SeasonType.EC, TeamType.FIFA, "em", "2024")
+                .orThrow();
         api.addGroup(seasonRef, BetofficeData.REF_GRUPPE_A).orThrow();
         api.addGroup(seasonRef, BetofficeData.REF_GRUPPE_B).orThrow();
         api.addGroup(seasonRef, BetofficeData.REF_GRUPPE_C).orThrow();
@@ -85,10 +87,13 @@ public class EM2024Setup {
         api.addTeam(seasonRef, BetofficeData.REF_GRUPPE_F, BetofficeData.REF_TUERKEI).orThrow();
 
         // Runde 1 / Gruppenspieltag 1 / TODO vs 'Gruppe A'
-        RoundRef runde1 = api.addRound(seasonRef, BetofficeData.REF_GRUPPE_A, LocalDateTime.of(2024, 6, 14, 21, 0)).orThrow();
-        RoundRef runde2 = api.addRound(seasonRef, BetofficeData.REF_GRUPPE_A, LocalDateTime.of(2024, 6, 19, 15, 0)).orThrow();
-        RoundRef runde3 = api.addRound(seasonRef, BetofficeData.REF_GRUPPE_A, LocalDateTime.of(2024, 6, 23, 21, 0)).orThrow();
-        
+        RoundRef runde1 = api.addRound(seasonRef, BetofficeData.REF_GRUPPE_A, LocalDateTime.of(2024, 6, 14, 21, 0))
+                .orThrow();
+        RoundRef runde2 = api.addRound(seasonRef, BetofficeData.REF_GRUPPE_A, LocalDateTime.of(2024, 6, 19, 15, 0))
+                .orThrow();
+        RoundRef runde3 = api.addRound(seasonRef, BetofficeData.REF_GRUPPE_A, LocalDateTime.of(2024, 6, 23, 21, 0))
+                .orThrow();
+
         api.createGame(seasonRef, BetofficeData.REF_GRUPPE_A, runde1.index(),
                 ZonedDateTime.of(2024, 6, 14, 21, 0, 0, 0, ZoneId.of("Europe/Berlin")),
                 BetofficeData.REF_DEUTSCHLAND, BetofficeData.REF_SCHOTTLAND);
@@ -97,8 +102,19 @@ public class EM2024Setup {
         openDbService.createOrUpdateRound(36, 0);
         CommunityReference communityReference = CommunityReference.of("TDKB 2024");
         SeasonReference seasonReference = SeasonReference.of("2024", "EM 2024");
-        Community community = communityService.create(communityReference, seasonReference, "EM Europe", Nickname.of("Frosch")).orElseThrow();
-        communityService.addMember(communityReference, Nickname.of("Frosch"));
+        Set<Nickname> nicknames = Set.of(
+                Nickname.of("Frosch"),
+                Nickname.of("Steffen"),
+                Nickname.of("mrTipp"),
+                Nickname.of("Jogi"),
+                Nickname.of("Peter"),
+                Nickname.of("Martin04"),
+                Nickname.of("Mao"),
+                Nickname.of("Svea"),
+                Nickname.of("chris"));
+        Community community = communityService
+                .create(communityReference, seasonReference, "EM Europe", Nickname.of("Frosch")).orElseThrow();
+        communityService.addMembers(communityReference, nicknames);
     }
 
 }
