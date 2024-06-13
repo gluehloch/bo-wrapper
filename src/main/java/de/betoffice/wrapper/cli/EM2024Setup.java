@@ -101,7 +101,6 @@ public class EM2024Setup {
         // TODO
         openDbService.createOrUpdateRound(36, 0);
         CommunityReference communityReference = CommunityReference.of("TDKB 2024");
-        SeasonReference seasonReference = SeasonReference.of("2024", "EM 2024");
         Set<Nickname> nicknames = Set.of(
                 Nickname.of("Frosch"),
                 Nickname.of("Steffen"),
@@ -112,8 +111,9 @@ public class EM2024Setup {
                 Nickname.of("Mao"),
                 Nickname.of("Svea"),
                 Nickname.of("chris"));
+        SeasonReference season = SeasonReference.of(seasonRef.year(), seasonRef.name());
         Community community = communityService
-                .create(communityReference, seasonReference, "EM Europe", Nickname.of("Frosch")).orElseThrow();
+                .create(communityReference, season, "EM Deutschland 2024", Nickname.of("Frosch")).orElseThrow();
         communityService.addMembers(communityReference, nicknames);
     }
 
