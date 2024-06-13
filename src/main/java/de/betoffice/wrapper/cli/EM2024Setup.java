@@ -94,12 +94,62 @@ public class EM2024Setup {
         RoundRef runde3 = api.addRound(seasonRef, BetofficeData.REF_GRUPPE_A, LocalDateTime.of(2024, 6, 23, 21, 0))
                 .orThrow();
 
+        // 2024-06-15
         api.createGame(seasonRef, BetofficeData.REF_GRUPPE_A, runde1.index(),
                 ZonedDateTime.of(2024, 6, 14, 21, 0, 0, 0, ZoneId.of("Europe/Berlin")),
                 BetofficeData.REF_DEUTSCHLAND, BetofficeData.REF_SCHOTTLAND);
 
+        // 2024-06-15
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_A, runde1.index(),
+                ZonedDateTime.of(2024, 6, 15, 15, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_UNGARN, BetofficeData.REF_SCHWEIZ);
+
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_B, runde1.index(),
+                ZonedDateTime.of(2024, 6, 15, 18, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_SPANIEN, BetofficeData.REF_KROATIEN);
+
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_B, runde1.index(),
+                ZonedDateTime.of(2024, 6, 15, 21, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_ITALIEN, BetofficeData.REF_ALBANIEN);
+
+        // 2024-06-16
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_D, runde1.index(),
+                ZonedDateTime.of(2024, 6, 16, 15, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_POLEN, BetofficeData.REF_NIEDERLANDE);
+
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_C, runde1.index(),
+                ZonedDateTime.of(2024, 6, 16, 18, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_SLOWENIEN, BetofficeData.REF_DAENEMARK);
+
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_C, runde1.index(),
+                ZonedDateTime.of(2024, 6, 16, 21, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_SERBIEN, BetofficeData.REF_ENGLAND);
+
+        // 2024-06-17
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_E, runde1.index(),
+                ZonedDateTime.of(2024, 6, 17, 15, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_RUMAENIEN, BetofficeData.REF_UKRAINE);
+
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_E, runde1.index(),
+                ZonedDateTime.of(2024, 6, 17, 18, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_BELGIEN, BetofficeData.REF_SLOWAKEI);
+
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_D, runde1.index(),
+                ZonedDateTime.of(2024, 6, 17, 21, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_OESTERREICH, BetofficeData.REF_FRANKREICH);
+
+        // 2024-06-18
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_F, runde1.index(),
+                ZonedDateTime.of(2024, 6, 18, 18, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_TUERKEI, BetofficeData.REF_GEORGIEN);
+
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_F, runde1.index(),
+                ZonedDateTime.of(2024, 6, 18, 21, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_PORTUGAL, BetofficeData.REF_TSCHECHIEN);
+
         // TODO
         openDbService.createOrUpdateRound(36, 0);
+
         CommunityReference communityReference = CommunityReference.of("TDKB 2024");
         Set<Nickname> nicknames = Set.of(
                 Nickname.of("Frosch"),
@@ -107,7 +157,7 @@ public class EM2024Setup {
                 Nickname.of("mrTipp"),
                 Nickname.of("Jogi"),
                 Nickname.of("Peter"),
-                Nickname.of("Martin04"),
+                //Nickname.of("Martin04"),
                 Nickname.of("Mao"),
                 Nickname.of("Svea"),
                 Nickname.of("chris"));
