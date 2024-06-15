@@ -36,11 +36,15 @@ public class EM2024Setup {
         this.communityService = communityService;
     }
 
+    public void setup() {
+        em2024ZweiterSpieltag();
+    }
+
     public void createGeorgien() {
         api.createTeam("Georgien", "Georgien", TeamType.FIFA);
     }
 
-    public void setupEM2024Vorrunde() {
+    private void setupEM2024Vorrunde() {
         SeasonRef seasonRef = api.createSeason("EM Deutschland", "2024", SeasonType.EC, TeamType.FIFA, "em", "2024")
                 .orThrow();
         api.addGroup(seasonRef, BetofficeData.REF_GRUPPE_A).orThrow();
@@ -94,6 +98,83 @@ public class EM2024Setup {
         RoundRef runde3 = api.addRound(seasonRef, BetofficeData.REF_GRUPPE_A, LocalDateTime.of(2024, 6, 23, 21, 0))
                 .orThrow();
 
+        em2024ErsterSpieltag(seasonRef, runde1);
+
+        // TODO
+        openDbService.createOrUpdateRound(36, 0);
+
+        CommunityReference communityReference = CommunityReference.of("TDKB 2024");
+        Set<Nickname> nicknames = Set.of(
+                Nickname.of("Frosch"),
+                Nickname.of("Steffen"),
+                Nickname.of("mrTipp"),
+                Nickname.of("Jogi"),
+                Nickname.of("Peter"),
+                // Nickname.of("Martin04"),
+                Nickname.of("Mao"),
+                Nickname.of("Svea"),
+                Nickname.of("chris"));
+        SeasonReference season = SeasonReference.of(seasonRef.year(), seasonRef.name());
+        Community community = communityService
+                .create(communityReference, season, "EM Deutschland 2024", Nickname.of("Frosch")).orElseThrow();
+        communityService.addMembers(communityReference, nicknames);
+    }
+
+    private void em2024ZweiterSpieltag(SeasonRef seasonRef, RoundRef runde2) {
+        // 2024-06-19
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_B, runde2.index(),
+                ZonedDateTime.of(2024, 6, 19, 15, 0, 0, 0, ZoneId.of("UTC")),
+                BetofficeData.REF_KROATIEN, BetofficeData.REF_ALBANIEN);
+
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_A, runde2.index(),
+                ZonedDateTime.of(2024, 6, 19, 18, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_DEUTSCHLAND, BetofficeData.REF_UNGARN);
+
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_A, runde2.index(),
+                ZonedDateTime.of(2024, 6, 19, 21, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_SCHOTTLAND, BetofficeData.REF_SCHWEIZ);
+
+        // 2024-06-20
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_C, runde2.index(),
+                ZonedDateTime.of(2024, 6, 20, 15, 0, 0, 0, ZoneId.of("UTC")),
+                BetofficeData.REF_SLOWENIEN, BetofficeData.REF_SERBIEN);
+
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_C, runde2.index(),
+                ZonedDateTime.of(2024, 6, 20, 18, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_DAENEMARK, BetofficeData.REF_ENGLAND);
+
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_B, runde2.index(),
+                ZonedDateTime.of(2024, 6, 20, 21, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_SPANIEN, BetofficeData.REF_ITALIEN);
+
+        // 2024-06-21
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_E, runde2.index(),
+                ZonedDateTime.of(2024, 6, 21, 15, 0, 0, 0, ZoneId.of("UTC")),
+                BetofficeData.REF_SLOWAKEI, BetofficeData.REF_UKRAINE);
+
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_D, runde2.index(),
+                ZonedDateTime.of(2024, 6, 21, 18, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_POLEN, BetofficeData.REF_OESTERREICH);
+
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_D, runde2.index(),
+                ZonedDateTime.of(2024, 6, 21, 21, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_NIEDERLANDE, BetofficeData.REF_FRANKREICH);
+
+        // 2024-06-22
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_F, runde2.index(),
+                ZonedDateTime.of(2024, 6, 22, 15, 0, 0, 0, ZoneId.of("UTC")),
+                BetofficeData.REF_GEORGIEN, BetofficeData.REF_TSCHECHIEN);
+
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_F, runde2.index(),
+                ZonedDateTime.of(2024, 6, 22, 18, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_TUERKEI, BetofficeData.REF_PORTUGAL);
+
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_E, runde2.index(),
+                ZonedDateTime.of(2024, 6, 22, 21, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_BELGIEN, BetofficeData.REF_RUMAENIEN);
+    }
+
+    private void em2024ErsterSpieltag(SeasonRef seasonRef, RoundRef runde1) {
         // 2024-06-15
         api.createGame(seasonRef, BetofficeData.REF_GRUPPE_A, runde1.index(),
                 ZonedDateTime.of(2024, 6, 14, 21, 0, 0, 0, ZoneId.of("Europe/Berlin")),
@@ -146,25 +227,6 @@ public class EM2024Setup {
         api.createGame(seasonRef, BetofficeData.REF_GRUPPE_F, runde1.index(),
                 ZonedDateTime.of(2024, 6, 18, 21, 0, 0, 0, ZoneId.of("Europe/Berlin")),
                 BetofficeData.REF_PORTUGAL, BetofficeData.REF_TSCHECHIEN);
-
-        // TODO
-        openDbService.createOrUpdateRound(36, 0);
-
-        CommunityReference communityReference = CommunityReference.of("TDKB 2024");
-        Set<Nickname> nicknames = Set.of(
-                Nickname.of("Frosch"),
-                Nickname.of("Steffen"),
-                Nickname.of("mrTipp"),
-                Nickname.of("Jogi"),
-                Nickname.of("Peter"),
-                //Nickname.of("Martin04"),
-                Nickname.of("Mao"),
-                Nickname.of("Svea"),
-                Nickname.of("chris"));
-        SeasonReference season = SeasonReference.of(seasonRef.year(), seasonRef.name());
-        Community community = communityService
-                .create(communityReference, season, "EM Deutschland 2024", Nickname.of("Frosch")).orElseThrow();
-        communityService.addMembers(communityReference, nicknames);
     }
 
 }
