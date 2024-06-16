@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.betoffice.openligadb.OpenligadbUpdateService;
 import de.betoffice.wrapper.api.BetofficeApi;
+import de.betoffice.wrapper.api.RoundIndex;
 import de.betoffice.wrapper.api.RoundRef;
 import de.betoffice.wrapper.api.SeasonRef;
 import de.betoffice.wrapper.data.BetofficeData;
@@ -37,7 +38,9 @@ public class EM2024Setup {
     }
 
     public void setup() {
-        em2024ZweiterSpieltag();
+        SeasonRef season = SeasonRef.of("EM Deutschland", "2024");
+        RoundRef round2 = RoundRef.of(season, RoundIndex.of(2), BetofficeData.REF_GRUPPE_A);
+        em2024ZweiterSpieltag(season, round2);
     }
 
     public void createGeorgien() {
@@ -123,7 +126,7 @@ public class EM2024Setup {
     private void em2024ZweiterSpieltag(SeasonRef seasonRef, RoundRef runde2) {
         // 2024-06-19
         api.createGame(seasonRef, BetofficeData.REF_GRUPPE_B, runde2.index(),
-                ZonedDateTime.of(2024, 6, 19, 15, 0, 0, 0, ZoneId.of("UTC")),
+                ZonedDateTime.of(2024, 6, 19, 15, 0, 0, 0, ZoneId.of("Europe/Berlin")),
                 BetofficeData.REF_KROATIEN, BetofficeData.REF_ALBANIEN);
 
         api.createGame(seasonRef, BetofficeData.REF_GRUPPE_A, runde2.index(),
@@ -136,7 +139,7 @@ public class EM2024Setup {
 
         // 2024-06-20
         api.createGame(seasonRef, BetofficeData.REF_GRUPPE_C, runde2.index(),
-                ZonedDateTime.of(2024, 6, 20, 15, 0, 0, 0, ZoneId.of("UTC")),
+                ZonedDateTime.of(2024, 6, 20, 15, 0, 0, 0, ZoneId.of("Europe/Berlin")),
                 BetofficeData.REF_SLOWENIEN, BetofficeData.REF_SERBIEN);
 
         api.createGame(seasonRef, BetofficeData.REF_GRUPPE_C, runde2.index(),
@@ -149,7 +152,7 @@ public class EM2024Setup {
 
         // 2024-06-21
         api.createGame(seasonRef, BetofficeData.REF_GRUPPE_E, runde2.index(),
-                ZonedDateTime.of(2024, 6, 21, 15, 0, 0, 0, ZoneId.of("UTC")),
+                ZonedDateTime.of(2024, 6, 21, 15, 0, 0, 0, ZoneId.of("Europe/Berlin")),
                 BetofficeData.REF_SLOWAKEI, BetofficeData.REF_UKRAINE);
 
         api.createGame(seasonRef, BetofficeData.REF_GRUPPE_D, runde2.index(),
@@ -162,7 +165,7 @@ public class EM2024Setup {
 
         // 2024-06-22
         api.createGame(seasonRef, BetofficeData.REF_GRUPPE_F, runde2.index(),
-                ZonedDateTime.of(2024, 6, 22, 15, 0, 0, 0, ZoneId.of("UTC")),
+                ZonedDateTime.of(2024, 6, 22, 15, 0, 0, 0, ZoneId.of("Europe/Berlin")),
                 BetofficeData.REF_GEORGIEN, BetofficeData.REF_TSCHECHIEN);
 
         api.createGame(seasonRef, BetofficeData.REF_GRUPPE_F, runde2.index(),

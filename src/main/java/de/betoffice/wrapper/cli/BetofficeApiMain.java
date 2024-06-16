@@ -39,16 +39,16 @@ import de.betoffice.wrapper.api.BetofficeApi;
 import de.betoffice.wrapper.api.GroupTypeRef;
 
 @SpringBootApplication
-@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
-@ComponentScan(basePackages = {"de.betoffice", "de.winkler.betoffice" })
+@EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
+@ComponentScan(basePackages = { "de.betoffice", "de.winkler.betoffice" })
 public class BetofficeApiMain implements CommandLineRunner {
 
     @Autowired
     private BetofficeApi betofficeApi;
- 
+
     @Autowired
     private EM2024Setup em2024setup;
-    
+
     public static void main(String args[]) {
         SpringApplication.run(BetofficeApiMain.class, args);
     }
@@ -66,8 +66,7 @@ public class BetofficeApiMain implements CommandLineRunner {
                         doit(betofficeApi);
                     }
                     case EM_2024 -> {
-                        em2024setup.createGeorgien();
-                        em2024setup.setupEM2024Vorrunde();
+                        em2024setup.setup();
                     }
                     default -> System.out.println("Help");
                 }
