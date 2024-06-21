@@ -39,12 +39,18 @@ public class EM2024Setup {
 
     public void setup() {
         SeasonRef season = SeasonRef.of("EM Deutschland", "2024");
+        RoundRef round1 = RoundRef.of(season, RoundIndex.of(1), BetofficeData.REF_GRUPPE_A);
         RoundRef round2 = RoundRef.of(season, RoundIndex.of(2), BetofficeData.REF_GRUPPE_A);
-        em2024ZweiterSpieltag(season, round2);
+        RoundRef round3 = RoundRef.of(season, RoundIndex.of(3), BetofficeData.REF_GRUPPE_A);
+        em2024DritterSpieltag(season, round3);
     }
 
     public void createGeorgien() {
         api.createTeam("Georgien", "Georgien", TeamType.FIFA);
+    }
+
+    private void em2024DritterSpieltag(SeasonRef season, RoundRef round) {
+
     }
 
     private void setupEM2024Vorrunde() {
