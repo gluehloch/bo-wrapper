@@ -49,8 +49,53 @@ public class EM2024Setup {
         api.createTeam("Georgien", "Georgien", TeamType.FIFA);
     }
 
-    private void em2024DritterSpieltag(SeasonRef season, RoundRef round) {
+    private void em2024DritterSpieltag(SeasonRef seasonRef, RoundRef round3) {
+        // 2024-06-23
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_A, round3.index(),
+                ZonedDateTime.of(2024, 6, 23, 21, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_SCHWEIZ, BetofficeData.REF_DEUTSCHLAND);
 
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_A, round3.index(),
+                ZonedDateTime.of(2024, 6, 23, 21, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_SCHOTTLAND, BetofficeData.REF_UNGARN);
+
+        // 2024-06-24
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_B, round3.index(),
+                ZonedDateTime.of(2024, 6, 24, 21, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_ALBANIEN, BetofficeData.REF_SPANIEN);
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_B, round3.index(),
+                ZonedDateTime.of(2024, 6, 24, 21, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_KROATIEN, BetofficeData.REF_ITALIEN);
+
+        // 2024-06-25
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_D, round3.index(),
+                ZonedDateTime.of(2024, 6, 25, 18, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_FRANKREICH, BetofficeData.REF_POLEN);
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_D, round3.index(),
+                ZonedDateTime.of(2024, 6, 25, 18, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_NIEDERLANDE, BetofficeData.REF_OESTERREICH);
+
+        // 2024-06-25
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_C, round3.index(),
+                ZonedDateTime.of(2024, 6, 25, 21, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_ENGLAND, BetofficeData.REF_SLOWENIEN);
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_C, round3.index(),
+                ZonedDateTime.of(2024, 6, 25, 21, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_DAENEMARK, BetofficeData.REF_SERBIEN);
+
+        // 2024-06-26
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_E, round3.index(),
+                ZonedDateTime.of(2024, 6, 26, 18, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_UKRAINE, BetofficeData.REF_BELGIEN);
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_E, round3.index(),
+                ZonedDateTime.of(2024, 6, 26, 18, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_SLOWAKEI, BetofficeData.REF_RUMAENIEN);
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_F, round3.index(),
+                ZonedDateTime.of(2024, 6, 26, 21, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_TSCHECHIEN, BetofficeData.REF_TUERKEI);
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_F, round3.index(),
+                ZonedDateTime.of(2024, 6, 26, 21, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_GEORGIEN, BetofficeData.REF_PORTUGAL);
     }
 
     private void setupEM2024Vorrunde() {
