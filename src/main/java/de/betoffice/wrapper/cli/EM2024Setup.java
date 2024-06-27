@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.betoffice.openligadb.OpenligadbUpdateService;
 import de.betoffice.wrapper.api.BetofficeApi;
-import de.betoffice.wrapper.api.RoundIndex;
 import de.betoffice.wrapper.api.RoundRef;
 import de.betoffice.wrapper.api.SeasonRef;
 import de.betoffice.wrapper.data.BetofficeData;
@@ -39,10 +38,52 @@ public class EM2024Setup {
 
     public void setup() {
         SeasonRef season = SeasonRef.of("EM Deutschland", "2024");
-        RoundRef round1 = RoundRef.of(season, RoundIndex.of(1), BetofficeData.REF_GRUPPE_A);
-        RoundRef round2 = RoundRef.of(season, RoundIndex.of(2), BetofficeData.REF_GRUPPE_A);
-        RoundRef round3 = RoundRef.of(season, RoundIndex.of(3), BetofficeData.REF_GRUPPE_A);
-        em2024DritterSpieltag(season, round3);
+//        RoundRef round1 = RoundRef.of(season, RoundIndex.of(1), BetofficeData.REF_GRUPPE_A);
+//        RoundRef round2 = RoundRef.of(season, RoundIndex.of(2), BetofficeData.REF_GRUPPE_A);
+//        RoundRef round3 = RoundRef.of(season, RoundIndex.of(3), BetofficeData.REF_GRUPPE_A);
+        em2024Achtelfinale(season);
+    }
+
+    private void em2024Achtelfinale(SeasonRef seasonRef) {
+        RoundRef achtelfinale = api
+                .addRound(seasonRef, BetofficeData.REF_GRUPPE_ACHTELFINALE, LocalDateTime.of(2024, 6, 29, 18, 0))
+                .orThrow();
+
+        // 2024-06-29
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_ACHTELFINALE, achtelfinale.index(),
+                ZonedDateTime.of(2024, 6, 29, 18, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_SCHWEIZ, BetofficeData.REF_ITALIEN);
+
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_ACHTELFINALE, achtelfinale.index(),
+                ZonedDateTime.of(2024, 6, 29, 21, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_DEUTSCHLAND, BetofficeData.REF_DAENEMARK);
+
+        // 2024-06-30
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_ACHTELFINALE, achtelfinale.index(),
+                ZonedDateTime.of(2024, 6, 30, 18, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_ENGLAND, BetofficeData.REF_SLOWAKEI);
+
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_ACHTELFINALE, achtelfinale.index(),
+                ZonedDateTime.of(2024, 6, 30, 21, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_SPANIEN, BetofficeData.REF_GEORGIEN);
+
+        // 2024-07-01
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_ACHTELFINALE, achtelfinale.index(),
+                ZonedDateTime.of(2024, 7, 1, 18, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_FRANKREICH, BetofficeData.REF_BELGIEN);
+
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_ACHTELFINALE, achtelfinale.index(),
+                ZonedDateTime.of(2024, 7, 1, 21, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_PORTUGAL, BetofficeData.REF_SLOWENIEN);
+
+        // 2024-07-02
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_ACHTELFINALE, achtelfinale.index(),
+                ZonedDateTime.of(2024, 7, 2, 18, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_RUMAENIEN, BetofficeData.REF_NIEDERLANDE);
+
+        api.createGame(seasonRef, BetofficeData.REF_GRUPPE_ACHTELFINALE, achtelfinale.index(),
+                ZonedDateTime.of(2024, 7, 2, 21, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_OESTERREICH, BetofficeData.REF_TUERKEI);
     }
 
     public void createGeorgien() {
