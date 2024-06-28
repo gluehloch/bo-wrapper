@@ -45,6 +45,8 @@ public class EM2024Setup {
     }
 
     private void em2024Achtelfinale(SeasonRef seasonRef) {
+        api.addGroup(seasonRef, BetofficeData.REF_GRUPPE_ACHTELFINALE).orThrow();
+
         RoundRef achtelfinale = api
                 .addRound(seasonRef, BetofficeData.REF_GRUPPE_ACHTELFINALE, LocalDateTime.of(2024, 6, 29, 18, 0))
                 .orThrow();
