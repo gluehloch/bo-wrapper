@@ -41,7 +41,7 @@ public class EM2024Setup {
 //        RoundRef round1 = RoundRef.of(season, RoundIndex.of(1), BetofficeData.REF_GRUPPE_A);
 //        RoundRef round2 = RoundRef.of(season, RoundIndex.of(2), BetofficeData.REF_GRUPPE_A);
 //        RoundRef round3 = RoundRef.of(season, RoundIndex.of(3), BetofficeData.REF_GRUPPE_A);
-		// em2024Achtelfinale(season);
+		em2024Viertelfinale(season);
 	}
 
 	private void em2024Viertelfinale(SeasonRef seasonRef) {
@@ -76,8 +76,8 @@ public class EM2024Setup {
 				BetofficeData.REF_GRUPPE_VIERTELFINALE,
 				viertelfinale.index(),
 				ZonedDateTime.of(2024, 7, 6, 21, 0, 0, 0, ZoneId.of("Europe/Berlin")),
-				BetofficeData.REF_PORTUGAL,
-				BetofficeData.REF_FRANKREICH);
+				BetofficeData.REF_NIEDERLANDE,
+				BetofficeData.REF_TUERKEI);
 	}
 
 	private void em2024Achtelfinale(SeasonRef seasonRef) {
