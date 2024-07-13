@@ -44,6 +44,22 @@ public class EM2024Setup {
         em2024Halbfinale(season);
     }
 
+    private void em2024finale(SeasonRef seasonRef) {
+        api.addGroup(seasonRef, BetofficeData.REF_GRUPPE_FINALE).orThrow();
+
+        RoundRef finale = api
+                .addRound(seasonRef, BetofficeData.REF_GRUPPE_FINALE, LocalDateTime.of(2024, 7, 14, 21, 0))
+                .orThrow();
+
+        // 2024-07-21
+        api.createGame(seasonRef,
+                BetofficeData.REF_GRUPPE_FINALE,
+                finale.index(),
+                ZonedDateTime.of(2024, 7, 14, 21, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+                BetofficeData.REF_SPANIEN,
+                BetofficeData.REF_ENGLAND);
+    }
+
     private void em2024Halbfinale(SeasonRef seasonRef) {
         api.addGroup(seasonRef, BetofficeData.REF_GRUPPE_HALBFINALE).orThrow();
 
