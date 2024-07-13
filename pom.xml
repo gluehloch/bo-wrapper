@@ -123,4 +123,12 @@
     <version>3.1.5</version>
 </dependency>
     </dependencies>
+    
+    <repositories>
+        <repository>
+            <id>awtools</id>
+            <name>Andre Winklers AWTools Repository</name>
+            <url>http://maven.gluehloch.de/repository</url>
+        </repository>
+    </repositories>    
 </project>
