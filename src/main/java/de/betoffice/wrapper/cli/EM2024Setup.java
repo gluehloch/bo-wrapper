@@ -41,7 +41,7 @@ public class EM2024Setup {
         //        RoundRef round1 = RoundRef.of(season, RoundIndex.of(1), BetofficeData.REF_GRUPPE_A);
         //        RoundRef round2 = RoundRef.of(season, RoundIndex.of(2), BetofficeData.REF_GRUPPE_A);
         //        RoundRef round3 = RoundRef.of(season, RoundIndex.of(3), BetofficeData.REF_GRUPPE_A);
-        em2024Halbfinale(season);
+        em2024finale(season);
     }
 
     private void em2024finale(SeasonRef seasonRef) {
