@@ -15,7 +15,8 @@
     <name>betoffice-wrapper</name>
     <version>0.3.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <description>Wrapper for betoffice-storage to create quick seasons and all data.</description>
+    <description>Wrapper for betoffice-storage to create quick seasons and all
+        data.</description>
 
     <build>
         <plugins>
@@ -116,19 +117,19 @@
             <version>1.4.0</version>
             <scope>test</scope>
         </dependency>
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-test</artifactId>
-    <scope>test</scope>
-    <version>3.1.5</version>
-</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <version>3.1.5</version>
+        </dependency>
     </dependencies>
-    
+
     <repositories>
         <repository>
             <id>awtools</id>
             <name>Andre Winklers AWTools Repository</name>
             <url>http://maven.gluehloch.de/repository</url>
         </repository>
-    </repositories>    
+    </repositories>
 </project>
