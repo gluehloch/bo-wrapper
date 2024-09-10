@@ -286,7 +286,7 @@ public class EM2024Setup {
                 Nickname.of("Mao"), Nickname.of("Svea"), Nickname.of("chris"));
         SeasonReference season = SeasonReference.of(seasonRef.year(), seasonRef.name());
         Community community = communityService
-                .create(communityReference, season, "EM Deutschland 2024", Nickname.of("Frosch")).orElseThrow();
+                .create(communityReference, season, "EM Deutschland 2024", "2024", Nickname.of("Frosch")).orElseThrow();
         communityService.addMembers(communityReference, nicknames);
     }
 
