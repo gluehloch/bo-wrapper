@@ -34,13 +34,29 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import de.betoffice.service.MasterDataManagerService;
+import de.betoffice.service.SeasonManagerService;
+import de.betoffice.storage.group.entity.GroupType;
+import de.betoffice.storage.season.SeasonType;
+import de.betoffice.storage.season.entity.Game;
+import de.betoffice.storage.season.entity.GameList;
+import de.betoffice.storage.season.entity.Group;
+import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.season.entity.SeasonReference;
+import de.betoffice.storage.team.TeamType;
+import de.betoffice.storage.team.entity.Team;
+import de.betoffice.wrapper.api.ApiResult;
+import de.betoffice.wrapper.api.BetofficeApi;
+import de.betoffice.wrapper.api.BetofficeId;
+import de.betoffice.wrapper.api.GameRef;
 import de.betoffice.wrapper.api.GameResult;
-import de.betoffice.wrapper.api.*;
-import de.winkler.betoffice.service.MasterDataManagerService;
-import de.winkler.betoffice.service.SeasonManagerService;
-import de.winkler.betoffice.storage.*;
-import de.winkler.betoffice.storage.enums.SeasonType;
-import de.winkler.betoffice.storage.enums.TeamType;
+import de.betoffice.wrapper.api.GroupRef;
+import de.betoffice.wrapper.api.GroupTypeRef;
+import de.betoffice.wrapper.api.RoundIndex;
+import de.betoffice.wrapper.api.RoundRef;
+import de.betoffice.wrapper.api.Scoring;
+import de.betoffice.wrapper.api.SeasonRef;
+import de.betoffice.wrapper.api.TeamRef;
 
 /**
  * Default implementation of the Betoffice API.
@@ -51,7 +67,8 @@ import de.winkler.betoffice.storage.enums.TeamType;
 public class DefaultBetofficeApi implements BetofficeApi {
 
     private enum TeamHomeOrGuest {
-        HOME, GUEST
+        HOME,
+        GUEST
     }
 
     private static final ZoneId ZONE_EUROPE_BERLIN = ZoneId.of("Europe/Berlin");
@@ -104,7 +121,8 @@ public class DefaultBetofficeApi implements BetofficeApi {
         return tryGetCatch(() -> buildSeason(name, year, seasonType, teamType, opldbShortCut, opldpSeason));
     }
 
-    private SeasonRef buildSeason(String name, String year, SeasonType type, TeamType teamType, String opldbShortCut, String opldpSeason) {
+    private SeasonRef buildSeason(String name, String year, SeasonType type, TeamType teamType, String opldbShortCut,
+            String opldpSeason) {
         Season season = new Season();
         season.setReference(SeasonReference.of(year, name));
         season.setTeamType(teamType);
@@ -151,9 +169,8 @@ public class DefaultBetofficeApi implements BetofficeApi {
     }
 
     /**
-     * Better use {@link #addRound(SeasonRef, GroupTypeRef, ZonedDateTime)} with a
-     * ZonedDateTime.
-     * This method assumes timezone Europe/Berlin.
+     * Better use {@link #addRound(SeasonRef, GroupTypeRef, ZonedDateTime)} with a ZonedDateTime. This method assumes
+     * timezone Europe/Berlin.
      *
      * @see #addRound(SeasonRef, GroupTypeRef, ZonedDateTime)
      */
@@ -255,8 +272,8 @@ public class DefaultBetofficeApi implements BetofficeApi {
         return gameRef;
     }
 
-    private static de.winkler.betoffice.storage.GameResult toGameResult(GameResult result) {
-        return de.winkler.betoffice.storage.GameResult.of(result.getHomeGoals(), result.getGuestGoals());
+    private static de.betoffice.storage.season.entity.GameResult toGameResult(GameResult result) {
+        return de.betoffice.storage.season.entity.GameResult.of(result.getHomeGoals(), result.getGuestGoals());
     }
 
     @Override
@@ -284,10 +301,10 @@ public class DefaultBetofficeApi implements BetofficeApi {
 
     private static RuntimeException teamNotFound(TeamRef teamRef, TeamHomeOrGuest homeOrGuest) {
         switch (homeOrGuest) {
-            case HOME:
-                return new IllegalArgumentException("home team not found: %s".formatted(teamRef));
-            case GUEST:
-                new IllegalArgumentException("guest team not found: %s".formatted(teamRef));
+        case HOME:
+            return new IllegalArgumentException("home team not found: %s".formatted(teamRef));
+        case GUEST:
+            new IllegalArgumentException("guest team not found: %s".formatted(teamRef));
         }
         return new IllegalArgumentException("homeOrGuest type is unknown!");
     }
