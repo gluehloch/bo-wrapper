@@ -27,8 +27,8 @@ import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.List;
 
-import de.winkler.betoffice.storage.enums.SeasonType;
-import de.winkler.betoffice.storage.enums.TeamType;
+import de.betoffice.storage.season.SeasonType;
+import de.betoffice.storage.team.TeamType;
 
 /**
  * The BETOFFICE API.

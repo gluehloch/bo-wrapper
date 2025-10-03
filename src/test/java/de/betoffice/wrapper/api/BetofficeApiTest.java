@@ -37,7 +37,6 @@ import javax.sql.DataSource;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,13 +48,12 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import de.betoffice.conf.PersistenceJPAConfiguration;
+import de.betoffice.conf.TestPropertiesConfiguration;
 import de.betoffice.database.data.DeleteDatabase;
+import de.betoffice.storage.season.SeasonType;
+import de.betoffice.storage.team.TeamType;
 import de.betoffice.wrapper.cli.BetofficeApiMain;
-import de.winkler.betoffice.conf.PersistenceJPAConfiguration;
-import de.winkler.betoffice.conf.ProductionPropertiesConfiguration;
-import de.winkler.betoffice.conf.TestPropertiesConfiguration;
-import de.winkler.betoffice.storage.enums.SeasonType;
-import de.winkler.betoffice.storage.enums.TeamType;
 
 @SpringBootTest(classes = BetofficeApiMain.class)
 
@@ -65,10 +63,10 @@ import de.winkler.betoffice.storage.enums.TeamType;
 @ComponentScan({ "de.winkler.betoffice", "de.betoffice" })
 @EnableAutoConfiguration(exclude = {
         LiquibaseAutoConfiguration.class
-     // DataSourceAutoConfiguration.class, 
-     // DataSourceTransactionManagerAutoConfiguration.class, 
-     // HibernateJpaAutoConfiguration.class,
-     // JpaRepositoriesAutoConfiguration.class
+// DataSourceAutoConfiguration.class, 
+// DataSourceTransactionManagerAutoConfiguration.class, 
+// HibernateJpaAutoConfiguration.class,
+// JpaRepositoriesAutoConfiguration.class
 })
 class BetofficeApiTest {
 
@@ -105,13 +103,14 @@ class BetofficeApiTest {
     void betofficeApi() throws Throwable {
         final GroupTypeRef bundesliga_1 = betofficeApi.createGroupType("1. Bundesliga").orThrow();
 
-        final TeamRef rwe =        betofficeApi.createTeam("RWE",    "Rot-Weiss-Essen",   TeamType.DFB).orThrow();
-        final TeamRef schalke =    betofficeApi.createTeam("S04",    "Schalke 04",        TeamType.DFB).orThrow();
+        final TeamRef rwe = betofficeApi.createTeam("RWE", "Rot-Weiss-Essen", TeamType.DFB).orThrow();
+        final TeamRef schalke = betofficeApi.createTeam("S04", "Schalke 04", TeamType.DFB).orThrow();
         final TeamRef burghausen = betofficeApi.createTeam("Wacker", "Wacker Burghausen", TeamType.DFB).orThrow();
-        final TeamRef hsv =        betofficeApi.createTeam("HSV",    "Hamburger SV",      TeamType.DFB).orThrow();
+        final TeamRef hsv = betofficeApi.createTeam("HSV", "Hamburger SV", TeamType.DFB).orThrow();
 
         final SeasonRef buli_2010 = betofficeApi
-                .createSeason("Bundesliga 2010/2011", "2010/2011", SeasonType.LEAGUE, TeamType.DFB, "bl", "2010").orThrow();
+                .createSeason("Bundesliga 2010/2011", "2010/2011", SeasonType.LEAGUE, TeamType.DFB, "bl", "2010")
+                .orThrow();
         betofficeApi.addGroup(buli_2010, bundesliga_1);
 
         betofficeApi.addTeam(buli_2010, bundesliga_1, hsv);

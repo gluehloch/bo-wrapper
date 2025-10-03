@@ -9,17 +9,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.betoffice.openligadb.OpenligadbUpdateService;
+import de.betoffice.service.CommunityService;
+import de.betoffice.storage.community.entity.Community;
+import de.betoffice.storage.community.entity.CommunityReference;
+import de.betoffice.storage.season.SeasonType;
+import de.betoffice.storage.season.entity.SeasonReference;
+import de.betoffice.storage.team.TeamType;
+import de.betoffice.storage.user.entity.Nickname;
 import de.betoffice.wrapper.api.BetofficeApi;
 import de.betoffice.wrapper.api.RoundRef;
 import de.betoffice.wrapper.api.SeasonRef;
 import de.betoffice.wrapper.data.BetofficeData;
-import de.winkler.betoffice.service.CommunityService;
-import de.winkler.betoffice.storage.Community;
-import de.winkler.betoffice.storage.CommunityReference;
-import de.winkler.betoffice.storage.Nickname;
-import de.winkler.betoffice.storage.SeasonReference;
-import de.winkler.betoffice.storage.enums.SeasonType;
-import de.winkler.betoffice.storage.enums.TeamType;
 
 @Service
 @Transactional
