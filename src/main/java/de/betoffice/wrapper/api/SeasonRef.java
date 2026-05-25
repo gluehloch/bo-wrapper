@@ -36,9 +36,7 @@ public class SeasonRef {
     }
 
     public static SeasonRef of(String name, String year) {
-        Objects.requireNonNull(name);
-        Objects.requireNonNull(year);
-        return new SeasonRef(name, year);
+        return new SeasonRef(Objects.requireNonNull(name), Objects.requireNonNull(year));
     }
 
     public String name() {
@@ -51,8 +49,10 @@ public class SeasonRef {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         SeasonRef seasonRef = (SeasonRef) o;
         return Objects.equals(name, seasonRef.name) && Objects.equals(year, seasonRef.year);
     }
