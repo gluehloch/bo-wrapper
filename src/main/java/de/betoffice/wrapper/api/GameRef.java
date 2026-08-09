@@ -27,77 +27,79 @@ import java.util.Objects;
 
 public class GameRef {
 
-	private final BetofficeId id;
+    private final BetofficeId id;
 
-	private final SeasonRef seasonRef;
-	private final RoundIndex roundIndex;
-	private final GroupRef groupRef;
+    private final SeasonRef seasonRef;
+    private final RoundIndex roundIndex;
+    private final GroupRef groupRef;
 
-	private final TeamRef homeTeam;
-	private final TeamRef guestTeam;
+    private final TeamRef homeTeam;
+    private final TeamRef guestTeam;
 
-	private GameRef(BetofficeId id, SeasonRef seasonRef, GroupRef groupRef, RoundIndex roundIndex,
-					TeamRef homeTeam, TeamRef guestTeam) {
+    private GameRef(BetofficeId id, SeasonRef seasonRef, GroupRef groupRef, RoundIndex roundIndex,
+            TeamRef homeTeam, TeamRef guestTeam) {
 
-		this.id = id;
-		this.seasonRef = seasonRef;
-		this.groupRef = groupRef;
-		this.roundIndex = roundIndex;
-		this.homeTeam = homeTeam;
-		this.guestTeam = guestTeam;
-	}
+        this.id = id;
+        this.seasonRef = seasonRef;
+        this.groupRef = groupRef;
+        this.roundIndex = roundIndex;
+        this.homeTeam = homeTeam;
+        this.guestTeam = guestTeam;
+    }
 
-	public static GameRef of(BetofficeId id, SeasonRef seasonRef, GroupRef groupRef, RoundIndex roundIndex,
-							 TeamRef homeTeam, TeamRef guestTeam) {
+    public static GameRef of(BetofficeId id, SeasonRef seasonRef, GroupRef groupRef, RoundIndex roundIndex,
+            TeamRef homeTeam, TeamRef guestTeam) {
 
-		Objects.requireNonNull(id);
-		Objects.requireNonNull(seasonRef);
-		Objects.requireNonNull(roundIndex);
-		Objects.requireNonNull(groupRef);
-		Objects.requireNonNull(homeTeam);
-		Objects.requireNonNull(guestTeam);
-		return new GameRef(id, seasonRef, groupRef, roundIndex, homeTeam, guestTeam);
-	}
+        Objects.requireNonNull(id);
+        Objects.requireNonNull(seasonRef);
+        Objects.requireNonNull(roundIndex);
+        Objects.requireNonNull(groupRef);
+        Objects.requireNonNull(homeTeam);
+        Objects.requireNonNull(guestTeam);
+        return new GameRef(id, seasonRef, groupRef, roundIndex, homeTeam, guestTeam);
+    }
 
-	public BetofficeId betofficeId() {
-		return id;
-	}
+    public BetofficeId betofficeId() {
+        return id;
+    }
 
-	public TeamRef getHomeTeam() {
-		return homeTeam;
-	}
+    public TeamRef getHomeTeam() {
+        return homeTeam;
+    }
 
-	public TeamRef getGuestTeam() {
-		return guestTeam;
-	}
+    public TeamRef getGuestTeam() {
+        return guestTeam;
+    }
 
-	public SeasonRef getSeason() {
-		return seasonRef;
-	}
+    public SeasonRef getSeason() {
+        return seasonRef;
+    }
 
-	public GroupRef getGroup() {
-		return groupRef;
-	}
+    public GroupRef getGroup() {
+        return groupRef;
+    }
 
-	public RoundIndex getRound() {
-		return roundIndex;
-	}
+    public RoundIndex getRound() {
+        return roundIndex;
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		GameRef gameRef = (GameRef) o;
-		return Objects.equals(seasonRef, gameRef.seasonRef)
-				&& Objects.equals(roundIndex, gameRef.roundIndex)
-				&& Objects.equals(groupRef, gameRef.groupRef)
-				&& Objects.equals(homeTeam, gameRef.homeTeam)
-				&& Objects.equals(guestTeam, gameRef.guestTeam);
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        GameRef gameRef = (GameRef) o;
+        return Objects.equals(seasonRef, gameRef.seasonRef)
+                && Objects.equals(roundIndex, gameRef.roundIndex)
+                && Objects.equals(groupRef, gameRef.groupRef)
+                && Objects.equals(homeTeam, gameRef.homeTeam)
+                && Objects.equals(guestTeam, gameRef.guestTeam);
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(seasonRef, roundIndex, groupRef, homeTeam, guestTeam);
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(seasonRef, roundIndex, groupRef, homeTeam, guestTeam);
+    }
 
 }
